@@ -55,8 +55,8 @@
             <h1>Criar Usuário</h1>
         </div>
         
-        <form method="post">
-            <select class="hierarquia" name="posto_graduacao" required="required">
+        <form method="post" action="{{ url_for('usuario.adicionar_usuario') }}">
+            <select class="hierarquia" name="hierarquia" required="required">
                 <option value="" style="text-align: center;">-POSTO/GRADUAÇÃO-</option>
                 <option value="Coronel">CORONEL</option>
                     <option value="Tenente-Coronel">TENENTE CORONEL</option>
@@ -76,15 +76,15 @@
                     <option value="Aluno Soldado">ALUNO SOLDADO</option>
             </select>
             <br><br>
-            <input type="text" name="username" placeholder="Nome Usuário" required="required"/>
+            <input type="text" name="nome" placeholder="Nome Usuário" required="required"/>
             <br><br>
-            <input type="text" name="username" placeholder="Login" required="required" />
+            <input type="text" name="login" placeholder="Login" required="required" />
             <br><br>
-            <input type="password" name="password" placeholder="Senha" required="required" />
+            <input type="password" name="senha" placeholder="Senha" required="required" />
             <br><br>
-            <input type="text" name="username" placeholder="Usuário" required="required" />
+            <input type="text" name="usuario" placeholder="Usuário" required="required" />
             <br><br>
-            <select class="hierarquia" name="Função" required="required">
+            <select class="hierarquia" name="funcao" required="required">
                 <option value="" style="text-align: center;">-</option>
                 <option value="Chefe_de_Curso">Chefe de Curso</option>
                 <option value="Comandante_EsFAP">Comandante da EsFAP</option>
@@ -98,7 +98,7 @@
             
             <br><br>
             
-            <button type="submit" class="btn btn-primary btn-block btn-large" onclick="">LOGIN</button>
+            <button type="submit" class="btn btn-primary btn-block btn-large">LOGIN</button>
         
         
         </form>
