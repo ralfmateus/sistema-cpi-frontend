@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADICIONAR USUÁRIO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="../static/js/sse.js"></script>
+    <link rel="stylesheet" href="../static/css/adicionar_style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../static/img/brasao_pm.png" width="100" height="100" alt="DEU RUIM">
+        </div>
+        <div class="title">Adicionar Usuário</div>
+        <div class="logo">
+            <img src="../static/img/brasao_academia.png" width="100" height="100" alt="DEU RUIM">
+        </div>
+    </header>
+
+
+    <!-- --------------------------------------- ADD INFORMAÇÕES NOVO USUARIO --------------------------- -->
+    <div class="add_usuario"> 
+        
+        <div style="align-items: center; display: flex; justify-content: center; " >
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+              </svg>
+            <h1>Criar Usuário</h1>
+        </div>
+        
+        <form method="post">
+            <select class="hierarquia" name="posto_graduacao" required="required">
+                <option value="" style="text-align: center;">-POSTO/GRADUAÇÃO-</option>
+                <option value="Coronel">CORONEL</option>
+                    <option value="Tenente-Coronel">TENENTE CORONEL</option>
+                    <option value="Major">MAJOR</option>
+                    <option value="Capitão">CAPTÃO</option>
+                    <option value="1° Tenente">1º TENENTE</option>
+                    <option value="2° Tenente">2º TENENTE</option>
+                    <option value="Aspirante a Oficial">ASPIRANTE OFICIAL</option>
+                    <option value="Aluno Oficial">ALUNO OFICIAL</option>
+                    <option value="Subtenente">SUB TENENTE</option>
+                    <option value="1° Sargento">1º SARGENTO</option>
+                    <option value="2° Sargento">2º SARGENTO</option>
+                    <option value="3° Sargento">3º SARGENTO</option>
+                    <option value="Aluno Sargento">ALUNO SARGENTO</option>
+                    <option value="Cabo">CABO</option>
+                    <option value="Soldado">SOLDADO</option>
+                    <option value="Aluno Soldado">ALUNO SOLDADO</option>
+            </select>
+            <br><br>
+            <input type="text" name="username" placeholder="Nome Usuário" required="required"/>
+            <br><br>
+            <input type="text" name="username" placeholder="Login" required="required" />
+            <br><br>
+            <input type="password" name="password" placeholder="Senha" required="required" />
+            <br><br>
+            <input type="text" name="username" placeholder="Usuário" required="required" />
+            <br><br>
+            <select class="hierarquia" name="Função" required="required">
+                <option value="" style="text-align: center;">-</option>
+                <option value="Chefe_de_Curso">Chefe de Curso</option>
+                <option value="Comandante_EsFAP">Comandante da EsFAP</option>
+                <option value="Comandante_EsFO">Comandante da EsFO</option>
+                <option value="Aluno">Aluno</option>
+                <option value="Comunicante">Comunicante</option>
+                
+            </select>
+            
+            
+            
+            <br><br>
+            
+            <button type="submit" class="btn btn-primary btn-block btn-large" onclick="redirect(url_for('login'))">LOGIN</button>
+        
+        
+        </form>
+
+    </div>           
+    <!-- -------------------------------- FINAL ADD INFORMAÇÕES NOVO USUARIO -------------------------------------------------- -->
+    
+    <!-- ------------------------------ RODAPÉ ---------------------------------------------------------- -->
+    <footer>
+        Desenvolvido por: Sub-Divisão de Comunicação Social Academia de Polícia Militar do Espirito Santo
+    </footer>
+    <!-- ------------------------------ FINAL RODAPÉ  ----------------------------------------------------------------- -->
+
+</body>
+</html>
