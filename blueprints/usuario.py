@@ -74,13 +74,27 @@ def cpis_aluno():
 
     response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_aluno?usuario_id={session["usuario"]}')
     
-    if response:
-        cpis = response.json()
+    protocolo: int = request.args.get('protocolo')
+    if not protocolo:
+        if response:
+            cpis = response.json()
+        else:
+            cpis = []   
+        
+        return render_template('home.html', cpis=cpis)
+    
     else:
-        cpis = []   
-    
-    
-    return render_template('home.html', cpis=cpis)
+        if response:
+            cpis = response.json()
+            for cpi in cpis:
+                if cpi['id'] == protocolo:
+                    return render_template('home.html', cpi=cpi)
+                
+            return render_template('home.html', cpis=cpis)
+            
+        else:
+            cpis = []
+            return render_template('home.html', cpi=cpi)
 
 
 @usuario.route('/cpis_comunicante', methods=['GET'])
@@ -90,13 +104,27 @@ def cpis_comunicante():
 
     response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_comunicante?usuario_id={session["usuario"]}')
     
-    if response:
-        cpis = response.json()
+    protocolo: int = request.args.get('protocolo')
+    if not protocolo:
+        if response:
+            cpis = response.json()
+        else:
+            cpis = []   
+        
+        return render_template('home.html', cpis=cpis)
+    
     else:
-        cpis = []   
-    
-    
-    return render_template('home.html', cpis=cpis)
+        if response:
+            cpis = response.json()
+            for cpi in cpis:
+                if cpi['id'] == protocolo:
+                    return render_template('home.html', cpi=cpi)
+                
+            return render_template('home.html', cpis=cpis)
+            
+        else:
+            cpis = []
+            return render_template('home.html', cpi=cpi)
 
 
 @usuario.route('/cpis_chefe_de_curso', methods=['GET'])
@@ -106,29 +134,59 @@ def cpis_chefe_de_curso():
 
     response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_chefe_de_curso?usuario_id={session["usuario"]}')
     
-    if response:
-        cpis = response.json()
-    else:
-        cpis = []   
+    protocolo: int = request.args.get('protocolo')
+    if not protocolo:
+        if response:
+            cpis = response.json()
+        else:
+            cpis = []   
         
+        return render_template('home.html', cpis=cpis)
     
-    return render_template('home.html', cpis=cpis)
+    else:
+        if response:
+            cpis = response.json()
+            for cpi in cpis:
+                if cpi['id'] == protocolo:
+                    return render_template('home.html', cpi=cpi)
+                
+            return render_template('home.html', cpis=cpis)
+            
+        else:
+            cpis = []
+            return render_template('home.html', cpi=cpi)
 
 
 @usuario.route('/cpis_comandante', methods=['GET'])
 def cpis_comandante():
     if not session.get('usuario'):
         return redirect(url_for('usuario.login'))
-
+    
     response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_comandante?usuario_id={session["usuario"]}')
     
-    if response:
-        cpis = response.json()
-    else:
-        cpis = []   
+    protocolo: int = request.args.get('protocolo')
+    if not protocolo:
+        if response:
+            cpis = response.json()
+        else:
+            cpis = []   
         
+        return render_template('home.html', cpis=cpis)
     
-    return render_template('home.html', cpis=cpis)
+    else:
+        if response:
+            cpis = response.json()
+            for cpi in cpis:
+                if cpi['id'] == protocolo:
+                    return render_template('home.html', cpi=cpi)
+                
+            return render_template('home.html', cpis=cpis)
+            
+        else:
+            cpis = []
+            return render_template('home.html', cpi=cpi)
+
+    
     
     
         
