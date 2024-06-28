@@ -1,0 +1,162 @@
+@media (max-width: 850px) {
+/* -----------------------------CABRÇALHO ------------------- */
+header{
+    background: rgb(67, 161, 161);
+    width: 100%;
+    
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+    
+}
+
+header .logo img{
+    width: 100%;
+    max-width: 150px;
+}
+
+header .title{
+    color: rgb(255, 255, 255);
+    font-size: 60px;
+    font-family: 'Times New Roman', Times, serif;
+    
+}
+
+/* ------------------------------ FIM CABEÇALHO ---------------- */
+
+.text_add{
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.cpi_usuario{
+	background-color: rgba(255, 255, 255, 0.9);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+    transform: translate(-50%, -50%);
+	
+	padding: 50px;
+	border-radius: 15px;
+	color: rgb(2, 2, 2) ;
+    border: 1;
+    border-color: black;
+	outline: auto;
+	max-height: 85%;
+	width: 60%;
+}
+
+input{
+	padding: 15px;
+	border: none;
+	outline: auto;
+	font-size: 10px;
+}
+
+.hierarquia{
+	padding: 15px;
+	border: none;
+	outline: none;
+	font-size: 20px;
+}
+
+button{
+	background-color: rgb(29, 31, 128);
+	border: none;
+	padding: 10px;
+	border-radius: 10px;
+	width: 100%;
+	color: white;
+	font-size: 20px;
+}
+
+button:hover{
+	background-color: rgb(247, 168, 23);
+
+}
+
+
+.geral{
+	display: flex;
+	justify-content: space-between;
+}
+
+.bloco{
+outline: auto;
+width: 45%;
+}
+
+.bloco_maior{
+	width: 100%;
+	outline: auto;
+}
+
+.selecs{
+	outline: auto;
+	width: 100%;
+	height: 20px;
+	font-size: 20px;
+}
+
+.date{
+	display: flex;
+	justify-content: space-between;
+}
+
+.curso{
+	width: 40%;
+	font-size: 15px;
+}
+
+.bloco_menor{
+	width: 35%;
+}
+
+.bloco_3{
+	width: 20%;
+}
+
+.enquadramento{
+	width: 100%;
+	height: 30px;
+	outline: auto;
+	border: auto;
+	border-color: black;
+}
+
+.local{
+	width: 100%;
+}
+
+
+
+.test{
+	outline: auto;
+	display: inline-block;
+	justify-content: space-between;
+	font-size: 15px;
+	width: 20%;
+}
+
+h1{
+	text-align: center;
+	font-size: 15px;
+}
+
+/* -------------------------------RODAPÉ---------------------------------------- */
+footer{
+	bottom: 0;
+    position: fixed;
+    width: 90%;
+    left: 50%;
+    transform: translate(-50%);
+    text-align: center;
+    color: black;
+}
+/* -------------------------------RODAPÉ---------------------------------------- */
+
+	
+
+
+
+}
