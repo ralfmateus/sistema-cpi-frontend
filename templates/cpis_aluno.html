@@ -1,0 +1,6 @@
+{% for cpi in cpis %}
+{{ cpi }}
+<br>
+<a href="{{ url_for('usuario.cpis_aluno') }}?protocolo={{ cpi.id }}">Defender CPI</a>
+<hr>
+{% endfor %}

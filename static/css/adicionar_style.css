@@ -55,7 +55,7 @@ input{
 }
 
 button{
-	background-color: rgb(83, 29, 128);
+	background-color: rgb(29, 31, 128);;
 	border: none;
 	padding: 15px;
 	border-radius: 10px;
@@ -65,7 +65,7 @@ button{
 }
 
 button:hover{
-	background-color: rgb(194, 28, 180);
+	background-color: rgb(247, 168, 23);;
 
 }
 h1{
@@ -81,4 +81,8 @@ footer{
     transform: translate(-50%);
     text-align: center;
     color: black;
+}
+
+@media screen {
+	
 }
