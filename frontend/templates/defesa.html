@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEFESA</title>
+    <title>DEFESA ALUNO</title>
     <link rel="stylesheet" href="../static/css/defesa_style.css">
     
 </head>
@@ -12,7 +12,7 @@
         
         <!-- Cabeçalho -->
         <div class="cabecalho" >
-            <img src="../static/img/brasoes.png" width="50%" height="50%" alt="DEU RUIM">
+            <img class="imagem" src="../static/img/brasoes.png" width="100%" height="100%" alt="DEU RUIM">
             <br><br>
         </div>
         
@@ -23,51 +23,52 @@
             <h1>DEFESA</h1>
         </div>
         <!-- FIM CABEÇALHO -->
+        <br>
+            <!-- TABELA DADOS DA CPI -->
+        <table style="border: 1px solid black;">
+            <thead>
+                <tr  style="border: 1px solid black;">
+                    <td scope="col" style="width: 9%; border: 1px solid black;">CONDUTA</td>
+                    <td scope="col" style="width: 20%; border: 1px solid black;">ALUNO</td>
+                    <td scope="col" style="width: 40%; border: 1px solid black;">ENQUADRAMENTO</td>
+                    <td scope="col" style="width: 10%; border: 1px solid black;">HORA</td>
+                    <td scope="col" style="width: 10%; border: 1px solid black;">LOCAL</td>
+                    <td scope="col" style="width: 10%; border: 1px solid black;">COMUNICANTE</td>
+                </tr>
+            </thead>
+            <tbody >
+                <tr>
+                    <td scope="col" style="width: 9%; border: 1px solid black;">CPI</td>
+                    <td scope="col" style="width: 20%; border: 1px solid black;">AL SD PATRIK</td>
+                    <td scope="col" style="width: 40%; border: 1px solid black;">ART 666 - XERIFE ETERNO ATÉ O FIM DO CURSO OU PEDIR PRA SAIR</td>
+                    <td scope="col" style="width: 10%; border: 1px solid black;">24H</td>
+                    <td scope="col" style="width: 10%; border: 1px solid black;">PLATO DAS BANDEIRAS</td>
+                    <td scope="col" style="width: 10%; border: 1px solid black;">COMUNICANTE</td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- FIM TABELA DADOS DA CPI -->
         
-        <!-- BLOCO PARA DADOS DA CPI -->
-        <div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Conduta</th>
-                        <th>Al Sd</th>
-                        <th>Comunicante</th>
-                        <th>Descrição do Fato</th>
-                        <th>Hora</th>
-                        <th>Local </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    
-                </tbody>
-            </table>
-        </div>
         <br><br>
- 
+        
         <form method="post">
             
             
             <!-- SELEÇÃO DE DEFESA OU JUSTIFICATICA    -->
-            <div >
-                <table class="table">
-                    <thead>
-                        <tr> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-square" viewBox="0 0 16 16">
-                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
-                            <path d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/>
-                          </svg> CIENTE </tr>
-                          <tr> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-square" viewBox="0 0 16 16">
-                              <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
-                            <path d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/>
-                        </svg> JUSTIFICAR</tr>
-                    </thead>
-                </table>
-            </div>
+            <table style="border:0; outline: none; margin-left: 0; background-color: white;">
+                <thead>
+                    <tr style="width: 10%;">
+                        <td scope="col" style="width: 50%;"><input type="radio" name="selected">CIENTE</td>
+                        <td scope="col" style="width: 50%;"><input type="radio" name="selected">JUSTIFICAR</td>
+                    </tr>
+                </thead>
+            </table>
+            
             <!-- FIM SELEÇÃO DE DEFESA OU JUSTIFICATICA -->
             
-            <br><br>
             <!-- BLOCO PARA JUSTICICATIVA -->
             <div>
-                <input class="justificativa" type="text" name="justificativa" placeholder="Justificativa" required="required" />
+                <textarea class="justificativa" placeholder="Justificativa" id=""></textarea>
             </div>
             <br><br>
             
