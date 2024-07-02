@@ -1,4 +1,9 @@
-
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Times New Roman', Times, serif;
+}
 
 /* -----------------------------CABRÇALHO ------------------- */
 header{
@@ -9,6 +14,11 @@ header{
     align-items: center;
     justify-content:space-between;
     
+}
+
+.imagem{
+    width: 30%;
+    height: 30%;
 }
 
 header .logo img{
@@ -30,6 +40,20 @@ header .title{
 }
 /* ----------------------FIM CABEÇALHO ----------------------- */
 
+/* ----------------------TABELA----------------------------------- */
+table{
+    background-color: rgb(209, 209, 209);
+    text-align: center;
+}
+
+table, tr, td{
+    border-collapse: collapse;
+}
+
+/* -----------------------FIM TABELA-------------------------- */
+
+
+
 .defesa_usuario{
 	background-color: rgba(255, 255, 255, 0.9);
 	position: absolute;
@@ -43,34 +67,27 @@ header .title{
     border: 1;
     border-color: black;
 	outline: auto;
-	max-height: 85%;
-	width: 60%;
+	max-height: 95%;
+	width: 80%;
 }
 
 h1{
 	text-align: center;
-	font-size: 15px;
+	font-size: 20px;
 }
 
-.table {
-    display: table;
-    border: 1;
+.select{
+    display: inline-flex;
+    background-color: white;
 }
+
 
 .justificativa{
     width: 100%;
-    height: 150px;
-    
-}
-
-.descricao{
-    width: 100%;
-    height: auto;
-    background-color: rgb(231, 231, 231);
-    color: black;
-    outline: none;
-    border: none;
-
+    height: 100px;
+    display: flex;
+    vertical-align: top;
+    overflow-y: scroll;   
 }
 
 
@@ -86,5 +103,19 @@ button{
 
 button:hover{
 	background-color: rgb(247, 168, 23);
+    color: black;
+}
 
+/* -------------------CELULAR-------- */
+@media (max-width: 850px) {
+    .imagem{
+        width: 100%;
+        height: 100%;
+    }
+    
+    table{
+        font-size: 7px;
+        align-items: center;
+        max-width: 100%;
+    }
 }

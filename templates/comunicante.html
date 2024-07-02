@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COMUNICANTE</title>
+    <link rel="stylesheet" href="../static/css/comunicante_style.css">
+    
+</head>
+<body>
+    <div class="defesa_usuario"> 
+        
+        <!-- Cabeçalho -->
+        <div class="cabecalho" >
+            <img class="imagem" src="../static/img/brasoes.png" width="100%" height="100%" alt="DEU RUIM">
+            <br><br>
+        </div>
+        
+        <div>
+            <h1>DIVISÃO ACADÊMICA</h1>
+        </div>
+        <div>
+            <h2>FICHA DE CONDUTA PESSOAL</h2>
+        </div>
+        <!-- FIM CABEÇALHO -->
+        <br>
+            <!-- TABELA DADOS DA CPI -->
+            <table style="border: 1px solid black;">
+                <thead>
+                    <tr  style="border: 1px solid black;">
+                        <td scope="col" style="width: 9%; border: 1px solid black;">CONDUTA</td>
+                        <td scope="col" style="width: 20%; border: 1px solid black;">ALUNO/PEL</td>
+                        <td scope="col" style="width: 50%; border: 1px solid black;">ENQUADRAMENTO</td>
+                        <td scope="col" style="width: 10%; border: 1px solid black;"> DATA/HORA</td>
+                        <td scope="col" style="width: 10%; border: 1px solid black;">LOCAL</td>
+                    </tr>
+                </thead>
+                <tbody >
+                    <tr>
+                        <td scope="col" style="width: 9%; border: 1px solid black;">CPI</td>
+                        <td scope="col" style="width: 20%; border: 1px solid black;">AL SD PATRIK - 28° PEL</td>
+                        <td scope="col" style="width: 50%; border: 1px solid black;">ART 666 - XERIFE ETERNO ATÉ O FIM DO CURSO OU PEDIR PRA SAIR</td>
+                        <td scope="col" style="width: 10%; border: 1px solid black;">06/06/2024 - 06:20 AM</td>
+                        <td scope="col" style="width: 10%; border: 1px solid black;">PLATO DAS BANDEIRAS</td>
+                    </tr>
+                </tbody>
+            </table>
+        <!-- FIM TABELA DADOS DA CPI -->
+        
+        <br><br>
+        
+        <form method="post">
+            
+            <!-- SELEÇÃO DE PROSSEGUIMENTO    -->
+            <table style="border:0; outline: none; margin-left: 0; background-color: white;">
+                <thead>
+                    <tr style="width: 10%;">
+                        <td scope="col" style="width: 50%;"><input type="radio" name="selected">PROSSEGUIR</td>
+                        <td scope="col" style="width: 50%;"><input type="radio" name="selected">CANCELAR</td>
+                    </tr>
+                </thead>
+            </table>
+            
+            <!-- FIM SELEÇÃO DE PROSSEGUIMENTO -->
+            
+            <!-- BLOCO PARA JUSTICICATIVA -->
+            <div>
+                <textarea class="justificativa" placeholder="Justificativa" id=""></textarea>
+            </div>
+            <br><br>
+            
+            <!-- FIM BLOCO PARA JUSTIFICATIVA -->
+
+
+            
+            <!-- Botão enviar -->
+            <button type="submit"> ENVIAR </button>
+        
+        
+        </form>
+
+    </div>   
+</body>
+</html>

@@ -1,0 +1,76 @@
+header{
+    width: 100%;
+    display: flex;
+    align-items: center;
+	justify-content: center;
+}
+
+header .title{
+    color: rgb(255, 255, 255);
+    font-size: 50px;
+}
+
+body { 
+	height:100vh;
+    background-image: url('../img/fundo_apm.png');
+	font-family: 'Open Sans', sans-serif;
+    background-position: center center;
+    background-repeat:  no-repeat;
+    background-color: rgb(255, 255, 255);
+    background-size: cover;
+		
+}
+
+.login{
+	background-color: rgba(0,0,0,0.9);
+	position: absolute;
+	top: 50%;
+	left: 80%;
+    transform: translate(-50%, -50%);
+	
+	padding: 50px;
+	border-radius: 15px;
+	color: white ;
+}
+
+
+input{
+	padding: 15px;
+	border: none;
+	outline: none;
+	font-size: 20px;
+}
+
+button{
+	background-color:  rgb(29, 31, 128);
+	border: none;
+	padding: 15px;
+	border-radius: 10px;
+	width: 100%;
+	color: white;
+	font-size: 20px;
+}
+
+button:hover{
+	background-color:  rgb(247, 168, 23);
+    color: black;
+}
+
+h1{
+	text-align: center;
+}
+
+@media (max-width: 1050px) {
+    .login{
+        background-color: rgba(0,0,0,0.5);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        
+        padding: 50px;
+        border-radius: 15px;
+        color: white ;
+    }
+    
+}
