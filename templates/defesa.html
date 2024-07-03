@@ -31,27 +31,47 @@
                     <td scope="col" style="width: 9%; border: 1px solid black;">CONDUTA</td>
                     <td scope="col" style="width: 20%; border: 1px solid black;">ALUNO</td>
                     <td scope="col" style="width: 40%; border: 1px solid black;">ENQUADRAMENTO</td>
-                    <td scope="col" style="width: 10%; border: 1px solid black;">HORA</td>
+                    <td scope="col" style="width: 10%; border: 1px solid black;">DATA/HORA</td>
                     <td scope="col" style="width: 10%; border: 1px solid black;">LOCAL</td>
                     <td scope="col" style="width: 10%; border: 1px solid black;">COMUNICANTE</td>
                 </tr>
             </thead>
-            <tbody >
+            <tbody>
                 <tr>
-                    <td scope="col" style="width: 9%; border: 1px solid black;">CPI</td>
-                    <td scope="col" style="width: 20%; border: 1px solid black;">AL SD PATRIK</td>
-                    <td scope="col" style="width: 40%; border: 1px solid black;">ART 666 - XERIFE ETERNO ATÉ O FIM DO CURSO OU PEDIR PRA SAIR</td>
-                    <td scope="col" style="width: 10%; border: 1px solid black;">24H</td>
-                    <td scope="col" style="width: 10%; border: 1px solid black;">PLATO DAS BANDEIRAS</td>
-                    <td scope="col" style="width: 10%; border: 1px solid black;">COMUNICANTE</td>
+                    <td scope="col" style="width: 9%; border: 1px solid black;">{{ cpi.conduta }}</td>
+                    <td scope="col" style="width: 20%; border: 1px solid black;">{{ cpi.aluno.nome }} - {{ cpi.info.pelotao }}º PEL</td>
+                    <td scope="col" style="width: 40%; border: 1px solid black;">{{ cpi.artigo }}</td>
+                    <td scope="col" style="width: 10%; border: 1px solid black;">{{ cpi.data }} {{ cpi.hora }}</td>
+                    <td scope="col" style="width: 10%; border: 1px solid black;">{{ cpi.local }}</td>
+                    <td scope="col" style="width: 10%; border: 1px solid black;">{{ cpi.comunicante.nome }}</td>
                 </tr>
             </tbody>
         </table>
         <!-- FIM TABELA DADOS DA CPI -->
         
-        <br><br>
+        <br>
+            <!-- ---------------- OBSERVAÇÕES ----------------------- -->
+            <table>
+                <thead>
+                    <tr>
+                        <td scope="col" style="width: 100%;">OBSERVAÇÕES</td>    
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td scope="col" style="width: 100%;">
+                            {% if cpi.observacoes %}
+                                {{ cpi.observacoes }}
+                            {% else %}
+                                Sem observações
+                            {% endif %}
+                        </td>    
+                    </tr>
+                </tbody>
+            </table>
+        <!-- -------------------FIM OBSERVAÇÕES  -->
         
-        <form method="post">
+        <form method="post" action="{{ url_for('usuario.defesa') }}?protocolo={{ cpi.id }}">
             
             
             <!-- SELEÇÃO DE DEFESA OU JUSTIFICATICA    -->
@@ -68,7 +88,7 @@
             
             <!-- BLOCO PARA JUSTICICATIVA -->
             <div>
-                <textarea class="justificativa" placeholder="Justificativa" id=""></textarea>
+                <textarea class="justificativa" placeholder="Justificativa" name="justificativa"></textarea>
             </div>
             <br><br>
             

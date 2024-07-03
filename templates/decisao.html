@@ -20,7 +20,7 @@
             <h1>DIVISÃO ACADÊMICA</h1>
         </div>
         <div>
-            <h2>PARECER CHEFE DE CURSO</h2>
+            <h2>DECISÃO DO COMANDANTE</h2>
         </div>
         <!-- FIM CABEÇALHO -->
 
@@ -40,17 +40,37 @@
             </thead>
             <tbody >
                 <tr>
-                    <td scope="col" style="width: 9%;">CPI</td>
-                    <td scope="col" style="width: 20%;">AL SD PATRIK - 28° PEL</td>
-                    <td scope="col" style="width: 40%;">ART 666 - XERIFE ETERNO ATÉ O FIM DO CURSO OU PEDIR PRA SAIR</td>
-                    <td scope="col" style="width: 10%;">06/06/2024 - 06:20 AM</td>
-                    <td scope="col" style="width: 10%;">PLATO DAS BANDEIRAS</td>
-                    <td scope="col" style="width: 10%;">AL OF FULANO</td>
+                    <td scope="col" style="width: 9%;">{{ cpi.conduta }}</td>
+                    <td scope="col" style="width: 20%;">{{ cpi.aluno.nome }} - {{ cpi.info.pelotao }}º PEL</td>
+                    <td scope="col" style="width: 40%;">{{ cpi.artigo }}</td>
+                    <td scope="col" style="width: 10%;">{{ cpi.data }} {{ cpi.hora }}</td>
+                    <td scope="col" style="width: 10%;">{{ cpi.local }}</td>
+                    <td scope="col" style="width: 10%;">{{ cpi.comunicante.nome }}</td>
                 </tr>
             </tbody>
         </table>
         <!-- FIM TABELA DADOS DA CPI -->
-        
+        <br>
+            <!-- ---------------- OBSERVAÇÕES ----------------------- -->
+            <table>
+                <thead>
+                    <tr>
+                        <td scope="col" style="width: 100%;">OBSERVAÇÕES</td>    
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td scope="col" style="width: 100%;">
+                            {% if cpi.observacoes %}
+                                {{ cpi.observacoes }}
+                            {% else %}
+                                Sem observações
+                            {% endif %}
+                        </td>    
+                    </tr>
+                </tbody>
+            </table>
+        <!-- -------------------FIM OBSERVAÇÕES  -->
         <br>
         <!-- ---------------- DEFESA DO ALUNO ----------------------- -->
         <table>
@@ -61,7 +81,13 @@
             </thead>
             <tbody>
                 <tr>
-                    <td scope="col" style="width: 100%;">NÃO FUI EU !!! ESTOU SENDO PERSEGUIDO PELOS ALUNOS OFICIAIS !!!</td>    
+                    <td scope="col" style="width: 100%;">
+                        {% if defesa.defesa %}
+                        {{ defesa.defesa }}
+                    {% else %}
+                        Sem justificativa
+                    {% endif %}
+                    </td>    
                 </tr>
             </tbody>
         </table>
@@ -75,12 +101,18 @@
                     <td scope="col" style="width: 100%;">PARECER CHEFE DE CURSO</td>    
                 </tr>
                 <tr>
-                    <td scope="col" style="width: 100%;">SUGIRO: PUNIÇÃO</td>    
+                    <td scope="col" style="width: 100%;">{{ parecer.parecer }}</td>    
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td scope="col" style="width: 100%;">O ALUNO NÃO ESTÁ SENDO PERSEGUIDO</td>    
+                    <td scope="col" style="width: 100%;">
+                        {% if parecer.parecer %}
+                        {{ parecer.parecer }}
+                    {% else %}
+                        Sem parecer
+                    {% endif %}
+                    </td>    
                 </tr>
             </tbody>
         </table>

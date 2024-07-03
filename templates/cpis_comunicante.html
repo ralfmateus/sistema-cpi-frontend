@@ -1,0 +1,7 @@
+{% for cpi in cpis %}
+{{ cpi }}
+<br>
+
+<a href="{{ url_for('usuario.cpis_comunicante') }}?protocolo={{ cpi.id }}">VISUALIZAR CPI</a>
+<hr>
+{% endfor %}
