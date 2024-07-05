@@ -3,6 +3,8 @@ from flask import Blueprint, redirect, render_template, abort, request, url_for,
 import requests
 from jinja2 import TemplateNotFound
 
+from blueprints.artigo import ARTIGOS
+
 usuario = Blueprint('usuario', __name__, url_prefix='/usuario')
 
 
@@ -146,7 +148,7 @@ def cpis_chefe_de_curso():
     
     else:
         if response:
-            cpis = response.json()          
+            cpis = response.json()  
             for cpi in cpis:
                 if cpi['id'] == int(protocolo):
                     params = {
@@ -175,7 +177,7 @@ def cpis_comandante():
     
     response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_comandante?usuario_id={session["usuario"]}')
     
-    protocolo: int = request.args.get('protocolo')
+    protocolo = request.args.get('protocolo')
     if not protocolo:
         if response:
             cpis = response.json()
@@ -188,14 +190,17 @@ def cpis_comandante():
         if response:
             cpis = response.json()
             for cpi in cpis:
-                if cpi['id'] == protocolo:
-                    return render_template('decisao.html', cpi=cpi)
+                if cpi['id'] == int(protocolo):
+                    defesa = requests.get(f'http://127.0.0.1:8000/defesa/get_by_cpi', params={'cpi_id': cpi['id']}).json()
+                    parecer = requests.get(f'http://127.0.0.1:8000/parecer/get_by_cpi', params={'cpi_id': cpi['id']}).json()
+                    
+                    return render_template('decisao.html', cpi=cpi, artigos=ARTIGOS, defesa=defesa, parecer=parecer)
                 
-            return render_template('decisao.html', cpis=cpis)
+            return redirect(url_for('usuario.cpis_comandante'))
             
         else:
             cpis = []
-            return render_template('decisao.html', cpi=cpi)
+            return redirect(url_for('usuario.cpis_comandante'))
     
 
 @usuario.route('/defesa', methods=['POST'])
@@ -205,14 +210,22 @@ def defesa():
     
     ciente = request.form.get('ciente')
     ciente = True if ciente == 'True' else False
-    justificativa = request.form.get('justificativa')
-    id = request.args.get('protocolo')
+    justificativa = request.form.get('justificativa') if request.form.get('justificativa') else ''
+    protocolo = int(request.args.get('protocolo'))
+    
+    params = {
+        'cpi_id': protocolo
+    }
+    
+    response = requests.get(f'http://127.0.0.1:8000/defesa/get_by_cpi', params=params)
+    
+    id = response.json()['id']
     
     data_justificada = date.today().strftime('%d/%m/%Y')
     
     if ciente:
         json = {
-            'id': int(id),
+            'id': id,
             'ciente': ciente,
             'data_justificada': data_justificada,
             'ass_aluno': True,
@@ -220,7 +233,7 @@ def defesa():
         }
     else:
         json = {
-            'id': int(id),
+            'id': id,
             'ciente': ciente,
             'defesa': justificativa,
             'data_justificada': data_justificada,
@@ -240,8 +253,8 @@ def ciente_comunicante():
     
     ciente = request.form.get('ciente')
     ciente = True if ciente == 'True' else False
-    justificativa = request.form.get('justificativa')
-    id = request.args.get('protocolo')
+    justificativa = request.form.get('justificativa') if request.form.get('justificativa') else ''
+    id = int(request.args.get('protocolo'))
         
     if ciente:
         json = {
@@ -256,6 +269,8 @@ def ciente_comunicante():
             'ass_comunicante': True,
             'status': 10,
         }
+        
+    print(json)
     
     response = requests.put(f'http://127.0.0.1:8000/cpi/update_cpi', json=json)
     return redirect(url_for('usuario.cpis_comunicante'))
@@ -267,22 +282,53 @@ def parecer():
         return redirect(url_for('usuario.login'))
     
     sugestao = request.form.get('sugestao')
-    justificativa = request.form.get('justificativa')
-    id = request.args.get('protocolo')
+    justificativa = request.form.get('justificativa') if request.form.get('justificativa') else ''
+    id = int(request.args.get('protocolo'))
     
     data = date.today().strftime('%d/%m/%Y')
     
     json = {
-        'id': int(id),
+        'cpi': int(id),
         'parecer': sugestao,
         'observacoes': justificativa,
         'data': data,
         'chefe_de_curso': int(session.get('usuario')),
-        'ass_cefe_de_curso': True,
+        'ass': True,
     }
     
-    response = requests.put(f'http://127.0.0.1:8000/parecer/update_parecer', json=json)
+    response = requests.post(f'http://127.0.0.1:8000/parecer/create', json=json)
     return redirect(url_for('usuario.cpis_chefe_de_curso'))
+
+
+@usuario.route('/decisao', methods=['POST'])
+def decisao():
+    if not session.get('usuario'):
+        return redirect(url_for('usuario.login'))
+    
+    decisao = request.form.get('decisao')
+    justificativa = request.form.get('justificativa') if request.form.get('justificativa') else ''
+    enquadramento = request.form.get('enquadramento')
+    if request.args.get('protocolo'):
+        id = int(request.args.get('protocolo'))
+    else:
+        ...
+    
+    data = date.today().strftime('%d/%m/%Y')
+    
+    json = {
+        'decisao': decisao,
+        'observacoes': justificativa,
+        'enquadramento': enquadramento,
+        'data': data,
+        'comandante': int(session.get('usuario')),
+        'ass': True,
+        'cpi': id,
+    }
+
+    print(json)
+    
+    response = requests.post(f'http://127.0.0.1:8000/decisao/create', json=json)
+    return redirect(url_for('usuario.cpis_comandante'))
     
 
     

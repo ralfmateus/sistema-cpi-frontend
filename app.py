@@ -1,5 +1,5 @@
 from flask import Flask
-from blueprints import usuario
+from blueprints import usuario, cpi
 
 
 
@@ -14,3 +14,4 @@ app.secret_key = SECRET
 
 
 app.register_blueprint(usuario.usuario)
+app.register_blueprint(cpi.cpi)
