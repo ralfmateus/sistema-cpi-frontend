@@ -1,4 +1,3 @@
-@media (min-width: 850px) {
 /* -----------------------------CABRÇALHO ------------------- */
 header{
     background: rgb(67, 161, 161);
@@ -143,20 +142,13 @@ h1{
 	font-size: 15px;
 }
 
-/* -------------------------------RODAPÉ---------------------------------------- */
-footer{
-	bottom: 0;
-    position: fixed;
-    width: 90%;
-    left: 50%;
-    transform: translate(-50%);
-    text-align: center;
-    color: black;
-}
-/* -------------------------------RODAPÉ---------------------------------------- */
 
-	
+@media (min-width : 850px) {
+	.bloco_3{
+		width: 27%;
+	}
 
-
-
+	.bloco_menor{
+		width: 40%;
+	}
 }
