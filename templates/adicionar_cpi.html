@@ -1,0 +1,245 @@
+<<<<<<< Updated upstream:templates/cpi.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FICHA DE CONDUTA PROFISSIONAL</title>
+    <link rel="stylesheet" href="../static/css/cpi_style.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+</head>
+<body>
+    <div class="cpi_usuario"> 
+        
+        <div style="align-items: center; display: flex; justify-content: center; " >
+            <img src="../static/img/brasoes.png" width="50%" height="50%" alt="DEU RUIM">
+            <br><br>
+        </div>
+        
+        <div>
+            <h1>DIVISÃO ACADÊMICA</h1>
+        </div>
+        <div>
+            <h1>FICHA DE OBSERVAÇÃO DE CONDUTA PROFISSIONAL</h1>
+        </div>
+
+        <form method="post">
+
+            
+            <!-- -------------------------CONDUTA E CURSO    -->
+            <div class="geral">
+
+                <select class="bloco" name="posto_graduacao" required="required">
+                    <option value="" style="text-align: center;">CONDUTA</option>
+                    <option value=" ">CPI</option>
+                <option value=" ">CPA</option>
+            </select>
+            <br><br>  
+            
+            <select class="bloco" name="Função" required="required">
+                    <option value="" style="text-align: center;">CURSO</option>
+                    <option value="CFSD">CFSD</option>
+                    <option value="CFO">CFO</option>
+                    <option value="CHS">CHS</option>
+                    <option value="CAS">CAS</option>
+                    <option value="EAO">EAO</option>
+                    <option value="CAO">CAO</option>
+                </select>
+                
+            </div>
+            <br><br>
+            <!-- FIM CONDUTA E CURSO -->
+
+            <div class="geral">
+                <input class="bloco_menor" type="text" name="username" placeholder="Nome" required="required"/>
+                <input class="bloco_menor" type="text" name="number" placeholder="Número" required="required"/>
+            </div>
+            <br><br>
+            
+            
+            <!-- ---------------- DATA E PEL -->
+            <div class="geral">
+                
+                <input class="bloco_3" type="text" name="date" placeholder="DATA" required="required" />
+                <input class="bloco_3" type="text" name="time" placeholder="HORA" required="required" />
+                <input class="bloco_3" type="text" name="number" placeholder="PELOTÃO" required="required"/>
+                
+                
+            </div >
+            <!-- ----------------  FIM DATA E PEL -->
+            
+            <br><br>
+            <!-- local -->
+             <div class="geral">
+                 <input class="local" type="text" name="number" placeholder="Local" required="required"/>
+             </div>
+            
+            <!-- ENQUADRAMENTO -->
+            <br><br>
+            
+            <select class="enquadramento" name="posto_graduacao" id="enquadramento"  required="required">
+                <option value="" style="text-align: center;">ENQUADRAMENTO</option>
+                <option value=" ">146,I,A - UNIFORME EM DESALINHO</option>
+                <option value=" ">146,I,b - UNIFORME SUJO</option>
+                <option value=" ">151,I,F - NÃO SABER CANTAR HINO</option>        
+            </select>
+            <br><br>
+            <!-- FIM ENQUADRAMENTO   -->
+            
+            <div class="geral">
+                <input class="bloco_menor" type="text" name="testemunha" placeholder="TESTEMUNHA" required="required" />
+                <input class="bloco_menor" type="text" name="comunicante" placeholder="COMUNICANTE" required="required" />
+            </div>
+            <br><br>
+            
+            <div class="geral">
+                <input class="bloco_maior" type="text" name="observacoes" placeholder="OBSERVAÇÕES" required="required" />
+            </div>
+            <br><br>
+             
+                
+            <button type="submit"> ENVIAR </button>
+        
+        
+        </form>
+        <script>
+            $(document).ready(function() {
+                $('#enquadramento').select2();
+            });
+        </script>
+
+        
+    </div>   
+</body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FICHA DE CONDUTA PROFISSIONAL</title>
+    <link rel="stylesheet" href="../static/css/cpi_style.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+</head>
+<body>
+    <div class="cpi_usuario"> 
+        
+        <div style="align-items: center; display: flex; justify-content: center; " >
+            <img src="../static/img/brasoes.png" width="50%" height="50%" alt="DEU RUIM">
+            <br><br>
+        </div>
+        
+        <div>
+            <h1>DIVISÃO ACADÊMICA</h1>
+        </div>
+        <div>
+            <h1>FICHA DE OBSERVAÇÃO DE CONDUTA PROFISSIONAL</h1>
+        </div>
+
+        <form method="post" action="{{ url_for('cpi.adicionar_cpi') }}">
+
+            
+            <!-- -------------------------CONDUTA E CURSO    -->
+            <div class="geral">
+
+                <select class="bloco" name="conduta" required="required">
+                    <option value="" style="text-align: center;" disabled selected hidden>CONDUTA</option>
+                    <option value="CPI">CPI</option>
+                <option value="CPA">CPA</option>
+            </select>
+            <br><br>  
+            
+            <select class="bloco" name="curso" required="required">
+                    <option value="" style="text-align: center;" disabled selected hidden>CURSO</option>
+                    <option value="CFSD">CFSD</option>
+                    <option value="CFO">CFO</option>
+                    <option value="CHS">CHS</option>
+                    <option value="CAS">CAS</option>
+                    <option value="EAO">EAO</option>
+                    <option value="CAO">CAO</option>
+                </select>
+                
+            </div>
+            <br><br>
+            <!-- FIM CONDUTA E CURSO -->
+
+            <div class="geral">
+                <input class="bloco_menor" type="text" name="nome" placeholder="Nome"/>
+                <input class="bloco_menor" type="text" name="numero" placeholder="Número" required/>
+            </div>
+            <br><br>
+            
+            
+            <!-- ---------------- DATA E PEL -->
+            <div class="geral">
+                
+                <input class="bloco_3" type="date" max="{{ data }}" name="data" placeholder="DATA" required="required" />
+                <input class="bloco_3" type="time" name="hora" placeholder="HORA" required="required" />
+                <input class="bloco_3" type="text" name="pelotao" placeholder="PELOTÃO" required="required"/>
+                
+                
+            </div >
+            <!-- ----------------  FIM DATA E PEL -->
+            
+            <br><br>
+            <!-- local -->
+             <div class="geral">
+                 <input class="local" type="text" name="local" placeholder="Local" required="required"/>
+             </div>
+            
+            <!-- ENQUADRAMENTO -->
+            <br><br>
+            
+            <select class="enquadramento" name="artigo" id="enquadramento"  required="required">
+                <option value="" style="text-align: center;" disabled selected hidden>ENQUADRAMENTO</option>
+                {% for artigo in artigos %}
+                    <option value="{{ artigo.artigo }}">{{ artigo.artigo }} - {{ artigo.descricao }}</option> 
+                {% endfor %}      
+            </select>
+            <br><br>
+            <!-- FIM ENQUADRAMENTO   -->
+            
+            <div class="geral">
+                <input class="bloco_menor" type="text" name="testemunhas" placeholder="TESTEMUNHA"/>
+                <!-- COMUNICANTE -->
+            <br><br>
+            
+            <select class="comunicante" name="comunicante" id="comunicante"  required="required">
+                <option value="" style="text-align: center;" disabled selected hidden>COMUNICANTE</option>
+                {% for comunicante in comunicantes %}
+                    <option value="{{ comunicante.id }}">{{ comunicante.grau_hierarquico }} {{ comunicante.nome_de_guerra }}</option> 
+                {% endfor %}      
+            </select>
+            <br><br>
+            <!-- FIM COMUNICANTE   -->
+            </div>
+            <br><br>
+            
+            <div class="geral">
+                <input class="bloco_maior" type="text" name="observacoes" placeholder="OBSERVAÇÕES" required="required" />
+            </div>
+            <br><br>
+             
+                
+            <button type="submit"> ENVIAR </button>
+        
+        
+        </form>
+        <script>
+            $(document).ready(function() {
+                $('#enquadramento').select2();
+            });
+            $(document).ready(function() {
+                $('#comunicante').select2();
+            });
+        </script>
+    </div>   
+</body>
+>>>>>>> Stashed changes:templates/adicionar_cpi.html
+</html>
