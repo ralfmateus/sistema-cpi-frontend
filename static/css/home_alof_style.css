@@ -103,7 +103,7 @@ h3{
     transition: .4s;
     pointer-events: none;
     padding: 10px;
-    background-color: green;
+    background-color: blue;
     color: white;
 }
 
@@ -118,7 +118,7 @@ h3{
 }
 
 .btn-2:hover{
-    background-color: green;
+    background-color: blue;
     color: white;
 }
 
