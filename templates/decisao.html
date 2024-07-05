@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>COMANDANTE</title>
-    <link rel="stylesheet" href="../static/css/parecer_cdc_style.css">
+    <link rel="stylesheet" href="../static/css/decisao_style.css">
     
 </head>
 <body>
@@ -20,7 +20,7 @@
             <h1>DIVISÃO ACADÊMICA</h1>
         </div>
         <div>
-            <h2>DECISÃO DO COMANDANTE</h2>
+            <h2>Decisão DO COMANDO DA ESFO/ESFAP</h2>
         </div>
         <!-- FIM CABEÇALHO -->
 
@@ -29,48 +29,28 @@
             <!-- TABELA DADOS DA CPI -->
         <table>
             <thead>
-                <tr>
-                    <td scope="col" style="width: 9%;">CONDUTA</td>
-                    <td scope="col" style="width: 20%;">ALUNO / PELOTÃO </td>
-                    <td scope="col" style="width: 40%;">ENQUADRAMENTO</td>
-                    <td scope="col" style="width: 10%;">DATA/HORA</td>
-                    <td scope="col" style="width: 10%;">LOCAL</td>
-                    <td scope="col" style="width: 10%;">COMUNICANTE</td>
+                <tr  style="border: 1px solid black;">
+                    <td scope="col" style="width: 9%; border: 1px solid black;">CONDUTA</td>
+                    <td scope="col" style="width: 10%; border: 1px solid black;">ALUNO/PEL</td>
+                    <td scope="col" style="width: 30%; border: 1px solid black;">ENQUADRAMENTO</td>
+                    <td scope="col" style="width: 30%; border: 1px solid black;">OBSERVAÇÕES</td>
+                    <td scope="col" style="width: 10%; border: 1px solid black;"> DATA/HORA</td>
+                    <td scope="col" style="width: 10%; border: 1px solid black;">LOCAL</td>
                 </tr>
             </thead>
             <tbody >
                 <tr>
-                    <td scope="col" style="width: 9%;">{{ cpi.conduta }}</td>
-                    <td scope="col" style="width: 20%;">{{ cpi.aluno.nome }} - {{ cpi.info.pelotao }}º PEL</td>
-                    <td scope="col" style="width: 40%;">{{ cpi.artigo }}</td>
-                    <td scope="col" style="width: 10%;">{{ cpi.data }} {{ cpi.hora }}</td>
-                    <td scope="col" style="width: 10%;">{{ cpi.local }}</td>
-                    <td scope="col" style="width: 10%;">{{ cpi.comunicante.nome }}</td>
+                    <td scope="col" style="width: 9%; border: 1px solid black;">CPI</td>
+                    <td scope="col" style="width: 15%; border: 1px solid black;">AL SD PATRIK - 28° PEL</td>
+                    <td scope="col" style="width: 30%; border: 1px solid black;">ART 666 - XERIFE ETERNO ATÉ O FIM DO CURSO OU PEDIR PRA SAIR</td>
+                    <td scope="col" style="width: 30%; border: 1px solid black;">O ALUNO SABE O MOTIVO</td>
+                    <td scope="col" style="width: 10%; border: 1px solid black;">06/06/2024 - 06:20 AM</td>
+                    <td scope="col" style="width: 10%; border: 1px solid black;">PLATO DAS BANDEIRAS</td>
                 </tr>
             </tbody>
         </table>
         <!-- FIM TABELA DADOS DA CPI -->
-        <br>
-            <!-- ---------------- OBSERVAÇÕES ----------------------- -->
-            <table>
-                <thead>
-                    <tr>
-                        <td scope="col" style="width: 100%;">OBSERVAÇÕES</td>    
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td scope="col" style="width: 100%;">
-                            {% if cpi.observacoes %}
-                                {{ cpi.observacoes }}
-                            {% else %}
-                                Sem observações
-                            {% endif %}
-                        </td>    
-                    </tr>
-                </tbody>
-            </table>
-        <!-- -------------------FIM OBSERVAÇÕES  -->
+        
         <br>
         <!-- ---------------- DEFESA DO ALUNO ----------------------- -->
         <table>
@@ -81,13 +61,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td scope="col" style="width: 100%;">
-                        {% if defesa.defesa %}
-                        {{ defesa.defesa }}
-                    {% else %}
-                        Sem justificativa
-                    {% endif %}
-                    </td>    
+                    <td scope="col" style="width: 100%;">NÃO FUI EU !!! ESTOU SENDO PERSEGUIDO PELOS ALUNOS OFICIAIS !!!</td>    
                 </tr>
             </tbody>
         </table>
@@ -101,18 +75,12 @@
                     <td scope="col" style="width: 100%;">PARECER CHEFE DE CURSO</td>    
                 </tr>
                 <tr>
-                    <td scope="col" style="width: 100%;">{{ parecer.parecer }}</td>    
+                    <td scope="col" style="width: 100%;">SUGIRO: PUNIÇÃO</td>    
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td scope="col" style="width: 100%;">
-                        {% if parecer.parecer %}
-                        {{ parecer.parecer }}
-                    {% else %}
-                        Sem parecer
-                    {% endif %}
-                    </td>    
+                    <td scope="col" style="width: 100%;">O ALUNO NÃO ESTÁ SENDO PERSEGUIDO</td>    
                 </tr>
             </tbody>
         </table>
@@ -127,12 +95,12 @@
             <table style="border:none; margin-left: 0; background-color: white;">
                 <thead>
                     <tr style="width: 10%;">
-                        <td scope="col"><input type="radio" name="selected">PUNIÇÃO</td>
-                        <td scope="col"><input type="radio" name="selected">ARQUIVAMENTO</td>
+                        <td scope="col" class="selecao"><input type="radio" name="selected">PUNIÇÃO</td>
+                        <td scope="col" class="selecao"><input type="radio" name="selected">ARQUIVAMENTO</td>
                     </tr>
                     <tr>
-                        <td scope="col" style="width: 5%;"><input type="radio" name="selected">HOMOLOGAÇÃO</td>
-                        <td scope="col" style="width: 5%;"><input type="radio" name="selected">REENQUADRAMENTO</td>
+                        <td scope="col" class="selecao" style="width: 5%;"><input type="radio" name="selected">HOMOLOGAÇÃO</td>
+                        <td scope="col" class="selecao" style="width: 5%;"><input type="radio" name="selected">REENQUADRAMENTO</td>
                     </tr>
                 </thead>
             </table>
