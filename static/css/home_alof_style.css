@@ -95,16 +95,46 @@ h3{
     font-size: 15px;
 }
 
+.btn-1{
+    width: 150px;
+    font-weight: bold;
+    border: 3px solid black;
+    border-radius: 12px 0px 0px 12px;
+    transition: .4s;
+    pointer-events: none;
+    padding: 10px;
+    background-color: green;
+    color: white;
+}
+
+.btn-2{
+    width: 150px;
+    font-weight: bold;
+    border-radius: 0px 12px 12px 0px;
+    transition: .4s;
+    padding: 10px;
+    background-color: white;
+    color: black;
+}
+
+.btn-2:hover{
+    background-color: green;
+    color: white;
+}
 
 
-
-button{
+.btn-cp{
 	background-color: rgb(255, 255, 255);
 	width: 100%;
     height: 100%;
 	color: rgb(0, 0, 0);
     outline: none;
     border: none;
+}
+
+.botoes{
+    display: flex;
+    justify-content: center;
 }
 
 .criar_cpi{
