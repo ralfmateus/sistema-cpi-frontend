@@ -25,21 +25,21 @@
             <h1>FICHA DE OBSERVAÇÃO DE CONDUTA PROFISSIONAL</h1>
         </div>
 
-        <form method="post">
+        <form method="post" action="{{ url_for('cpi.adicionar_cpi') }}">
 
             
             <!-- -------------------------CONDUTA E CURSO    -->
             <div class="geral">
 
-                <select class="bloco" name="posto_graduacao" required="required">
-                    <option value="" style="text-align: center;">CONDUTA</option>
-                    <option value=" ">CPI</option>
-                <option value=" ">CPA</option>
+                <select class="bloco" name="conduta" required="required">
+                    <option value="" style="text-align: center;" selected hidden disabled>CONDUTA</option>
+                    <option value="CPI">CPI</option>
+                <option value="CPA">CPA</option>
             </select>
             <br><br>  
             
             <select class="bloco" name="curso" required="required">
-                    <option value="" style="text-align: center;">CURSO</option>
+                    <option value="" style="text-align: center;" selected hidden disabled>CURSO</option>
                     <option value="CFSD">CFSD</option>
                     <option value="CFO">CFO</option>
                     <option value="CHS">CHS</option>
@@ -109,8 +109,9 @@
             </div>
             <br><br>
              
-                
-            <button type="submit"> ENVIAR </button>
+                <div class="btn-cpi">
+            <button type="submit" value="salvar" name="submit"> SALVAR </button>
+            </div>
         
         
         </form>

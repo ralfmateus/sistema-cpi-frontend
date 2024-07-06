@@ -10,6 +10,15 @@ usuario = Blueprint('usuario', __name__, url_prefix='/usuario')
 
 @usuario.route('/adicionar', methods=['GET', 'POST'])
 def adicionar_usuario():
+    if not session.get('usuario'):
+        return redirect(url_for('usuario.login'))
+    
+    response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={session["usuario"]}')
+    if not response:
+        return redirect(url_for('usuario.home', erro=1))
+    
+    info = response.json()
+    
     if request.method == 'GET':
         return render_template('adicionar_usuario.html')
     else:
@@ -38,7 +47,7 @@ def adicionar_usuario():
             
             response = requests.post('http://127.0.0.1:8000/info/create', json=info)
         
-        return render_template('adicionar.html')
+        return redirect(url_for('usuario.adicionar_usuario', erro=1))
     
 
 @usuario.route('/login', methods=['GET', 'POST'])
@@ -61,7 +70,34 @@ def login():
             
             return redirect(url_for('usuario.cpis_aluno'))
         
-        return render_template('login.html')
+        return redirect(url_for('usuario.login'))
+    
+
+@usuario.route('/home')
+def home():
+    if not session.get('usuario'):
+        return redirect(url_for('usuario.login'))
+    
+    response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={session["usuario"]}')
+    if not response:
+        del session['usuario']
+        return redirect(url_for('usuario.login', erro=1))
+    
+    info = response.json()
+    
+    if info['usuario']['funcao'] == 'ALUNO':
+        return redirect(url_for('usuario.cpis_aluno'))
+    if info['usuario']['funcao'] == 'CHEFE DE CURSO':
+        return redirect(url_for('usuario.cpis_chefe_de_curso'))
+    if info['usuario']['funcao'] == 'COMANDANTE DA ESFAP':
+        return redirect(url_for('usuario.cpis_comandant'))
+    if info['usuario']['funcao'] == 'COMANDANTE DA ESFO':
+        return redirect(url_for('usuario.cpis_comandante'))
+    if info['usuario']['funcao'] == 'COMUNICANTE':
+        return redirect(url_for('usuario.cpis_comunicante'))
+    if info['usuario']['funcao'] == 'JUSTICA':
+        return redirect(url_for('usuario.cpis_aluno'))
+    
     
 
 @usuario.route('/logout', methods=['GET'])
@@ -72,8 +108,14 @@ def logout():
 
 @usuario.route('/cpis_aluno', methods=['GET'])
 def cpis_aluno():
-    if not session.get('usuario'):
-        return redirect(url_for('usuario.login'))
+    if not verificar_funcao('ALUNO') and not verificar_funcao('JUSTICA'):
+        return redirect(url_for('usuario.home'))
+    
+    response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={session["usuario"]}')
+    if not response:
+        return redirect(url_for('usuario.home', erro=1))
+    
+    info = response.json()
 
     response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_aluno?usuario_id={session["usuario"]}')
     
@@ -84,7 +126,7 @@ def cpis_aluno():
         else:
             cpis = []   
         
-        return render_template('cpis_aluno.html', cpis=cpis)
+        return render_template('home_aluno.html', cpis=cpis, info=info)
     
     else:
         if response:
@@ -93,17 +135,22 @@ def cpis_aluno():
                 if cpi['id'] == int(protocolo):
                     return render_template('defesa.html', cpi=cpi)
                 
-            return render_template('cpis_aluno.html', cpis=cpis)
+            return render_template('home_aluno.html', cpis=cpis, info=info)
             
         else:
             cpis = []
-            return render_template('cpis_aluno.html', cpis=cpis)
+            return render_template('home_aluno.html', cpis=cpis, info=info)
 
 
 @usuario.route('/cpis_comunicante', methods=['GET'])
 def cpis_comunicante():
-    if not session.get('usuario'):
-        return redirect(url_for('usuario.login'))
+    verificar_funcao('-')
+    
+    response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={session["usuario"]}')
+    if not response:
+        return redirect(url_for('usuario.home', erro=1))
+    
+    info = response.json()
 
     response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_comunicante?usuario_id={session["usuario"]}')
     
@@ -114,7 +161,7 @@ def cpis_comunicante():
         else:
             cpis = []   
         
-        return render_template('cpis_comunicante.html', cpis=cpis)
+        return render_template('cpis_comunicante.html', cpis=cpis, info=info)
     
     else:
         if response:
@@ -123,17 +170,23 @@ def cpis_comunicante():
                 if cpi['id'] == int(protocolo):
                     return render_template('comunicante.html', cpi=cpi)
                 
-            return render_template('cpis_comunicante.html', cpis=cpis)
+            return render_template('cpis_comunicante.html', cpis=cpis, info=info)
             
         else:
             cpis = []
-            return render_template('cpis_comunicante.html', cpi=cpi)
+            return render_template('cpis_comunicante.html', cpi=cpi, info=info)
 
 
 @usuario.route('/cpis_chefe_de_curso', methods=['GET'])
 def cpis_chefe_de_curso():
-    if not session.get('usuario'):
-        return redirect(url_for('usuario.login'))
+    if not verificar_funcao('CHEFE DE CURSO'):
+        return redirect(url_for('usuario.home'))
+    
+    response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={session["usuario"]}')
+    if not response:
+        return redirect(url_for('usuario.home', erro=1))
+    
+    info = response.json()
 
     response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_chefe_de_curso?usuario_id={session["usuario"]}')
     
@@ -144,7 +197,7 @@ def cpis_chefe_de_curso():
         else:
             cpis = []   
         
-        return render_template('cpis_chefe_de_curso.html', cpis=cpis)
+        return render_template('cpis_chefe_de_curso.html', cpis=cpis, info=info)
     
     else:
         if response:
@@ -160,20 +213,26 @@ def cpis_chefe_de_curso():
                         defesa = response.json()
                         return render_template('parecer.html', cpi=cpi, defesa=defesa)
                     else:
-                        return render_template('cpis_chefe_de_curso.html', cpis=cpis)   
+                        return render_template('cpis_chefe_de_curso.html', cpis=cpis, info=info)   
                     
                 
-            return render_template('cpis_chefe_de_curso.html', cpis=cpis)
+            return render_template('cpis_chefe_de_curso.html', cpis=cpis, info=info)
             
         else:
             cpis = []
-            return render_template('cpis_chefe_de_curso.html', cpis=cpis)
+            return render_template('cpis_chefe_de_curso.html', cpis=cpis, info=info)
 
 
 @usuario.route('/cpis_comandante', methods=['GET'])
 def cpis_comandante():
-    if not session.get('usuario'):
-        return redirect(url_for('usuario.login'))
+    if not verificar_funcao('COMANDANTE'):
+        return redirect(url_for('usuario.home'))
+    
+    response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={session["usuario"]}')
+    if not response:
+        return redirect(url_for('usuario.home', erro=1))
+    
+    info = response.json()
     
     response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_comandante?usuario_id={session["usuario"]}')
     
@@ -184,7 +243,7 @@ def cpis_comandante():
         else:
             cpis = []   
         
-        return render_template('cpis_comandante.html', cpis=cpis)
+        return render_template('cpis_comandante.html', cpis=cpis, info=info)
     
     else:
         if response:
@@ -196,17 +255,23 @@ def cpis_comandante():
                     
                     return render_template('decisao.html', cpi=cpi, artigos=ARTIGOS, defesa=defesa, parecer=parecer)
                 
-            return redirect(url_for('usuario.cpis_comandante'))
+            return redirect(url_for('usuario.cpis_comandante', info=info))
             
         else:
             cpis = []
-            return redirect(url_for('usuario.cpis_comandante'))
+            return redirect(url_for('usuario.cpis_comandante', info=info))
     
 
 @usuario.route('/defesa', methods=['POST'])
 def defesa():
-    if not session.get('usuario'):
-        return redirect(url_for('usuario.login'))
+    if not verificar_funcao('ALUNO') and not verificar_funcao('JUSTICA'):
+        return redirect(url_for('usuario.home'))
+    
+    response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={session["usuario"]}')
+    if not response:
+        return redirect(url_for('usuario.home', erro=1))
+    
+    info = response.json()
     
     ciente = request.form.get('ciente')
     ciente = True if ciente == 'True' else False
@@ -243,13 +308,19 @@ def defesa():
         }
     
     response = requests.put(f'http://127.0.0.1:8000/defesa/update_defesa', json=json)
-    return redirect(url_for('usuario.cpis_aluno'))
+    
+    return redirect(url_for('usuario.home'))
 
 
 @usuario.route('/ciente_comunicante', methods=['POST'])
 def ciente_comunicante():
-    if not session.get('usuario'):
-        return redirect(url_for('usuario.login'))
+    verificar_funcao('-')
+    
+    response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={session["usuario"]}')
+    if not response:
+        return redirect(url_for('usuario.home', erro=1))
+    
+    info = response.json()
     
     ciente = request.form.get('ciente')
     ciente = True if ciente == 'True' else False
@@ -269,11 +340,9 @@ def ciente_comunicante():
             'ass_comunicante': True,
             'status': 10,
         }
-        
-    print(json)
-    
+            
     response = requests.put(f'http://127.0.0.1:8000/cpi/update_cpi', json=json)
-    return redirect(url_for('usuario.cpis_comunicante'))
+    return redirect(url_for('usuario.home'))
 
 
 @usuario.route('/parecer', methods=['POST'])
@@ -297,7 +366,7 @@ def parecer():
     }
     
     response = requests.post(f'http://127.0.0.1:8000/parecer/create', json=json)
-    return redirect(url_for('usuario.cpis_chefe_de_curso'))
+    return redirect(url_for('usuario.home'))
 
 
 @usuario.route('/decisao', methods=['POST'])
@@ -324,15 +393,23 @@ def decisao():
         'ass': True,
         'cpi': id,
     }
-
-    print(json)
     
     response = requests.post(f'http://127.0.0.1:8000/decisao/create', json=json)
-    return redirect(url_for('usuario.cpis_comandante'))
+    return redirect(url_for('usuario.home'))
     
 
+def verificar_funcao(funcao):
+    if not session.get('usuario'):
+        return redirect(url_for('usuario.login'))
+
+    response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={session["usuario"]}')
+    if not response:
+        return redirect(url_for('usuario.home', erro=1))
     
+    info = response.json()
     
-    
-        
-    
+    if funcao == '-':
+        return True
+    elif info['usuario']['funcao'] == funcao:
+        return True
+    return False

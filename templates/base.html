@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}{% endblock %}</title>
+    <link rel="stylesheet" href="../static/css/home_aluno_style.css">
+    
+</head>
+<body>
+    
+    <!-- Cabeçalho -->
+    <div class="cabecalho" >
+        <img class="imagem" src="../static/img/brasoes.png" width="100%" height="100%" alt="DEU RUIM">
+        <br><br>
+    </div>
+    
+    <div>
+        <h1>DIVISÃO ACADÊMICA</h1>
+    </div>
+    <nav>
+        <a href="{{ url_for('usuario.home') }}">Principal</a> |
+        <a href="{{ url_for('usuario.cpis_comunicante') }}">Comunicações feitas</a> |
+        {% if info.usuario.funcao == 'JUSTICA' %}
+        <a href="{{ url_for('cpi.adicionar') }}">Fazer nova CP</a> |
+        {% endif %}
+        {% if info.usuario.funcao == 'COMANDANTE DA ESFAP' or info.usuario.funcao == 'COMANDANTE DA ESFO' %}
+        <a href="{{ url_for('usuario.adicionar') }}">Adicionar usuario</a> |
+        <a href="{{ url_for('cpi.adicionar') }}">Fazer nova CP</a> |
+        <a href="{{ url_for('cpi.consultar') }}">Consultar</a> |
+        {% endif %}
+
+    </nav>
+    <br>
+    <div>
+        <h1>Bem vindo {{ info.usuario.grau_hierarquico }} {{ info.usuario.nome_de_guerra }}</h1>
+    </div>
+
+    {% block conteudo %}
+    {% endblock %}
+    
+</body>
+</html>

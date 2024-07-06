@@ -4,12 +4,23 @@ import requests
 from jinja2 import TemplateNotFound
 
 from blueprints.artigo import ARTIGOS
+from blueprints.usuario import verificar_funcao
 
 cpi = Blueprint('cpi', __name__, url_prefix='/cpi')
 
 
 @cpi.route('/adicionar', methods=['GET', 'POST'])
 def adicionar_cpi():
+    if not verificar_funcao('JUSTICA') and not verificar_funcao('COMANDANTE DA ESFAP') and not verificar_funcao('COMANDANTE DA ESFO'):
+        return redirect(url_for('usuario.home'))
+    
+    response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={session["usuario"]}')
+    if not response:
+        return redirect(url_for('usuario.home', erro=1))
+    
+    info = response.json()
+    
+    
     response = requests.get('http://127.0.0.1:8000/usuario/get_all')
     comunicantes = response.json()
     
@@ -42,12 +53,20 @@ def adicionar_cpi():
             "data": data,
             "hora": request.form.get('hora'),
             "local": request.form.get('local'),
-            "artigo": request.form.get('artigo'),
-            "testemunhas": request.form.get('testemunhas'),
+            "artigo": request.form.get('enquadramento'),
+            "testemunhas": request.form.get('testemunha'),
             "comunicante": comunicante,
             "observacoes": request.form.get('observacoes'),
         }
                 
         response = requests.post('http://127.0.0.1:8000/cpi/create', json=cpi)
         
-        return render_template('adicionar_cpi.html', comunicantes=comunicantes, artigos=ARTIGOS)
+        
+        if request.form.get('submit') == 'novo':
+            return redirect(url_for('cpi.adicionar_cpi'))
+        return redirect(url_for('usuario.home'))
+    
+    
+@cpi.route('/consultar', methods=['GET'])
+def consultar():
+    return 'Página de consulta'

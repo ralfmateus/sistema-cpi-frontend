@@ -1,60 +1,8 @@
-<<<<<<< Updated upstream
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>COMANDANTE</title>
-    <link rel="stylesheet" href="../static/css/decisao_style.css">
-    
-</head>
-<body>
-    <div class="usuario"> 
-        
-        <!-- Cabeçalho -->
-        <div class="cabecalho" >
-            <img class="imagem" src="../static/img/brasoes.png" width="100%" height="100%" alt="DEU RUIM">
-            <br><br>
-        </div>
-        
-        <div>
-            <h1>DIVISÃO ACADÊMICA</h1>
-        </div>
-        <div>
-            <h2>Decisão DO COMANDO DA ESFO/ESFAP</h2>
-        </div>
-        <!-- FIM CABEÇALHO -->
+{% extends 'base2.html' %}
 
-        <br>
-
-            <!-- TABELA DADOS DA CPI -->
-        <table>
-            <thead>
-                <tr  style="border: 1px solid black;">
-                    <td scope="col" style="width: 9%; border: 1px solid black;">CONDUTA</td>
-                    <td scope="col" style="width: 10%; border: 1px solid black;">ALUNO/PEL</td>
-                    <td scope="col" style="width: 30%; border: 1px solid black;">ENQUADRAMENTO</td>
-                    <td scope="col" style="width: 30%; border: 1px solid black;">OBSERVAÇÕES</td>
-                    <td scope="col" style="width: 10%; border: 1px solid black;"> DATA/HORA</td>
-                    <td scope="col" style="width: 10%; border: 1px solid black;">LOCAL</td>
-                </tr>
-            </thead>
-            <tbody >
-                <tr>
-                    <td scope="col" style="width: 9%; border: 1px solid black;">CPI</td>
-                    <td scope="col" style="width: 15%; border: 1px solid black;">AL SD PATRIK - 28° PEL</td>
-                    <td scope="col" style="width: 30%; border: 1px solid black;">ART 666 - XERIFE ETERNO ATÉ O FIM DO CURSO OU PEDIR PRA SAIR</td>
-                    <td scope="col" style="width: 30%; border: 1px solid black;">O ALUNO SABE O MOTIVO</td>
-                    <td scope="col" style="width: 10%; border: 1px solid black;">06/06/2024 - 06:20 AM</td>
-                    <td scope="col" style="width: 10%; border: 1px solid black;">PLATO DAS BANDEIRAS</td>
-                </tr>
-            </tbody>
-        </table>
-        <!-- FIM TABELA DADOS DA CPI -->
-        
-        <br>
+{% block conteudo %}
         <!-- ---------------- DEFESA DO ALUNO ----------------------- -->
-        <table>
+        <table class="border-full">
             <thead>
                 <tr>
                     <td scope="col" style="width: 100%;">DEFESA DO ALUNO</td>    
@@ -62,7 +10,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td scope="col" style="width: 100%;">NÃO FUI EU !!! ESTOU SENDO PERSEGUIDO PELOS ALUNOS OFICIAIS !!!</td>    
+                    <td scope="col" style="width: 100%;">{{ defesa.defesa }}</td>    
                 </tr>
             </tbody>
         </table>
@@ -70,175 +18,26 @@
     
         <br>
         <!-- ---------------- PARECER CHEFE DE CURSO ----------------------- -->
-        <table>
+        <table class="border-full">
             <thead>
                 <tr>
                     <td scope="col" style="width: 100%;">PARECER CHEFE DE CURSO</td>    
                 </tr>
                 <tr>
-                    <td scope="col" style="width: 100%;">SUGIRO: PUNIÇÃO</td>    
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td scope="col" style="width: 100%;">O ALUNO NÃO ESTÁ SENDO PERSEGUIDO</td>    
-                </tr>
-            </tbody>
-        </table>
-
-        <br>
-        <!-- -------------------FIM PARECER DO COMANDO ------------------------  -->
-
-        <form method="post">
-            
-            Decisão do CMD:
-            <!-- SELEÇÃO DE PARECER DO COMANDO   -->
-            <table style="border:none; margin-left: 0; background-color: white;">
-                <thead>
-                    <tr style="width: 10%;">
-                        <td scope="col" class="selecao"><input type="radio" name="selected">PUNIÇÃO</td>
-                        <td scope="col" class="selecao"><input type="radio" name="selected">ARQUIVAMENTO</td>
-                    </tr>
-                    <tr>
-                        <td scope="col" class="selecao" style="width: 5%;"><input type="radio" name="selected">HOMOLOGAÇÃO</td>
-                        <td scope="col" class="selecao" style="width: 5%;"><input type="radio" name="selected">REENQUADRAMENTO</td>
-                    </tr>
-                </thead>
-            </table>
-            <!-- FIM SELEÇÃO DE PARECER DO COMANDO -->
-            <br>
-
-            <!-- BLOCO PARA JUSTICICATIVA -->
-            <div>
-                <textarea class="justificativa" placeholder="Justificativa" id=""></textarea>
-            </div>
-            <br><br>
-            
-            <!-- FIM BLOCO PARA JUSTIFICATIVA -->
-
-
-            
-            <!-- Botão enviar -->
-            <button type="submit"> ENVIAR </button>
-        
-        
-        </form>
-
-    </div>   
-</body>
-=======
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>COMANDANTE</title>
-    <link rel="stylesheet" href="../static/css/parecer_cdc_style.css">
-    
-</head>
-<body>
-    <div class="usuario"> 
-        
-        <!-- Cabeçalho -->
-        <div class="cabecalho" >
-            <img class="imagem" src="../static/img/brasoes.png" width="100%" height="100%" alt="DEU RUIM">
-            <br><br>
-        </div>
-        
-        <div>
-            <h1>DIVISÃO ACADÊMICA</h1>
-        </div>
-        <div>
-            <h2>DECISÃO DO COMANDANTE</h2>
-        </div>
-        <!-- FIM CABEÇALHO -->
-
-        <br>
-
-            <!-- TABELA DADOS DA CPI -->
-        <table>
-            <thead>
-                <tr>
-                    <td scope="col" style="width: 9%;">CONDUTA</td>
-                    <td scope="col" style="width: 20%;">ALUNO / PELOTÃO </td>
-                    <td scope="col" style="width: 40%;">ENQUADRAMENTO</td>
-                    <td scope="col" style="width: 10%;">DATA/HORA</td>
-                    <td scope="col" style="width: 10%;">LOCAL</td>
-                    <td scope="col" style="width: 10%;">COMUNICANTE</td>
-                </tr>
-            </thead>
-            <tbody >
-                <tr>
-                    <td scope="col" style="width: 9%;">{{ cpi.conduta }}</td>
-                    <td scope="col" style="width: 20%;">{{ cpi.aluno.nome }} - {{ cpi.info.pelotao }}º PEL</td>
-                    <td scope="col" style="width: 40%;">{{ cpi.artigo }}</td>
-                    <td scope="col" style="width: 10%;">{{ cpi.data }} {{ cpi.hora }}</td>
-                    <td scope="col" style="width: 10%;">{{ cpi.local }}</td>
-                    <td scope="col" style="width: 10%;">{{ cpi.comunicante.nome }}</td>
-                </tr>
-            </tbody>
-        </table>
-        <!-- FIM TABELA DADOS DA CPI -->
-        <br>
-            <!-- ---------------- OBSERVAÇÕES ----------------------- -->
-            <table>
-                <thead>
-                    <tr>
-                        <td scope="col" style="width: 100%;">OBSERVAÇÕES</td>    
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td scope="col" style="width: 100%;">
-                            {% if cpi.observacoes %}
-                                {{ cpi.observacoes }}
-                            {% else %}
-                                Sem observações
-                            {% endif %}
-                        </td>    
-                    </tr>
-                </tbody>
-            </table>
-        <!-- -------------------FIM OBSERVAÇÕES  -->
-        <br>
-        <!-- ---------------- DEFESA DO ALUNO ----------------------- -->
-        <table>
-            <thead>
-                <tr>
-                    <td scope="col" style="width: 100%;">DEFESA DO ALUNO</td>    
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td scope="col" style="width: 100%;">
-                        {% if defesa.defesa %}
-                        {{ defesa.defesa }}
-                    {% else %}
-                        Sem justificativa
-                    {% endif %}
+                    <td scope="col" style="width: 100%;">SUGIRO: 
+                        {% if parecer.parecer == 'PUNICAO' %}
+                            PUNIÇÃO
+                        {% elif parecer.parecer == 'HOMOLOGACAO' %}
+                            HOMOLOGAÇÃO
+                        {% else %}
+                            {{ parecer.parecer }}
+                        {% endif %}
                     </td>    
                 </tr>
-            </tbody>
-        </table>
-        <!-- -------------------FIM DEFESA DO ALUNO  -->
-    
-        <br>
-        <!-- ---------------- PARECER CHEFE DE CURSO ----------------------- -->
-        <table>
-            <thead>
-                <tr>
-                    <td scope="col" style="width: 100%;">PARECER CHEFE DE CURSO</td>    
-                </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td scope="col" style="width: 100%;">
-                        {% if parecer.parecer %}
-                        {{ parecer.parecer }}
-                    {% else %}
-                        Sem parecer
-                    {% endif %}
-                    </td>    
+                    <td scope="col" style="width: 100%;">{{ parecer.observacoes }}</td>    
                 </tr>
             </tbody>
         </table>
@@ -250,53 +49,50 @@
             
             Decisão do CMD:
             <!-- SELEÇÃO DE PARECER DO COMANDO   -->
-            <table style="border:none; margin-left: 0; background-color: white;">
+            <table style="border:none; margin-left: 0; background-color: white;" class="border-full">
                 <thead>
                     <tr style="width: 10%;">
-                        <td scope="col"><input type="radio" name="decisao" value="PUNICAO">PUNIÇÃO</td>
-                        <td scope="col"><input type="radio" name="decisao" value="ARQUIVAMENTO">ARQUIVAMENTO</td>
+                        <td scope="col" class="selecao"><input type="radio" name="decisao" value="PUNICAO" onclick="invisivel()">PUNIÇÃO</td>
+                        <td scope="col" class="selecao"><input type="radio" name="decisao" value="ARQUIVAMENTO" onclick="invisivel()">ARQUIVAMENTO</td>
                     </tr>
                     <tr>
-                        <td scope="col" style="width: 5%;"><input type="radio" name="decisao" value="HOMOLOGACAO">HOMOLOGAÇÃO</td>
-                        <td scope="col" style="width: 5%;"><input type="radio" name="decisao" value="REENQUADRAMENTO">REENQUADRAMENTO</td>
+                        <td scope="col" class="selecao" style="width: 5%;"><input type="radio" name="decisao" value="HOMOLOGACAO" onclick="invisivel()">HOMOLOGAÇÃO</td>
+                        <td scope="col" class="selecao" style="width: 5%;"><input type="radio" name="decisao" value="REENQUADRAMENTO" onclick="Reenquadrar()">REENQUADRAMENTO</td>
                     </tr>
                 </thead>
             </table>
             <!-- FIM SELEÇÃO DE PARECER DO COMANDO -->
             <br>
 
-            <!-- BLOCO PARA JUSTICICATIVA -->
-            <div>
-                <textarea class="justificativa" placeholder="Justificativa" id="" name="justificativa"></textarea>
-            </div>
-            <br>
-            
-            <!-- FIM BLOCO PARA JUSTIFICATIVA -->
+            <!-- REENQUADRAMENTO -->
 
-            <!-- ENQUADRAMENTO -->
-            <br>
-            
-            <select class="enquadramento" name="enquadramento" id="enquadramento"  required="required">
+            <select name="enquadramento" id="enquadramento" style="display: none;">
                 {% for artigo in artigos %}
                     {% if artigo.artigo == cpi.artigo %}
-                        <option value="{{ artigo.artigo }}" style="text-align: center;" disabled selected hidden>{{ artigo.artigo }} - {{ artigo.descricao }}</option>
+                        <option value="{{ artigo.artigo }}" selected>{{ artigo.artigo }} - {{ artigo.descricao }}</option>
                     {% else %}
-                        <option value="{{ artigo.artigo }}">{{ artigo.artigo }} - {{ artigo.descricao }}</option> 
+                        <option value="{{ artigo.artigo }}">{{ artigo.artigo }} - {{ artigo.descricao }}</option>
                     {% endif %}
-                {% endfor %}      
+                {% endfor %}
             </select>
-            <br><br>
-            <!-- FIM ENQUADRAMENTO   -->
 
+             <!-- FIM REENQUADRAMENTO -->
 
-            
-            <!-- Botão enviar -->
-            <button type="submit"> ENVIAR </button>
+            <!-- BLOCO PARA JUSTICICATIVA -->
+            {% include 'justificativa.html' %}
         
         
         </form>
 
-    </div>   
-</body>
->>>>>>> Stashed changes
-</html>
+    </div>
+    <script>
+        function Reenquadrar(self) {
+            reenquadramento = document.getElementById('enquadramento')
+            reenquadramento.style.display = 'block'
+        }
+        function invisivel(self) {
+            reenquadramento = document.getElementById('enquadramento')
+            reenquadramento.style.display = 'none'
+        }
+    </script>
+{% endblock %}

@@ -1,59 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHEFE DE CURSO</title>
-    <link rel="stylesheet" href="../static/css/parecer_style.css">
-    
-</head>
-<body>
-    <div class="usuario"> 
-        
-        <!-- Cabeçalho -->
-        <div class="cabecalho" >
-            <img class="imagem" src="../static/img/brasoes.png" width="100%" height="100%" alt="DEU RUIM">
-            <br><br>
-        </div>
-        
-        <div>
-            <h1>DIVISÃO ACADÊMICA</h1>
-        </div>
-        <div>
-            <h2>PARECER CHEFE DE CURSO</h2>
-        </div>
-        <!-- FIM CABEÇALHO -->
+{% extends 'base2.html' %}
 
-        <br>
+{% block conteudo %}
 
-            <!-- TABELA DADOS DA CPI -->
-            <table>
-                <thead>
-                    <tr  style="border: 1px solid black;">
-                        <td scope="col" style="width: 9%; border: 1px solid black;">CONDUTA</td>
-                        <td scope="col" style="width: 10%; border: 1px solid black;">ALUNO/PEL</td>
-                        <td scope="col" style="width: 30%; border: 1px solid black;">ENQUADRAMENTO</td>
-                        <td scope="col" style="width: 30%; border: 1px solid black;">OBSERVAÇÕES</td>
-                        <td scope="col" style="width: 10%; border: 1px solid black;"> DATA/HORA</td>
-                        <td scope="col" style="width: 10%; border: 1px solid black;">LOCAL</td>
-                    </tr>
-                </thead>
-                <tbody >
-                    <tr>
-                        <td scope="col" style="width: 9%; border: 1px solid black;">CPI</td>
-                        <td scope="col" style="width: 15%; border: 1px solid black;">AL SD PATRIK - 28° PEL</td>
-                        <td scope="col" style="width: 30%; border: 1px solid black;">ART 666 - XERIFE ETERNO ATÉ O FIM DO CURSO OU PEDIR PRA SAIR</td>
-                        <td scope="col" style="width: 30%; border: 1px solid black;">O ALUNO SABE O MOTIVO</td>
-                        <td scope="col" style="width: 10%; border: 1px solid black;">06/06/2024 - 06:20 AM</td>
-                        <td scope="col" style="width: 10%; border: 1px solid black;">PLATO DAS BANDEIRAS</td>
-                    </tr>
-                </tbody>
-            </table>
-        <!-- FIM TABELA DADOS DA CPI -->
-        
-        <br>
         <!-- ---------------- DEFESA DO ALUNO ----------------------- -->
-        <table>
+        <table class="border-full">
             <thead>
                 <tr>
                     <td scope="col" style="width: 100%;">DEFESA DO ALUNO</td>    
@@ -61,49 +11,36 @@
             </thead>
             <tbody>
                 <tr>
-                    <td scope="col" style="width: 100%;">NÃO FUI EU !!! ESTOU SENDO PERSEGUIDO PELOS ALUNOS OFICIAIS !!!</td>    
+                    <td scope="col" style="width: 100%;">{{ defesa.defesa }}</td>    
                 </tr>
             </tbody>
         </table>
         <!-- -------------------FIM DEFESA DO ALUNO  -->
         
-        <form method="post">
+        <form method="post" action="{{ url_for('usuario.parecer') }}?protocolo={{ cpi.id }}">
             
             
             <!-- SELEÇÃO DE DEFESA OU JUSTIFICATICA    -->
             Sugiro:
-            <table style="border:none; margin-left: 0; background-color: white;">
+            <table style="background-color: white;" class="border-full">
                 <thead>
                     <tr style="width: 10%;">
-                        <td scope="col" class="selecao"><input type="radio" name="selected">PUNIÇÃO</td>
-                        <td scope="col" class="selecao"><input type="radio" name="selected">ARQUIVAMENTO</td>
+                        <td scope="col" class="selecao"><input type="radio" name="sugestao" value="PUNICAO">PUNIÇÃO</td>
+                        <td scope="col" class="selecao"><input type="radio" name="sugestao" value="ARQUIVAMENTO">ARQUIVAMENTO</td>
                     </tr>
                     <tr>
-                        <td scope="col" class="selecao" style="width: 5%;"><input type="radio" name="selected">HOMOLOGAÇÃO</td>
-                        <td scope="col" class="selecao" style="width: 5%;"><input type="radio" name="selected">REENQUADRAMENTO</td>
+                        <td scope="col" class="selecao" style="width: 5%;"><input type="radio" name="sugestao" value="HOMOLOGACAO">HOMOLOGAÇÃO</td>
+                        <td scope="col" class="selecao" style="width: 5%;"><input type="radio" name="sugestao" value="REENQUADRAMENTO">REENQUADRAMENTO</td>
                     </tr>
                 </thead>
             </table>
             <!-- FIM SELEÇÃO DE DEFESA OU JUSTIFICATICA -->
             
             
-            <br>
-            <!-- BLOCO PARA JUSTICICATIVA -->
-            <div>
-                <textarea class="justificativa" placeholder="Justificativa" id=""></textarea>
-            </div>
-            <br>
-            
-            <!-- FIM BLOCO PARA JUSTIFICATIVA -->
-
-
-            
-            <!-- Botão enviar -->
-            <button type="submit"> ENVIAR </button>
+            {% include 'justificativa.html' %}
         
         
         </form>
 
     </div>   
-</body>
-</html>
+{% endblock %}
