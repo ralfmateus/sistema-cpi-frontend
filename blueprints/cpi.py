@@ -11,14 +11,24 @@ cpi = Blueprint('cpi', __name__, url_prefix='/cpi')
 
 @cpi.route('/adicionar', methods=['GET', 'POST'])
 def adicionar_cpi():
-    if not verificar_funcao('JUSTICA') and not verificar_funcao('COMANDANTE DA ESFAP') and not verificar_funcao('COMANDANTE DA ESFO'):
+    # if not verificar_funcao('JUSTICA') and not verificar_funcao('COMANDANTE DA ESFAP') and not verificar_funcao('COMANDANTE DA ESFO'):
+    #     return redirect(url_for('usuario.home'))
+    if not verificar_funcao('-'):
         return redirect(url_for('usuario.home'))
     
-    response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={session["usuario"]}')
-    if not response:
-        return redirect(url_for('usuario.home', erro=1))
+    # response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={session["usuario"]}')
+    # if not response:
+    #     return redirect(url_for('usuario.home', erro=1))
     
-    info = response.json()
+    # info = response.json()
+    
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_id?id={session["usuario"]}')
+    
+    if not response:
+        del session['usuario']
+        return redirect(url_for('usuario.login', erro=1))
+    
+    usuario = response.json()
     
     
     response = requests.get('http://127.0.0.1:8000/usuario/get_all')
@@ -36,13 +46,15 @@ def adicionar_cpi():
         numero = int(request.form.get('numero'))
         
         curso = request.form.get('curso')
+        ano = request.form.get('ano')
         
         params = {
             'numero': numero,
-            'curso': curso
+            'curso': curso,
+            'ano': ano,
         }
     
-        response = requests.get('http://127.0.0.1:8000/info/get_by_numero_curso', params=params)
+        response = requests.get('http://127.0.0.1:8000/info/get_by_numero_curso_ano', params=params)
         
         info = response.json()
         
@@ -69,4 +81,23 @@ def adicionar_cpi():
     
 @cpi.route('/consultar', methods=['GET'])
 def consultar():
-    return 'Página de consulta'
+    # if not verificar_funcao('COMANDANTE DA ESFAP') and not verificar_funcao('COMANDANTE DA ESFO'):
+    #     return redirect(url_for('usuario.home'))
+    if not verificar_funcao('-'):
+        return redirect(url_for('usuario.home'))
+    
+    # response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={session["usuario"]}')
+    # if not response:
+    #     return redirect(url_for('usuario.home', erro=1))
+    
+    # info = response.json()
+    
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_id?id={session["usuario"]}')
+    
+    if not response:
+        del session['usuario']
+        return redirect(url_for('usuario.login', erro=1))
+    
+    usuario = response.json()
+    
+    return usuario

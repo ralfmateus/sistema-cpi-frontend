@@ -1,6 +1,7 @@
 {% extends 'base2.html' %}
 
 {% block conteudo %}
+        {% if defesa %}
         <!-- ---------------- DEFESA DO ALUNO ----------------------- -->
         <table class="border-full">
             <thead>
@@ -15,8 +16,10 @@
             </tbody>
         </table>
         <!-- -------------------FIM DEFESA DO ALUNO  -->
+         {% endif %}
     
         <br>
+        {% if parecer %}
         <!-- ---------------- PARECER CHEFE DE CURSO ----------------------- -->
         <table class="border-full">
             <thead>
@@ -44,6 +47,37 @@
 
         <br>
         <!-- -------------------FIM PARECER DO COMANDO ------------------------  -->
+         {% endif %}
+         <br>
+        {% if parecer_cmd_cia %}
+        <!-- ---------------- PARECER COMANDANTE DE CIA ----------------------- -->
+        <table class="border-full">
+            <thead>
+                <tr>
+                    <td scope="col" style="width: 100%;">PARECER COMANDANTE DE CIA</td>    
+                </tr>
+                <tr>
+                    <td scope="col" style="width: 100%;">SUGIRO: 
+                        {% if parecer.parecer == 'PUNICAO' %}
+                            PUNIÇÃO
+                        {% elif parecer.parecer == 'HOMOLOGACAO' %}
+                            HOMOLOGAÇÃO
+                        {% else %}
+                            {{ parecer_cmd_cia.parecer }}
+                        {% endif %}
+                    </td>    
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td scope="col" style="width: 100%;">{{ parecer_cmd_cia.observacoes }}</td>    
+                </tr>
+            </tbody>
+        </table>
+
+        <br>
+        <!-- -------------------FIM PARECER COMANDANTE DE CIA ------------------------  -->
+         {% endif %}
 
         <form method="post" action="{{ url_for('usuario.decisao') }}?protocolo={{ cpi.id }}">
             

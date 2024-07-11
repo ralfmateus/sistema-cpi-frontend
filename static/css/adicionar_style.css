@@ -31,7 +31,7 @@ header .title{
 .add_usuario{
 	background-color: rgba(0,0,0,0.9);
 	position: absolute;
-	top: 50%;
+	top: 80%;
 	left: 50%;
     transform: translate(-50%, -50%);
 	
@@ -84,5 +84,6 @@ footer{
 }
 
 @media screen {
+	
 	
 }
