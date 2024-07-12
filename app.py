@@ -1,5 +1,5 @@
 from flask import Flask, redirect, url_for
-from blueprints import usuario, cpi
+from blueprints import consulta, usuario, cpi
 from blueprints.usuario import home
 
 
@@ -16,6 +16,7 @@ app.secret_key = SECRET
 
 app.register_blueprint(usuario.usuario)
 app.register_blueprint(cpi.cpi)
+app.register_blueprint(consulta.consulta)
 
 @app.route('/')
 def index():

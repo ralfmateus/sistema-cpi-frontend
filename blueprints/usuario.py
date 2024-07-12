@@ -498,12 +498,12 @@ def parecer_cmd_cia():
     data = date.today().strftime('%d/%m/%Y')
     
     json = {
-        'cpi': int(id),
-        'sugestao': sugestao,
+        'parecer': sugestao,
         'observacoes': justificativa,
         'data': data,
         'cmd_cia': int(session.get('usuario')),
         'ass': True,
+        'cpi': int(id),
     }
     
     print(json)

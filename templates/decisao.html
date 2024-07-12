@@ -1,7 +1,7 @@
 {% extends 'base2.html' %}
 
 {% block conteudo %}
-        {% if defesa %}
+        {% if defesa.defesa %}
         <!-- ---------------- DEFESA DO ALUNO ----------------------- -->
         <table class="border-full">
             <thead>
@@ -128,5 +128,9 @@
             reenquadramento = document.getElementById('enquadramento')
             reenquadramento.style.display = 'none'
         }
+        $(document).ready(function() {
+                $('#enquadramento').select2();
+            });
+         
     </script>
 {% endblock %}

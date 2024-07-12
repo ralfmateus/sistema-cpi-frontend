@@ -77,27 +77,3 @@ def adicionar_cpi():
         if request.form.get('submit') == 'novo':
             return redirect(url_for('cpi.adicionar_cpi'))
         return redirect(url_for('usuario.home'))
-    
-    
-@cpi.route('/consultar', methods=['GET'])
-def consultar():
-    # if not verificar_funcao('COMANDANTE DA ESFAP') and not verificar_funcao('COMANDANTE DA ESFO'):
-    #     return redirect(url_for('usuario.home'))
-    if not verificar_funcao('-'):
-        return redirect(url_for('usuario.home'))
-    
-    # response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={session["usuario"]}')
-    # if not response:
-    #     return redirect(url_for('usuario.home', erro=1))
-    
-    # info = response.json()
-    
-    response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_id?id={session["usuario"]}')
-    
-    if not response:
-        del session['usuario']
-        return redirect(url_for('usuario.login', erro=1))
-    
-    usuario = response.json()
-    
-    return usuario
