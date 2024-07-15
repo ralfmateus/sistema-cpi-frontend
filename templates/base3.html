@@ -27,7 +27,7 @@
         {% if usuario.funcao == 'COMANDANTE DA ESFAP' or usuario.funcao == 'COMANDANTE DA ESFO' %}
         <a href="{{ url_for('usuario.adicionar_usuario') }}">Adicionar usuario</a> |
         <a href="{{ url_for('cpi.adicionar_cpi') }}">Fazer nova CP</a> |
-        <a href="{{ url_for('consulta.index') }}">Consultar</a> |
+        <a href="{{ url_for('consulta.consultar') }}">Consultar</a> |
         {% endif %}
         <a href="{{ url_for('usuario.logout') }}">Sair</a>
 

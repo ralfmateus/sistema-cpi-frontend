@@ -8,13 +8,13 @@
     <!-- TIPO -->
      <div class="tipo">
     <label for="">Tipo</label>
-    <input type="radio" name="tipo"><label for="">Usuario</label>
-    <input type="radio" name="tipo"><label for="">CP</label>
+    <!-- <input type="radio" name="tipo"><label for="">Usuario</label> -->
+    <input type="radio" name="tipo" value="cp" checked><label for="">CP</label>
     </div>
     <!-- FIM TIPO -->
     <br>
     <!-- USUARIO FUNÇÃO -->
-    <div class="usuario-funcao">
+    <!-- <div class="usuario-funcao">
     <label for="">Função</label>
     <input type="radio" name="funcao" id="" value="-"><label for="">TODAS</label>
     <input type="radio" name="funcao" id="" value="ALUNO"><label for="">ALUNO</label>
@@ -24,18 +24,76 @@
     <input type="radio" name="funcao" id="" value="COMANDANTE DA ESFAP"><label for="">COMANDANTE DA ESFAP</label>
     <input type="radio" name="funcao" id="" value="COMANDANTE DA ESFO"><label for="">COMANDANTE DA ESFO</label>
     <input type="radio" name="funcao" id="" value="COMUNICANTE"><label for="">COMUNICANTE</label>
-    </div>
+    </div> -->
     <!-- FIM USUARIO FUNÇÃO -->
      <br>
     <!-- USUARIO NOME -->
-    <input type="text" name="nome" placeholder="Nome">
+    <!-- <input type="text" name="nome" placeholder="Nome"> -->
     <!-- FIM USUARIO NOME -->
+
+    <label for="">Conduta:</label>
+      <input type="radio" name="conduta" id="" value="cpi"><label for="">CPI</label>
+      <input type="radio" name="conduta" id="" value="cpa"><label for="">CPA</label>
+    <label for="">Categoria:</label>
+      <input type="radio" name="categoria" id="" value="aluno"><label for="">ALUNO</label>
+      <input type="radio" name="categoria" id="" value="comunicante"><label for="">COMUNICANTE</label>
+      <input type="radio" name="categoria" id="" value="chefe de curso"><label for="">CHEFE DE CURSO</label>
+      <input type="radio" name="categoria" id="" value="pelotao"><label for="">PELOTÃO</label>
+      <input type="radio" name="categoria" id="" value="cia"><label for="">CIA</label>
      <br>
+     <label for="">Usuario:</label>
+     <select class="enquadramento" name="aluno" id="comunicante">
+        <option value="" style="text-align: center;" selected disabled hidden>ALUNO</option>
+        {% for aluno in alunos %}  
+            <option value="{{ aluno.id }}">{{ aluno.grau_hierarquico }} {{ aluno.nome_de_guerra }}</option>
+        {% endfor %}
+    </select>
+     <select class="enquadramento" name="comunicante" id="comunicante">
+        <option value="" style="text-align: center;" selected disabled hidden>COMUNICANTE</option>
+        {% for comunicante in comunicantes %}  
+            <option value="{{ comunicante.id }}">{{ comunicante.grau_hierarquico }} {{ comunicante.nome_de_guerra }}</option>
+        {% endfor %}
+    </select>
+     <select class="enquadramento" name="chefe_de_curso" id="comunicante">
+        <option value="" style="text-align: center;" selected disabled hidden>CHEFE DE CURSO</option>
+        {% for chefe in chefes %}  
+            <option value="{{ chefe.id }}">{{ chefe.grau_hierarquico }} {{ chefe.nome_de_guerra }}</option>
+        {% endfor %}
+    </select>
+    <input type="text" name="pelotao" placeholder="PELOTÃO">
+    <input type="text" name="cia" placeholder="CIA">
+
      <!-- ORDENAR POR -->
       <label for="">Ordenar por:</label>
-      <input type="radio" name="ordenar" id="" value=""><label for="">Menor Nota de conduta</label>
+      <input type="radio" name="ordenar" id="" value="nota menor"><label for="">Menor Nota de conduta</label>
+      <input type="radio" name="ordenar" id="" value="nota maior"><label for="">Menor Nota de conduta</label>
 
       <button type="submit"> ENVIAR </button>
 </form>
+
+<br><br><hr>
+<br><br>
+<table style="display: table;">
+    <thead>
+        <tr>Protocolo</tr>
+        <tr>Aluno</tr>
+        <tr>Conduta</tr>
+        <tr>Artigo</tr>
+        <tr>Data - Hora</tr>
+        <tr>Comunicante</tr>
+    </thead>
+    <tbody>
+        {% for cpi in cpis %}
+        <tr>
+            <td>{{ cpi.id }}</td>
+            <td>{{ cpi.aluno.grau_hierarquico }} {{ cpi.aluno.nome_de_guerra }}</td>
+            <td>{{ cpi.conduta }}</td>
+            <td>{{ cpi.artigo }}</td>
+            <td>{{ cpi.data }} - {{ cpi.hora }}</td>
+            <td>{{ cpi.comunicante.grau_hierarquico }} {{ cpi.comunicante.nome_de_guerra }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
 {% endblock %}
