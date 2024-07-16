@@ -5,14 +5,33 @@
 {% block conteudo %}
 
 <form action="{{ url_for('consulta.consultar') }}" method="post">
-    <!-- TIPO -->
-     <div class="tipo">
-    <label for="">Tipo</label>
-    <!-- <input type="radio" name="tipo"><label for="">Usuario</label> -->
-    <input type="radio" name="tipo" value="cp" checked><label for="">CP</label>
+    <div class="tipo">
+        <select name="tipo" onchange="Tipo_selecionado(this);">
+            <option value="usuario">USUARIO</option>
+            <option value="cp" selected>CP</option>
+        </select>
     </div>
-    <!-- FIM TIPO -->
     <br>
+    <select name="categoria-usuario" id="categoria-usuario" onchange="Categoria_usuario_selecionada(this)" hidden>
+       <option value="-" selected>TODOS OS USUÁRIOS</option>
+       <option value="login">LOGIN</option>
+       <option value="nome">NOME</option>
+       <option value="pelotao">PELOTÃO</option>
+       <option value="cia">CIA</option>
+    </select>
+    <select name="conduta" id="conduta">
+        <option value="-" selected>TODAS</option>
+        <option value="cpi">CPI</option>
+        <option value="cpa">CPA</option>
+    </select>
+    <select name="categoria-cp" id="categoria-cp" onchange="Categoria_cp_selecionada(this)">
+        <option value="-" selected>TODAS AS CP</option>
+        <option value="aluno">ALUNO</option>
+        <option value="comunicante">COMUNICANTE</option>
+        <option value="chefe de curso">CHEFE DE CURSO</option>
+        <option value="pelotao">PELOTÃO</option>
+        <option value="cia">CIA</option>
+    </select>
     <!-- USUARIO FUNÇÃO -->
     <!-- <div class="usuario-funcao">
     <label for="">Função</label>
@@ -26,53 +45,48 @@
     <input type="radio" name="funcao" id="" value="COMUNICANTE"><label for="">COMUNICANTE</label>
     </div> -->
     <!-- FIM USUARIO FUNÇÃO -->
-     <br>
+    <br>
     <!-- USUARIO NOME -->
-    <!-- <input type="text" name="nome" placeholder="Nome"> -->
+    <input type="text" name="nome" id="nome" placeholder="NOME" hidden>
+    <input type="text" name="login" id="login" placeholder="LOGIN" hidden>
     <!-- FIM USUARIO NOME -->
 
-    <label for="">Conduta:</label>
-      <input type="radio" name="conduta" id="" value="cpi"><label for="">CPI</label>
-      <input type="radio" name="conduta" id="" value="cpa"><label for="">CPA</label>
-    <label for="">Categoria:</label>
-      <input type="radio" name="categoria" id="" value="aluno"><label for="">ALUNO</label>
-      <input type="radio" name="categoria" id="" value="comunicante"><label for="">COMUNICANTE</label>
-      <input type="radio" name="categoria" id="" value="chefe de curso"><label for="">CHEFE DE CURSO</label>
-      <input type="radio" name="categoria" id="" value="pelotao"><label for="">PELOTÃO</label>
-      <input type="radio" name="categoria" id="" value="cia"><label for="">CIA</label>
-     <br>
-     <label for="">Usuario:</label>
-     <select class="enquadramento" name="aluno" id="comunicante">
+    <select class="enquadramento" name="aluno" id="aluno" hidden>
         <option value="" style="text-align: center;" selected disabled hidden>ALUNO</option>
-        {% for aluno in alunos %}  
-            <option value="{{ aluno.id }}">{{ aluno.grau_hierarquico }} {{ aluno.nome_de_guerra }}</option>
+        {% for aluno in alunos %}
+        <option value="{{ aluno.id }}">{{ aluno.grau_hierarquico }} {{ aluno.nome_de_guerra }}</option>
         {% endfor %}
     </select>
-     <select class="enquadramento" name="comunicante" id="comunicante">
+    <select class="enquadramento" name="comunicante" id="comunicante" hidden>
         <option value="" style="text-align: center;" selected disabled hidden>COMUNICANTE</option>
-        {% for comunicante in comunicantes %}  
-            <option value="{{ comunicante.id }}">{{ comunicante.grau_hierarquico }} {{ comunicante.nome_de_guerra }}</option>
+        {% for comunicante in comunicantes %}
+        <option value="{{ comunicante.id }}">{{ comunicante.grau_hierarquico }} {{ comunicante.nome_de_guerra }}
+        </option>
         {% endfor %}
     </select>
-     <select class="enquadramento" name="chefe_de_curso" id="comunicante">
+    <select class="enquadramento" name="chefe_de_curso" id="chefe de curso" hidden>
         <option value="" style="text-align: center;" selected disabled hidden>CHEFE DE CURSO</option>
-        {% for chefe in chefes %}  
-            <option value="{{ chefe.id }}">{{ chefe.grau_hierarquico }} {{ chefe.nome_de_guerra }}</option>
+        {% for chefe in chefes %}
+        <option value="{{ chefe.id }}">{{ chefe.grau_hierarquico }} {{ chefe.nome_de_guerra }}</option>
         {% endfor %}
     </select>
-    <input type="text" name="pelotao" placeholder="PELOTÃO">
-    <input type="text" name="cia" placeholder="CIA">
+    <input type="text" name="pelotao" placeholder="PELOTÃO" hidden id="pelotao">
+    <input type="text" name="cia" placeholder="CIA" hidden id="cia">
 
-     <!-- ORDENAR POR -->
-      <label for="">Ordenar por:</label>
-      <input type="radio" name="ordenar" id="" value="nota menor"><label for="">Menor Nota de conduta</label>
-      <input type="radio" name="ordenar" id="" value="nota maior"><label for="">Menor Nota de conduta</label>
+    <!-- ORDENAR POR -->
+    <select name="ordenar" id="ordenar" hidden>
+        <option value="nota menor">Menor Nota de Conduta</option>
+        <option value="nota maior">Maior Nota de Conduta</option>
+    </select>
 
-      <button type="submit"> ENVIAR </button>
+
+    <button type="submit"> ENVIAR </button>
 </form>
 
-<br><br><hr>
 <br><br>
+<hr>
+<br><br>
+{% if tipo == 'cp' %}
 <table style="display: table;">
     <thead>
         <tr>Protocolo</tr>
@@ -95,5 +109,58 @@
         {% endfor %}
     </tbody>
 </table>
+{% endif %}
+
+<script>
+    function Categoria_cp_selecionada(event) {
+        document.getElementById('aluno').style.display = 'none'
+        document.getElementById('comunicante').style.display = 'none'
+        document.getElementById('chefe de curso').style.display = 'none'
+        document.getElementById('pelotao').style.display = 'none'
+        document.getElementById('cia').style.display = 'none'
+        document.getElementById(event.value).style.display = 'block'
+    }
+
+    function Categoria_usuario_selecionada(event) {
+        document.getElementById('login').style.display = 'none'
+        document.getElementById('nome').style.display = 'none'
+        document.getElementById('pelotao').style.display = 'none'
+        document.getElementById('cia').style.display = 'none'
+        document.getElementById(event.value).style.display = 'block'
+    }
+    
+    function Tipo_selecionado(event) {
+        if (event.value == 'usuario') {
+            document.getElementById('categoria-cp').style.display = 'none'
+            document.getElementById('aluno').style.display = 'none'
+            document.getElementById('comunicante').style.display = 'none'
+            document.getElementById('chefe de curso').style.display = 'none'
+            document.getElementById('pelotao').style.display = 'none'
+            document.getElementById('cia').style.display = 'none'
+
+            document.getElementById('conduta').style.display = 'none'
+
+            document.getElementById('login').style.display = 'none'
+            document.getElementById('nome').style.display = 'none'
+            document.getElementById('categoria-usuario').style.display = 'block'
+        } else if (event.value == 'cp') {
+            document.getElementById('categoria-cp').style.display = 'block'
+
+            document.getElementById('conduta').style.display = 'block'
+
+            document.getElementById('categoria-usuario').style.display = 'none'
+
+            document.getElementById('aluno').style.display = 'none'
+            document.getElementById('comunicante').style.display = 'none'
+            document.getElementById('chefe de curso').style.display = 'none'
+            document.getElementById('pelotao').style.display = 'none'
+            document.getElementById('cia').style.display = 'none'
+
+            document.getElementById('login').style.display = 'none'
+            document.getElementById('nome').style.display = 'none'
+
+        }
+    }
+</script>
 
 {% endblock %}
