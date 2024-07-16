@@ -75,6 +75,7 @@
 
     <!-- ORDENAR POR -->
     <select name="ordenar" id="ordenar" hidden>
+        <option value="-" selected>ORDENAR</option>
         <option value="nota menor">Menor Nota de Conduta</option>
         <option value="nota maior">Maior Nota de Conduta</option>
     </select>
@@ -97,7 +98,7 @@
         <tr>Comunicante</tr>
     </thead>
     <tbody>
-        {% for cpi in cpis %}
+        {% for cpi in dados %}
         <tr>
             <td>{{ cpi.id }}</td>
             <td>{{ cpi.aluno.grau_hierarquico }} {{ cpi.aluno.nome_de_guerra }}</td>

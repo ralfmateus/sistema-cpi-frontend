@@ -68,7 +68,7 @@ def consultar():
         else:
             response = requests.get(f'http://127.0.0.1:8000/usuario/get_all')
         
-    cpis = response.json()
+    dados = response.json()
     
     if ordenar == 'nota maior':
         ...
@@ -81,4 +81,4 @@ def consultar():
     
     
     
-    return render_template('consulta.html', alunos=alunos, comunicantes=comunicantes, chefes=chefes, usuario=usuario, cpis=cpis, tipo=tipo, itens=30)
+    return render_template('consulta.html', alunos=alunos, comunicantes=comunicantes, chefes=chefes, usuario=usuario, dados=dados, tipo=tipo, itens=30)
