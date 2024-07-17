@@ -1,4 +1,5 @@
 from datetime import date
+from operator import itemgetter
 from flask import Blueprint, redirect, render_template, abort, request, url_for, session
 import requests
 from jinja2 import TemplateNotFound
@@ -42,6 +43,8 @@ def consultar():
     ordenar = request.form.get('ordenar')
     login = request.form.get('login')
     nome = request.form.get('nome')
+    curso = request.form.get('curso')
+    ano = request.form.get('ano')
     
     if tipo == 'cp':
         if categoria_cp == 'aluno':
@@ -61,21 +64,24 @@ def consultar():
             response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_login?login={login}')
         elif categoria_usuario == 'nome':
             response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_nome?nome={nome}')
-        # elif categoria_usuario == 'pelotao':
-            # response = requests.get(f'http://127.0.0.1:8000/usuario/consulta_pelotao?pelotao={pelotao}')
-        # elif categoria_usuario == 'cia':
-            # response = requests.get(f'http://127.0.0.1:8000/usuario/consulta_cia?cia={cia}')
+        elif categoria_usuario == 'pelotao':
+            tipo = 'aluno'
+            response = requests.get(f'http://127.0.0.1:8000/info/get_by_curso_ano_pelotao?curso={curso}&ano={ano}&pelotao={pelotao}')
+        elif categoria_usuario == 'cia':
+            tipo = 'aluno'
+            response = requests.get(f'http://127.0.0.1:8000/info/get_by_cia?cia={cia}')
         else:
             response = requests.get(f'http://127.0.0.1:8000/usuario/get_all')
         
     dados = response.json()
     
-    if ordenar == 'nota maior':
-        ...
-    elif ordenar == 'nota menor':
-        ...
-    else:
-        ...
+    if categoria_usuario == 'pelotao' or categoria_usuario == 'cia':
+        if ordenar == 'nota maior':
+            dados = sorted(dados, key=itemgetter('nota_conduta'))
+        elif ordenar == 'nota menor':
+            dados = sorted(dados, key=itemgetter('nota_conduta'), reverse=True)
+        else:
+            ...
     
     
     

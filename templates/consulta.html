@@ -7,20 +7,20 @@
 <form action="{{ url_for('consulta.consultar') }}" method="post">
     <div class="tipo">
         <select name="tipo" onchange="Tipo_selecionado(this);">
+            <option value="cp">CP</option>
             <option value="usuario">USUARIO</option>
-            <option value="cp" selected>CP</option>
         </select>
     </div>
     <br>
     <select name="categoria-usuario" id="categoria-usuario" onchange="Categoria_usuario_selecionada(this)" hidden>
-       <option value="-" selected>TODOS OS USUÁRIOS</option>
+       <option value="-">TODOS OS USUÁRIOS</option>
        <option value="login">LOGIN</option>
        <option value="nome">NOME</option>
        <option value="pelotao">PELOTÃO</option>
        <option value="cia">CIA</option>
     </select>
     <select name="conduta" id="conduta">
-        <option value="-" selected>TODAS</option>
+        <option value="-">TODAS</option>
         <option value="cpi">CPI</option>
         <option value="cpa">CPA</option>
     </select>
@@ -70,8 +70,30 @@
         <option value="{{ chefe.id }}">{{ chefe.grau_hierarquico }} {{ chefe.nome_de_guerra }}</option>
         {% endfor %}
     </select>
-    <input type="text" name="pelotao" placeholder="PELOTÃO" hidden id="pelotao">
-    <input type="text" name="cia" placeholder="CIA" hidden id="cia">
+    <div id="pelotao" hidden>
+        <select name="curso">
+            <option value="CFSD">CFSD</option>
+            <option value="CFO">CFO</option>
+            <option value="CHS">CHS</option>
+            <option value="CAS">CAS</option>
+            <option value="EAO">EAO</option>
+            <option value="CAO">CAO</option>
+        </select>
+        <input type="text" name="ano" placeholder="ANO" id="ano">
+        <input type="text" name="pelotao" placeholder="PELOTÃO">
+    </div>
+    <div id="cia" hidden>
+        <select name="curso">
+            <option value="CFSD">CFSD</option>
+            <option value="CFO">CFO</option>
+            <option value="CHS">CHS</option>
+            <option value="CAS">CAS</option>
+            <option value="EAO">EAO</option>
+            <option value="CAO">CAO</option>
+        </select>
+        <input type="text" name="ano" placeholder="ANO">
+        <input type="text" name="cia" placeholder="CIA">
+    </div>
 
     <!-- ORDENAR POR -->
     <select name="ordenar" id="ordenar" hidden>
@@ -111,6 +133,50 @@
     </tbody>
 </table>
 {% endif %}
+{% if tipo == 'aluno' %}
+<table style="display: table;">
+    <thead>
+        <tr>ID</tr>
+        <tr>Nome</tr>
+        <tr>Curso</tr>
+        <tr>Ano</tr>
+        <tr>Cia</tr>
+        <tr>Pelotão</tr>
+        <tr>Nota de Conduta</tr>
+    </thead>
+    <tbody>
+        {% for info in dados %}
+        <tr>
+            <td>{{ info.usuario.id }}</td>
+            <td>{{ info.usuario.grau_hierarquico }} {{ info.usuario.nome_de_guerra }}</td>
+            <td>{{ info.curso }}</td>
+            <td>{{ info.ano }}</td>
+            <td>{{ info.cia }} CIA</td>
+            <td>{{ info.pelotao }} PEL</td>
+            <td>{{ info.nota_conduta }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% if tipo == 'usuario' %}
+<table style="display: table;">
+    <thead>
+        <tr>ID</tr>
+        <tr>Nome</tr>
+        <tr>Função</tr>
+    </thead>
+    <tbody>
+        {% for usuario in dados %}
+        <tr>
+            <td>{{ usuario.id }}</td>
+            <td>{{ usuario.grau_hierarquico }} {{ usuario.nome_de_guerra }}</td>
+            <td>{{ usuario.funcao }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
 
 <script>
     function Categoria_cp_selecionada(event) {
@@ -127,6 +193,10 @@
         document.getElementById('nome').style.display = 'none'
         document.getElementById('pelotao').style.display = 'none'
         document.getElementById('cia').style.display = 'none'
+        document.getElementById('ordenar').style.display = 'none'
+        if (event.value == 'pelotao' || event.value == 'cia') {
+            document.getElementById('ordenar').style.display = 'block'
+        }
         document.getElementById(event.value).style.display = 'block'
     }
     
@@ -156,6 +226,7 @@
             document.getElementById('chefe de curso').style.display = 'none'
             document.getElementById('pelotao').style.display = 'none'
             document.getElementById('cia').style.display = 'none'
+            document.getElementById('ordenar').style.display = 'none'
 
             document.getElementById('login').style.display = 'none'
             document.getElementById('nome').style.display = 'none'
