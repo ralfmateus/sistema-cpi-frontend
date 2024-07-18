@@ -10,14 +10,18 @@ usuario = Blueprint('usuario', __name__, url_prefix='/usuario')
 
 @usuario.route('/adicionar', methods=['GET', 'POST'])
 def adicionar_usuario():
-    # if not session.get('usuario'):
-    #     return redirect(url_for('usuario.login'))
+    if not session.get('token'):
+        return redirect(url_for('usuario.login'))
     
-    # response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={session["usuario"]}')
-    # if not response:
-    #     return redirect(url_for('usuario.home', erro=1))
+    headers = {'Authorization': f'Bearer {session["token"]}'}
     
-    # info = response.json()
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_usuario', headers=headers)
+    
+    if not response:
+        del session['token']
+        return redirect(url_for('usuario.login', erro=1))
+    
+    usuario = response.json()['__data__']
     
     if request.method == 'GET':
         return render_template('adicionar_usuario.html')
@@ -31,7 +35,7 @@ def adicionar_usuario():
             "grau_hierarquico": request.form.get('grau_hierarquico')
         }
         
-        response = requests.post('http://127.0.0.1:8000/usuario/create', json=usuario)
+        response = requests.post('http://127.0.0.1:8000/usuario/create', json=usuario, headers=headers)
         
         
         if response.status_code == 200:
@@ -47,7 +51,7 @@ def adicionar_usuario():
                     "nota_conduta": 10,
                     "usuario": usuario['id']
                 }
-                response = requests.post('http://127.0.0.1:8000/info/create', json=info)
+                response = requests.post('http://127.0.0.1:8000/info/create', json=info, headers=headers)
                 
             elif usuario['funcao'] ==  'CHEFE DE CURSO':
                 info = {
@@ -58,7 +62,7 @@ def adicionar_usuario():
                     "usuario": usuario['id']
                 }
                 
-                response = requests.post('http://127.0.0.1:8000/info/create', json=info)
+                response = requests.post('http://127.0.0.1:8000/info/create', json=info, headers=headers)
                 
             elif usuario['funcao'] == 'COMANDANTE DE CIA':
                 info = {
@@ -69,7 +73,7 @@ def adicionar_usuario():
                     "usuario": usuario['id']
                 }
             
-                response = requests.post('http://127.0.0.1:8000/info/create', json=info)
+                response = requests.post('http://127.0.0.1:8000/info/create', json=info, headers=headers)
             
             return redirect(url_for('usuario.adicionar_usuario'))
         
@@ -84,15 +88,15 @@ def login():
         return render_template('login.html')
     else:
         data = {
-            "login": request.form.get('login'),
-            "senha": request.form.get('senha'),
+            "username": request.form.get('login'),
+            "password": request.form.get('senha'),
         }
         
-        response = requests.post('http://127.0.0.1:8000/usuario/login', json=data)
+        response = requests.post('http://127.0.0.1:8000/usuario/token', data=data)
 
         if response.status_code == 200:
-            usuario = response.json()
-            session['usuario'] = usuario['id']
+            token = response.json()['access_token']
+            session['token'] = token
             
             return redirect(url_for('usuario.home'))
         
@@ -101,16 +105,18 @@ def login():
 
 @usuario.route('/home')
 def home():
-    if not session.get('usuario'):
+    if not session.get('token'):
         return redirect(url_for('usuario.login'))
     
-    response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_id?id={session["usuario"]}')
+    headers = {'Authorization': f'Bearer {session["token"]}'}
+    
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_usuario', headers=headers)
     
     if not response:
-        del session['usuario']
+        del session['token']
         return redirect(url_for('usuario.login', erro=1))
     
-    usuario = response.json()
+    usuario = response.json()['__data__']
     
     if usuario['funcao'] == 'ALUNO':
         return redirect(url_for('usuario.cpis_aluno'))
@@ -131,33 +137,33 @@ def home():
 
 @usuario.route('/logout', methods=['GET'])
 def logout():
-    del session['usuario']
+    del session['token']
     return redirect(url_for('usuario.login'))
 
 
 @usuario.route('/cpis_aluno', methods=['GET'])
 def cpis_aluno():
-    # if not verificar_funcao('ALUNO') and not verificar_funcao('JUSTICA'):
-    #     return redirect(url_for('usuario.home'))
-    if not verificar_funcao('-'):
-        return redirect(url_for('usuario.home'))
+    if not session.get('token'):
+        return redirect(url_for('usuario.login'))
     
-    response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_id?id={session["usuario"]}')
+    headers = {'Authorization': f'Bearer {session["token"]}'}
+    
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_usuario', headers=headers)
     
     if not response:
-        del session['usuario']
+        del session['token']
         return redirect(url_for('usuario.login', erro=1))
     
-    usuario = response.json()
+    usuario = response.json()['__data__']
     
-    response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={session["usuario"]}')
+    response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={usuario["id"]}', headers=headers)
     if not response:
         return redirect(url_for('usuario.home', erro=1))
     
     info = response.json()
     
 
-    response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_aluno?usuario_id={session["usuario"]}')
+    response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_aluno?usuario_id={usuario["id"]}', headers=headers)
     
     protocolo = request.args.get('protocolo')
     if not protocolo:
@@ -183,18 +189,21 @@ def cpis_aluno():
 
 
 @usuario.route('/cpis_comunicante', methods=['GET'])
-def cpis_comunicante():
-    verificar_funcao('-')
+def cpis_comunicante():    
+    if not session.get('token'):
+        return redirect(url_for('usuario.login'))
     
-    response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_id?id={session["usuario"]}')
+    headers = {'Authorization': f'Bearer {session["token"]}'}
+    
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_usuario', headers=headers)
     
     if not response:
-        del session['usuario']
+        del session['token']
         return redirect(url_for('usuario.login', erro=1))
     
-    usuario = response.json()
+    usuario = response.json()['__data__']
 
-    response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_comunicante?usuario_id={session["usuario"]}')
+    response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_comunicante?usuario_id={usuario["id"]   }', headers=headers)
     
     protocolo = request.args.get('protocolo')
     if not protocolo:
@@ -221,20 +230,22 @@ def cpis_comunicante():
 
 @usuario.route('/cpis_chefe_de_curso', methods=['GET'])
 def cpis_chefe_de_curso():
-    # if not verificar_funcao('CHEFE DE CURSO'):
-    #     return redirect(url_for('usuario.home'))
-    if not verificar_funcao('-'):
-        return redirect(url_for('usuario.home'))
+    if not session.get('token'):
+        return redirect(url_for('usuario.login'))
     
-    response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_id?id={session["usuario"]}')
+    headers = {'Authorization': f'Bearer {session["token"]}'}
+    
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_usuario', headers=headers)
     
     if not response:
-        del session['usuario']
+        del session['token']
         return redirect(url_for('usuario.login', erro=1))
+    
+    usuario = response.json()['__data__']
     
     usuario = response.json()
 
-    response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_chefe_de_curso?usuario_id={session["usuario"]}')
+    response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_chefe_de_curso?usuario_id={session["usuario"]}', headers=headers)
     
     protocolo = request.args.get('protocolo')
     if not protocolo:
@@ -254,7 +265,7 @@ def cpis_chefe_de_curso():
                         'cpi_id': cpi['id']
                     }
                     
-                    response = requests.get(f'http://127.0.0.1:8000/defesa/get_by_cpi', params=params)
+                    response = requests.get(f'http://127.0.0.1:8000/defesa/get_by_cpi', params=params, headers=headers)
                     if response:
                         defesa = response.json()
                         return render_template('parecer.html', cpi=cpi, defesa=defesa)
@@ -271,20 +282,20 @@ def cpis_chefe_de_curso():
 
 @usuario.route('/cpis_cmd_cia', methods=['GET'])
 def cpis_cmd_cia():
-    # if not verificar_funcao('COMANDANTE DE CIA'):
-    #     return redirect(url_for('usuario.home'))
-    if not verificar_funcao('-'):
-        return redirect(url_for('usuario.home'))
+    if not session.get('token'):
+        return redirect(url_for('usuario.login'))
     
-    response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_id?id={session["usuario"]}')
+    headers = {'Authorization': f'Bearer {session["token"]}'}
+    
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_usuario', headers=headers)
     
     if not response:
-        del session['usuario']
+        del session['token']
         return redirect(url_for('usuario.login', erro=1))
     
-    usuario = response.json()
+    usuario = response.json()['__data__']
 
-    response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_cmd_cia?usuario_id={session["usuario"]}')
+    response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_cmd_cia?usuario_id={session["usuario"]}', headers=headers)
     
     protocolo = request.args.get('protocolo')
     if not protocolo:
@@ -304,7 +315,7 @@ def cpis_cmd_cia():
                         'cpi_id': cpi['id']
                     }
                     
-                    response = requests.get(f'http://127.0.0.1:8000/defesa/get_by_cpi', params=params)
+                    response = requests.get(f'http://127.0.0.1:8000/defesa/get_by_cpi', params=params, headers=headers)
                     if response:
                         defesa = response.json()
                         return render_template('parecer_cmd_cia.html', cpi=cpi, defesa=defesa)
@@ -322,25 +333,20 @@ def cpis_cmd_cia():
 
 @usuario.route('/cpis_comandante', methods=['GET'])
 def cpis_comandante():
-    # if not verificar_funcao('COMANDANTE'):
-    #     return redirect(url_for('usuario.home'))
-    if not verificar_funcao('-'):
-        return redirect(url_for('usuario.home'))
+    if not session.get('token'):
+        return redirect(url_for('usuario.login'))
     
-    # response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={session["usuario"]}')
-    # if not response:
-    #     return redirect(url_for('usuario.home', erro=1))
+    headers = {'Authorization': f'Bearer {session["token"]}'}
     
-    # info = response.json()
-    response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_id?id={session["usuario"]}')
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_usuario', headers=headers)
     
     if not response:
-        del session['usuario']
+        del session['token']
         return redirect(url_for('usuario.login', erro=1))
     
-    usuario = response.json()
+    usuario = response.json()['__data__']
     
-    response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_comandante?usuario_id={session["usuario"]}')
+    response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_comandante?usuario_id={usuario["id"]}', headers=headers)
     
     protocolo = request.args.get('protocolo')
     if not protocolo:
@@ -356,13 +362,13 @@ def cpis_comandante():
             cpis = response.json()
             for cpi in cpis:
                 if cpi['id'] == int(protocolo):
-                    response = requests.get(f'http://127.0.0.1:8000/defesa/get_by_cpi', params={'cpi_id': cpi['id']})
+                    response = requests.get(f'http://127.0.0.1:8000/defesa/get_by_cpi', params={'cpi_id': cpi['id']}, headers=headers)
                     if response:
                         defesa = response.json()
                     else:
                         defesa = None
                         
-                    response = requests.get(f'http://127.0.0.1:8000/parecer_cmd_cia/get_by_cpi', params={'cpi_id': cpi['id']})
+                    response = requests.get(f'http://127.0.0.1:8000/parecer_cmd_cia/get_by_cpi', params={'cpi_id': cpi['id']}, headers=headers)
                     if response:
                         parecer_cmd_cia = response.json()
                     else:
@@ -385,12 +391,20 @@ def cpis_comandante():
 
 @usuario.route('/defesa', methods=['POST'])
 def defesa():
-    # if not verificar_funcao('ALUNO') and not verificar_funcao('JUSTICA'):
-    #     return redirect(url_for('usuario.home'))
-    if not verificar_funcao('-'):
-        return redirect(url_for('usuario.home'))
+    if not session.get('token'):
+        return redirect(url_for('usuario.login'))
     
-    response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={session["usuario"]}')
+    headers = {'Authorization': f'Bearer {session["token"]}'}
+    
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_usuario', headers=headers)
+    
+    if not response:
+        del session['token']
+        return redirect(url_for('usuario.login', erro=1))
+    
+    usuario = response.json()['__data__']
+    
+    response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={usuario["id"]}', headers=headers)
     if not response:
         return redirect(url_for('usuario.home', erro=1))
     
@@ -405,7 +419,7 @@ def defesa():
         'cpi_id': protocolo
     }
     
-    response = requests.get(f'http://127.0.0.1:8000/defesa/get_by_cpi', params=params)
+    response = requests.get(f'http://127.0.0.1:8000/defesa/get_by_cpi', params=params, headers=headers)
     
     id = response.json()['id']
     
@@ -430,14 +444,25 @@ def defesa():
 
         }
     
-    response = requests.put(f'http://127.0.0.1:8000/defesa/update_defesa', json=json)
+    response = requests.put(f'http://127.0.0.1:8000/defesa/update_defesa', json=json, headers=headers)
     
     return redirect(url_for('usuario.home'))
 
 
 @usuario.route('/ciente_comunicante', methods=['POST'])
 def ciente_comunicante():
-    verificar_funcao('-')
+    if not session.get('token'):
+        return redirect(url_for('usuario.login'))
+    
+    headers = {'Authorization': f'Bearer {session["token"]}'}
+    
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_usuario', headers=headers)
+    
+    if not response:
+        del session['token']
+        return redirect(url_for('usuario.login', erro=1))
+    
+    usuario = response.json()['__data__']
     
     ciente = request.form.get('ciente')
     ciente = True if ciente == 'True' else False
@@ -458,7 +483,7 @@ def ciente_comunicante():
             'status': 10,
         }
             
-    response = requests.put(f'http://127.0.0.1:8000/cpi/update_cpi', json=json)
+    response = requests.put(f'http://127.0.0.1:8000/cpi/update_cpi', json=json, headers=headers)
     return redirect(url_for('usuario.home'))
 
 
@@ -466,6 +491,8 @@ def ciente_comunicante():
 def parecer():
     if not session.get('usuario'):
         return redirect(url_for('usuario.login'))
+    
+    headers = {'Authorization': f'Bearer {session["token"]}'}
     
     sugestao = request.form.get('sugestao')
     justificativa = request.form.get('justificativa') if request.form.get('justificativa') else ''
@@ -482,14 +509,24 @@ def parecer():
         'ass': True,
     }
     
-    response = requests.post(f'http://127.0.0.1:8000/parecer/create', json=json)
+    response = requests.post(f'http://127.0.0.1:8000/parecer/create', json=json, headers=headers)
     return redirect(url_for('usuario.home'))
 
 
 @usuario.route('/parecer_cmd_cia', methods=['POST'])
 def parecer_cmd_cia():
-    if not session.get('usuario'):
+    if not session.get('token'):
         return redirect(url_for('usuario.login'))
+    
+    headers = {'Authorization': f'Bearer {session["token"]}'}
+    
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_usuario', headers=headers)
+    
+    if not response:
+        del session['token']
+        return redirect(url_for('usuario.login', erro=1))
+    
+    usuario = response.json()['__data__']
     
     sugestao = request.form.get('sugestao')
     justificativa = request.form.get('justificativa') if request.form.get('justificativa') else ''
@@ -506,16 +543,25 @@ def parecer_cmd_cia():
         'cpi': int(id),
     }
     
-    print(json)
     
-    response = requests.post(f'http://127.0.0.1:8000/parecer_cmd_cia/create', json=json)
+    response = requests.post(f'http://127.0.0.1:8000/parecer_cmd_cia/create', json=json, headers=headers)
     return redirect(url_for('usuario.home'))
 
 
 @usuario.route('/decisao', methods=['POST'])
 def decisao():
-    if not session.get('usuario'):
+    if not session.get('token'):
         return redirect(url_for('usuario.login'))
+    
+    headers = {'Authorization': f'Bearer {session["token"]}'}
+    
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_usuario', headers=headers)
+    
+    if not response:
+        del session['token']
+        return redirect(url_for('usuario.login', erro=1))
+    
+    usuario = response.json()['__data__']
     
     decisao = request.form.get('decisao')
     justificativa = request.form.get('justificativa') if request.form.get('justificativa') else ''
@@ -537,22 +583,38 @@ def decisao():
         'cpi': id,
     }
     
-    response = requests.post(f'http://127.0.0.1:8000/decisao/create', json=json)
+    response = requests.post(f'http://127.0.0.1:8000/decisao/create', json=json, headers=headers)
     return redirect(url_for('usuario.home'))
     
-
-def verificar_funcao(funcao):
-    if not session.get('usuario'):
-        return redirect(url_for('usuario.login'))
-
-    response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={session["usuario"]}')
-    if not response:
-        return redirect(url_for('usuario.home', erro=1))
     
+@usuario.route('/perfil')
+def perfil():
+    if not session.get('token'):
+        return redirect(url_for('usuario.login'))
+    
+    headers = {'Authorization': f'Bearer {session["token"]}'}
+    
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_usuario', headers=headers)
+    
+    if not response:
+        del session['token']
+        return redirect(url_for('usuario.login', erro=1))
+    
+    usuario = response.json()['__data__']
+    
+    id = request.args.get('usuario', type=int)
+    response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={id}', headers=headers)
+    
+    if not response:
+        return redirect(url_for('consulta.consultar'))
+            
     info = response.json()
     
-    if funcao == '-':
-        return True
-    elif info['usuario']['funcao'] == funcao:
-        return True
-    return False
+    response = requests.get(f'http://127.0.0.1:8000/cpi/consulta_all_aluno?usuario_id={id}', headers=headers)
+    cpis = response.json()
+
+    infos = [info, cpis]
+    
+    return infos
+
+

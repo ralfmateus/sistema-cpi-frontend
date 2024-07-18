@@ -45,6 +45,7 @@ def consultar():
     nome = request.form.get('nome')
     curso = request.form.get('curso')
     ano = request.form.get('ano')
+    status = request.form.get('status')
     
     if tipo == 'cp':
         if categoria_cp == 'aluno':
@@ -75,7 +76,7 @@ def consultar():
         
     dados = response.json()
     
-    if categoria_usuario == 'pelotao' or categoria_usuario == 'cia':
+    if (categoria_usuario == 'pelotao' or categoria_usuario == 'cia') and tipo == 'usuario':
         if ordenar == 'nota maior':
             dados = sorted(dados, key=itemgetter('nota_conduta'))
         elif ordenar == 'nota menor':
@@ -83,7 +84,13 @@ def consultar():
         else:
             ...
     
-    
+    if tipo == 'cp':
+        cpis = list()
+        if status != '-':
+            for cpi in dados:
+                if cpi['status'] == int(status):
+                    cpis.append(cpi)
+            dados = cpis
     
     
     

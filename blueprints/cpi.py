@@ -4,7 +4,7 @@ import requests
 from jinja2 import TemplateNotFound
 
 from blueprints.artigo import ARTIGOS
-from blueprints.usuario import verificar_funcao
+# from blueprints.usuario import verificar_funcao
 
 cpi = Blueprint('cpi', __name__, url_prefix='/cpi')
 
@@ -13,8 +13,8 @@ cpi = Blueprint('cpi', __name__, url_prefix='/cpi')
 def adicionar_cpi():
     # if not verificar_funcao('JUSTICA') and not verificar_funcao('COMANDANTE DA ESFAP') and not verificar_funcao('COMANDANTE DA ESFO'):
     #     return redirect(url_for('usuario.home'))
-    if not verificar_funcao('-'):
-        return redirect(url_for('usuario.home'))
+    # if not verificar_funcao('-'):
+    #     return redirect(url_for('usuario.home'))
     
     # response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={session["usuario"]}')
     # if not response:
