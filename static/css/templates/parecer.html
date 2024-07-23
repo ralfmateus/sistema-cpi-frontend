@@ -1,0 +1,46 @@
+{% extends 'base2.html' %}
+
+{% block conteudo %}
+
+        <!-- ---------------- DEFESA DO ALUNO ----------------------- -->
+        <table class="border-full">
+            <thead>
+                <tr>
+                    <td scope="col" style="width: 100%;">DEFESA DO ALUNO</td>    
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td scope="col" style="width: 100%;">{{ defesa.defesa }}</td>    
+                </tr>
+            </tbody>
+        </table>
+        <!-- -------------------FIM DEFESA DO ALUNO  -->
+        
+        <form method="post" action="{{ url_for('usuario.parecer') }}?protocolo={{ cpi.id }}">
+            
+            
+            <!-- SELEÇÃO DE DEFESA OU JUSTIFICATICA    -->
+            Sugiro:
+            <table style="background-color: white;" class="border-full">
+                <thead>
+                    <tr style="width: 10%;">
+                        <td scope="col" class="selecao"><input type="radio" name="sugestao" value="PUNICAO">PUNIÇÃO</td>
+                        <td scope="col" class="selecao"><input type="radio" name="sugestao" value="ARQUIVAMENTO">ARQUIVAMENTO</td>
+                    </tr>
+                    <tr>
+                        <td scope="col" class="selecao" style="width: 5%;"><input type="radio" name="sugestao" value="HOMOLOGACAO">HOMOLOGAÇÃO</td>
+                        <td scope="col" class="selecao" style="width: 5%;"><input type="radio" name="sugestao" value="REENQUADRAMENTO">REENQUADRAMENTO</td>
+                    </tr>
+                </thead>
+            </table>
+            <!-- FIM SELEÇÃO DE DEFESA OU JUSTIFICATICA -->
+            
+            
+            {% include 'justificativa.html' %}
+        
+        
+        </form>
+
+    </div>   
+{% endblock %}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADICIONAR USUÁRIO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="../static/js/sse.js"></script>
+    <link rel="stylesheet" href="../static/css/adicionar_style.css">
+</head>
+<body>
+    <div class="home"> 
+    <div class="criar_usuario">
+        <div style="align-items: center; display: flex; justify-content: center; " >
+            <img src="../static/img/brasoes.png" width="100%" height="100%" alt="DEU RUIM">
+        </div>
+        
+        <div>
+            <h1>DIVISÃO ACADÊMICA</h1>
+        </div>
+        <div style="align-items: center; display: flex; justify-content: center; " >
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+              </svg>
+            <h1>Criar Usuário</h1>
+        </div>
+    
+    
+        <!-- --------------------------------------- ADD INFORMAÇÕES NOVO USUARIO --------------------------- -->
+            
+
+            
+            <form method="post" action="{{ url_for('usuario.adicionar_usuario') }}">
+                <select class="select" name="grau_hierarquico" required="required">
+                    <option value="CIVIL" style="text-align: center;" disabled hidden selected>-POSTO/GRADUAÇÃO-</option>
+                    <option value="CEL">CORONEL</option>
+                        <option value="TEN CEL">TENENTE CORONEL</option>
+                        <option value="MAJOR">MAJOR</option>
+                        <option value="CAPITÃO">CAPITÃO</option>
+                        <option value="1° TEN">1º TENENTE</option>
+                        <option value="2° TEN">2º TENENTE</option>
+                        <option value="ASPIRANTE A OFICIAL">ASPIRANTE OFICIAL</option>
+                        <option value="AL OF">ALUNO OFICIAL</option>
+                        <option value="SUBT">SUB TENENTE</option>
+                        <option value="1° SGT">1º SARGENTO</option>
+                        <option value="2° SGT">2º SARGENTO</option>
+                        <option value="3° SGT">3º SARGENTO</option>
+                        <option value="AL SGT">ALUNO SARGENTO</option>
+                        <option value="CABO">CABO</option>
+                        <option value="SD">SOLDADO</option>
+                        <option value="AL SD">ALUNO SOLDADO</option>
+                        <option value="CIVIL">CIVIL</option>
+                </select>
+                <br><br>
+                <select class="select" name="funcao" required="required">
+                    <option value="COMUNICANTE" style="text-align: center;" selected hidden disabled>FUNÇÃO</option>
+                    <option value="CHEFE DE CURSO">Chefe de Curso</option>
+                    <option value="COMANDANTE DA ESFAP">Comandante da EsFAP</option>
+                    <option value="COMANDANTE DA ESFO">Comandante da EsFO</option>
+                    <option value="COMANDANTE DE CIA">Comandante de Cia</option>
+                    <option value="ALUNO">Aluno</option>
+                    <option value="COMUNICANTE">Comunicante</option>
+                    <option value="JUSTICA">Justiça e Disciplina</option>   
+                </select>
+                <br><br>
+                <div class="geral">
+                    <select class="bloco" name="curso">
+                        <option value="" style="text-align: center;" selected hidden disabled>CURSO</option>
+                        <option value="CFSD">CFSD</option>
+                        <option value="CFO">CFO</option>
+                        <option value="CHS">CHS</option>
+                        <option value="CAS">CAS</option>
+                        <option value="EAO">EAO</option>
+                        <option value="CAO">CAO</option>
+                    </select>
+
+                    <input class="bloco-duplo" type="text" name="ano" placeholder="Ano"/>
+                </div>
+                <br>
+                <div class="geral" >
+                    <input  class="bloco_maior" type="text" name="nome" placeholder="Nome Completo" required="required"/>    
+                </div>
+                <br>
+                <div class="geral">
+                    <input class="bloco-duplo" type="text" name="nome_de_guerra" placeholder="Nome de Guerra" required="required"/>
+                    <input class="bloco-duplo" type="text" name="numero" placeholder="Número"/>
+                </div>
+                <br>
+            
+                <div class="geral" >
+                    <input class="bloco-duplo"type="text" name="pelotao" placeholder="Pelotão"/>
+                    <input class="bloco-duplo" type="text" name="cia" placeholder="Cia"/>
+                </div>
+                <br>
+                <div class="geral" >
+                    <input class="bloco_maior" type="text" name="login" placeholder="Login" required="required" />
+                </div>
+                <br>
+                <div class="geral">
+                    <input class="bloco_maior"type="password" name="senha" placeholder="Senha" required="required" />
+                </div>
+
+                
+                <br><br>
+                
+                <div class="btns-action">
+                    <a href="{{ url_for('usuario.home') }}" style="text-decoration: none;"></a><button>VOLTAR</button></a>
+                    <button type="submit" class="btn btn-primary btn-block btn-large">ADICIONAR</button>
+                </div>
+            
+            </form>
+    
+        </div>           
+        <!-- -------------------------------- FINAL ADD INFORMAÇÕES NOVO USUARIO -------------------------------------------------- -->
+        
+    </div>
+</body>
+</html>
