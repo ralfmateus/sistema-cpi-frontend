@@ -11,18 +11,20 @@ cpi = Blueprint('cpi', __name__, url_prefix='/cpi')
 
 @cpi.route('/adicionar', methods=['GET', 'POST'])
 def adicionar_cpi():
-    # if not verificar_funcao('JUSTICA') and not verificar_funcao('COMANDANTE DA ESFAP') and not verificar_funcao('COMANDANTE DA ESFO'):
-    #     return redirect(url_for('usuario.home'))
-    # if not verificar_funcao('-'):
-    #     return redirect(url_for('usuario.home'))
+    if not session.get('token'):
+        return redirect(url_for('usuario.login'))
     
-    # response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={session["usuario"]}')
-    # if not response:
-    #     return redirect(url_for('usuario.home', erro=1))
+    headers = {'Authorization': f'Bearer {session["token"]}'}
     
-    # info = response.json()
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_usuario', headers=headers)
     
-    response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_id?id={session["usuario"]}')
+    if not response:
+        del session['token']
+        return redirect(url_for('usuario.login', erro=1))
+    
+    usuario = response.json()['__data__']
+    
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_id?id={usuario["id"]}', headers=headers)
     
     if not response:
         del session['usuario']
@@ -31,7 +33,7 @@ def adicionar_cpi():
     usuario = response.json()
     
     
-    response = requests.get('http://127.0.0.1:8000/usuario/get_all')
+    response = requests.get('http://127.0.0.1:8000/usuario/get_all', headers=headers)
     comunicantes = response.json()
     
     if request.method == 'GET':
@@ -54,7 +56,7 @@ def adicionar_cpi():
             'ano': ano,
         }
     
-        response = requests.get('http://127.0.0.1:8000/info/get_by_numero_curso_ano', params=params)
+        response = requests.get('http://127.0.0.1:8000/info/get_by_numero_curso_ano', params=params, headers=headers)
         
         info = response.json()
         
@@ -71,7 +73,7 @@ def adicionar_cpi():
             "observacoes": request.form.get('observacoes'),
         }
                 
-        response = requests.post('http://127.0.0.1:8000/cpi/create', json=cpi)
+        response = requests.post('http://127.0.0.1:8000/cpi/create', json=cpi, headers=headers)
         
         
         if request.form.get('submit') == 'novo':

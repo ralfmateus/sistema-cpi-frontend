@@ -11,15 +11,20 @@ consulta = Blueprint('consulta', __name__, url_prefix='/consulta')
 
 @consulta.route('/consultar', methods=['GET', 'POST'])
 def consultar():
-    response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_id?id={session["usuario"]}')
+    if not session.get('token'):
+        return redirect(url_for('usuario.login'))
+    
+    headers = {'Authorization': f'Bearer {session["token"]}'}
+    
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_usuario', headers=headers)
     
     if not response:
-        del session['usuario']
+        del session['token']
         return redirect(url_for('usuario.login', erro=1))
     
-    usuario = response.json()
+    usuario = response.json()['__data__']
     
-    usuarios = requests.get(f'http://127.0.0.1:8000/usuario/get_all').json()
+    usuarios = requests.get(f'http://127.0.0.1:8000/usuario/get_all', headers=headers).json()
     alunos = filter(lambda usuario: usuario['funcao'] == 'ALUNO' or usuario['funcao'] == 'JUSTICA', usuarios)
     chefes = filter(lambda usuarios: usuarios['funcao'] == 'CHEFE DE CURSO', usuarios)
     

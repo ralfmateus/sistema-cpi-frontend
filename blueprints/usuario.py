@@ -203,7 +203,7 @@ def cpis_comunicante():
     
     usuario = response.json()['__data__']
 
-    response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_comunicante?usuario_id={usuario["id"]   }', headers=headers)
+    response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_comunicante?usuario_id={usuario["id"]}', headers=headers)
     
     protocolo = request.args.get('protocolo')
     if not protocolo:
@@ -245,7 +245,7 @@ def cpis_chefe_de_curso():
     
     usuario = response.json()
 
-    response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_chefe_de_curso?usuario_id={session["usuario"]}', headers=headers)
+    response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_chefe_de_curso?usuario_id={usuario["id"]}', headers=headers)
     
     protocolo = request.args.get('protocolo')
     if not protocolo:
@@ -295,7 +295,7 @@ def cpis_cmd_cia():
     
     usuario = response.json()['__data__']
 
-    response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_cmd_cia?usuario_id={session["usuario"]}', headers=headers)
+    response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_cmd_cia?usuario_id={usuario["id"]}', headers=headers)
     
     protocolo = request.args.get('protocolo')
     if not protocolo:
