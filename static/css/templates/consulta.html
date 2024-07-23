@@ -1,0 +1,238 @@
+{% extends 'base3.html' %}
+
+{% block titulo %} Consulta {% endblock %}
+
+{% block conteudo %}
+
+<form action="{{ url_for('consulta.consultar') }}" method="post">
+    <div class="tipo">
+        <select name="tipo" onchange="Tipo_selecionado(this);">
+            <option value="cp">CP</option>
+            <option value="usuario">USUARIO</option>
+        </select>
+    </div>
+    <br>
+    <select name="categoria-usuario" id="categoria-usuario" onchange="Categoria_usuario_selecionada(this)" hidden>
+       <option value="-">TODOS OS USUÁRIOS</option>
+       <option value="login">LOGIN</option>
+       <option value="nome">NOME</option>
+       <option value="pelotao">PELOTÃO</option>
+       <option value="cia">CIA</option>
+    </select>
+    <select name="conduta" id="conduta">
+        <option value="-">TODAS</option>
+        <option value="cpi">CPI</option>
+        <option value="cpa">CPA</option>
+    </select>
+    <select name="categoria-cp" id="categoria-cp" onchange="Categoria_cp_selecionada(this)">
+        <option value="-" selected>TODAS AS CP</option>
+        <option value="aluno">ALUNO</option>
+        <option value="comunicante">COMUNICANTE</option>
+        <option value="chefe de curso">CHEFE DE CURSO</option>
+        <option value="pelotao">PELOTÃO</option>
+        <option value="cia">CIA</option>
+    </select>
+    <!-- USUARIO FUNÇÃO -->
+    <!-- <div class="usuario-funcao">
+    <label for="">Função</label>
+    <input type="radio" name="funcao" id="" value="-"><label for="">TODAS</label>
+    <input type="radio" name="funcao" id="" value="ALUNO"><label for="">ALUNO</label>
+    <input type="radio" name="funcao" id="" value="JUSTICA"><label for="">JUSTIÇA E DISCIPLINA</label>
+    <input type="radio" name="funcao" id="" value="CHEFE DE CURSO"><label for="">CHEFE DE CURSO</label>
+    <input type="radio" name="funcao" id="" value="COMANDANTE DE CIA"><label for="">COMANDANTE DE CIA</label>
+    <input type="radio" name="funcao" id="" value="COMANDANTE DA ESFAP"><label for="">COMANDANTE DA ESFAP</label>
+    <input type="radio" name="funcao" id="" value="COMANDANTE DA ESFO"><label for="">COMANDANTE DA ESFO</label>
+    <input type="radio" name="funcao" id="" value="COMUNICANTE"><label for="">COMUNICANTE</label>
+    </div> -->
+    <!-- FIM USUARIO FUNÇÃO -->
+    <br>
+    <!-- USUARIO NOME -->
+    <input type="text" name="nome" id="nome" placeholder="NOME" hidden>
+    <input type="text" name="login" id="login" placeholder="LOGIN" hidden>
+    <!-- FIM USUARIO NOME -->
+
+    <select class="enquadramento" name="aluno" id="aluno" hidden>
+        <option value="" style="text-align: center;" selected disabled hidden>ALUNO</option>
+        {% for aluno in alunos %}
+        <option value="{{ aluno.id }}">{{ aluno.grau_hierarquico }} {{ aluno.nome_de_guerra }}</option>
+        {% endfor %}
+    </select>
+    <select class="enquadramento" name="comunicante" id="comunicante" hidden>
+        <option value="" style="text-align: center;" selected disabled hidden>COMUNICANTE</option>
+        {% for comunicante in comunicantes %}
+        <option value="{{ comunicante.id }}">{{ comunicante.grau_hierarquico }} {{ comunicante.nome_de_guerra }}
+        </option>
+        {% endfor %}
+    </select>
+    <select class="enquadramento" name="chefe_de_curso" id="chefe de curso" hidden>
+        <option value="" style="text-align: center;" selected disabled hidden>CHEFE DE CURSO</option>
+        {% for chefe in chefes %}
+        <option value="{{ chefe.id }}">{{ chefe.grau_hierarquico }} {{ chefe.nome_de_guerra }}</option>
+        {% endfor %}
+    </select>
+    <div id="pelotao" hidden>
+        <select name="curso">
+            <option value="CFSD">CFSD</option>
+            <option value="CFO">CFO</option>
+            <option value="CHS">CHS</option>
+            <option value="CAS">CAS</option>
+            <option value="EAO">EAO</option>
+            <option value="CAO">CAO</option>
+        </select>
+        <input type="text" name="ano" placeholder="ANO" id="ano">
+        <input type="text" name="pelotao" placeholder="PELOTÃO">
+    </div>
+    <div id="cia" hidden>
+        <select name="curso">
+            <option value="CFSD">CFSD</option>
+            <option value="CFO">CFO</option>
+            <option value="CHS">CHS</option>
+            <option value="CAS">CAS</option>
+            <option value="EAO">EAO</option>
+            <option value="CAO">CAO</option>
+        </select>
+        <input type="text" name="ano" placeholder="ANO">
+        <input type="text" name="cia" placeholder="CIA">
+    </div>
+
+    <!-- ORDENAR POR -->
+    <select name="ordenar" id="ordenar" hidden>
+        <option value="-" selected>ORDENAR</option>
+        <option value="nota menor">Menor Nota de Conduta</option>
+        <option value="nota maior">Maior Nota de Conduta</option>
+    </select>
+
+
+    <button type="submit"> ENVIAR </button>
+</form>
+
+<br><br>
+<hr>
+<br><br>
+{% if tipo == 'cp' %}
+<table style="display: table;">
+    <thead>
+        <tr>Protocolo</tr>
+        <tr>Aluno</tr>
+        <tr>Conduta</tr>
+        <tr>Artigo</tr>
+        <tr>Data - Hora</tr>
+        <tr>Comunicante</tr>
+    </thead>
+    <tbody>
+        {% for cpi in dados %}
+        <tr>
+            <td>{{ cpi.id }}</td>
+            <td>{{ cpi.aluno.grau_hierarquico }} {{ cpi.aluno.nome_de_guerra }}</td>
+            <td>{{ cpi.conduta }}</td>
+            <td>{{ cpi.artigo }}</td>
+            <td>{{ cpi.data }} - {{ cpi.hora }}</td>
+            <td>{{ cpi.comunicante.grau_hierarquico }} {{ cpi.comunicante.nome_de_guerra }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% if tipo == 'aluno' %}
+<table style="display: table;">
+    <thead>
+        <tr>ID</tr>
+        <tr>Nome</tr>
+        <tr>Curso</tr>
+        <tr>Ano</tr>
+        <tr>Cia</tr>
+        <tr>Pelotão</tr>
+        <tr>Nota de Conduta</tr>
+    </thead>
+    <tbody>
+        {% for info in dados %}
+        <tr>
+            <td>{{ info.usuario.id }}</td>
+            <td>{{ info.usuario.grau_hierarquico }} {{ info.usuario.nome_de_guerra }}</td>
+            <td>{{ info.curso }}</td>
+            <td>{{ info.ano }}</td>
+            <td>{{ info.cia }} CIA</td>
+            <td>{{ info.pelotao }} PEL</td>
+            <td>{{ info.nota_conduta }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% if tipo == 'usuario' %}
+<table style="display: table;">
+    <thead>
+        <tr>ID</tr>
+        <tr>Nome</tr>
+        <tr>Função</tr>
+    </thead>
+    <tbody>
+        {% for usuario in dados %}
+        <tr>
+            <td>{{ usuario.id }}</td>
+            <td>{{ usuario.grau_hierarquico }} {{ usuario.nome_de_guerra }}</td>
+            <td>{{ usuario.funcao }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+<script>
+    function Categoria_cp_selecionada(event) {
+        document.getElementById('aluno').style.display = 'none'
+        document.getElementById('comunicante').style.display = 'none'
+        document.getElementById('chefe de curso').style.display = 'none'
+        document.getElementById('pelotao').style.display = 'none'
+        document.getElementById('cia').style.display = 'none'
+        document.getElementById(event.value).style.display = 'block'
+    }
+
+    function Categoria_usuario_selecionada(event) {
+        document.getElementById('login').style.display = 'none'
+        document.getElementById('nome').style.display = 'none'
+        document.getElementById('pelotao').style.display = 'none'
+        document.getElementById('cia').style.display = 'none'
+        document.getElementById('ordenar').style.display = 'none'
+        if (event.value == 'pelotao' || event.value == 'cia') {
+            document.getElementById('ordenar').style.display = 'block'
+        }
+        document.getElementById(event.value).style.display = 'block'
+    }
+    
+    function Tipo_selecionado(event) {
+        if (event.value == 'usuario') {
+            document.getElementById('categoria-cp').style.display = 'none'
+            document.getElementById('aluno').style.display = 'none'
+            document.getElementById('comunicante').style.display = 'none'
+            document.getElementById('chefe de curso').style.display = 'none'
+            document.getElementById('pelotao').style.display = 'none'
+            document.getElementById('cia').style.display = 'none'
+
+            document.getElementById('conduta').style.display = 'none'
+
+            document.getElementById('login').style.display = 'none'
+            document.getElementById('nome').style.display = 'none'
+            document.getElementById('categoria-usuario').style.display = 'block'
+        } else if (event.value == 'cp') {
+            document.getElementById('categoria-cp').style.display = 'block'
+
+            document.getElementById('conduta').style.display = 'block'
+
+            document.getElementById('categoria-usuario').style.display = 'none'
+
+            document.getElementById('aluno').style.display = 'none'
+            document.getElementById('comunicante').style.display = 'none'
+            document.getElementById('chefe de curso').style.display = 'none'
+            document.getElementById('pelotao').style.display = 'none'
+            document.getElementById('cia').style.display = 'none'
+            document.getElementById('ordenar').style.display = 'none'
+
+            document.getElementById('login').style.display = 'none'
+            document.getElementById('nome').style.display = 'none'
+
+        }
+    }
+</script>
+
+{% endblock %}
