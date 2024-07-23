@@ -95,6 +95,19 @@ h3{
     font-size: 15px;
 }
 
+a{
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+a:hover{
+    color: gold;
+}
+
+td:hover{
+    background-color: rgb(29, 31, 128);
+    color: rgb(247, 168, 23);
+}
 
 
 
@@ -108,7 +121,7 @@ button{
 }
 
 .criar_cpi{
-    background-color: green;
+    background-color: rgb(29, 31, 128);
     color: white;
     width: 10%;
     outline: auto;
