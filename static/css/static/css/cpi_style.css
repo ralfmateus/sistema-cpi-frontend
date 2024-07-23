@@ -1,0 +1,201 @@
+
+.text_add{
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+
+
+.btn-cpi {
+	display: flex;
+	justify-content: center;
+	width: auto;
+}
+
+.cpi_usuario{
+	background-color:white;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+    transform: translate(-50%, -50%);
+	
+	padding: 10px;
+	border-radius: 15px;
+	color: rgb(2, 2, 2) ;
+    border: 1;
+    border-color: black;
+	outline: auto;
+	width: 80%;
+}
+
+input{
+	padding: 10px;
+	border: none;
+	outline: auto;
+	font-size: 16px;
+}
+
+.hierarquia{
+	padding: 15px;
+	border: none;
+	outline: none;
+	font-size: 20px;
+}
+
+button{
+	background-color: rgb(29, 31, 128);
+	border: none;
+	padding: 10px;
+	border-radius: 10px;
+	width: 100%;
+	color: white;
+	font-size: 20px;
+}
+
+button:hover{
+	background-color: rgb(247, 168, 23);
+	color: black;
+}
+
+
+.geral{
+	display: flex;
+	justify-content: space-between;
+}
+
+.bloco{
+outline: auto;
+width: 32%;
+text-align: center;
+}
+
+.bloco_maior{
+	width: 100%;
+	outline: auto;
+}
+
+.selecs{
+	outline: auto;
+	width: 100%;
+	font-size: 16px;
+	padding: 10px;
+	text-align: center;
+	background-color: #eee;
+	font-weight: bold;
+}
+
+.select{
+	outline: auto;
+	width: 30%;
+	font-size: 16px;
+	padding: 10px;
+	text-align: center;
+	background-color: #eee;
+	font-weight: bold;
+	
+}
+
+.date{
+	display: flex;
+	justify-content: space-between;
+}
+
+.curso{
+	width: 40%;
+	font-size: 15px;
+}
+
+.bloco_2{
+	width: 48%;
+}
+
+.bloco_menor{
+	width: 35%;
+}
+
+.bloco_3{
+	width: 20%;
+}
+
+.enquadramento{
+	width: 100%;
+	outline: auto;
+	text-align: center;
+	font-size: 16px;
+	padding: 10px;
+	text-align: center;
+	background-color: #eee;
+	font-weight: bold;
+}
+
+.local{
+	width: 100%;
+}
+
+
+
+.test{
+	outline: auto;
+	display: inline-block;
+	justify-content: space-between;
+	font-size: 15px;
+	width: 20%;
+}
+
+h1{
+	text-align: center;
+}
+
+/* -------------------CELULAR-------- */
+
+@media (max-width : 850px) {
+	
+	.bloco_3{
+		width: 25%;
+	}
+
+	.bloco_menor{
+		width: 40%;
+	}
+
+	.bloco_2{
+		width: 40%;
+	}
+	.bloco{
+		width: 30%;
+	}
+
+	.select{
+		font-size: 15px;
+	}
+
+
+	h1{
+		font-size: 15px;
+	}
+}
+
+@media (min-width : 851px) {
+	.cpi_usuario{
+		background-color: rgba(255, 255, 255, 0.9);
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		
+		padding: 10px;
+		border-radius: 15px;
+		color: rgb(2, 2, 2) ;
+		border: 1px solid black;
+		outline: auto;
+		width: 80%;
+		overflow-y: auto;
+		max-height: 90%;
+	}
+	
+	img{
+		width: 40%;
+		height: 40%;
+	}
+
+}
