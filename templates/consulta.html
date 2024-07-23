@@ -24,17 +24,6 @@
         <option value="cpi">CPI</option>
         <option value="cpa">CPA</option>
     </select>
-    <select name="status" id="status">
-        <option value="-">TODOS</option>
-        <option value="0">ASS COMUNICANTE</option>
-        <option value="1">DEFESA DO ALUNO</option>
-        <option value="2">PARECER DO CHEFE DE CURSO</option>
-        <option value="3">DECISÃO DO COMANDANTE</option>
-        <option value="4">FINALIZADO</option>
-        <option value="10">CANCELADO</option>
-        <option value="11">ARQUIVADO</option>
-        <option value="12">ASS COMANDANTE DE CIA</option>
-    </select>
     <select name="categoria-cp" id="categoria-cp" onchange="Categoria_cp_selecionada(this)">
         <option value="-" selected>TODAS AS CP</option>
         <option value="aluno">ALUNO</option>
@@ -164,8 +153,7 @@
             <td>{{ info.ano }}</td>
             <td>{{ info.cia }} CIA</td>
             <td>{{ info.pelotao }} PEL</td>
-            <td>{{ str(info.nota_conduta).replace('.', ',') }}</td>
-            <td><a href="{{ url_for('usuario.perfil') }}?usuario={{ info.usuario.id }}">PERFIL</a></td>
+            <td>{{ info.nota_conduta }}</td>
         </tr>
         {% endfor %}
     </tbody>
@@ -183,16 +171,7 @@
         <tr>
             <td>{{ usuario.id }}</td>
             <td>{{ usuario.grau_hierarquico }} {{ usuario.nome_de_guerra }}</td>
-            <td>
-                {% if usuario.funcao == 'JUSTICA' %}
-                    JUSTIÇA
-                {% else %}
-                    {{ usuario.funcao }}
-                {% endif %}
-            </td>
-            {% if usuario.funcao == 'ALUNO' or usuario.funcao == 'JUSTICA' %}
-            <td><a href="{{ url_for('usuario.perfil') }}?usuario={{ usuario.id }}">PERFIL</a></td>
-            {% endif %}
+            <td>{{ usuario.funcao }}</td>
         </tr>
         {% endfor %}
     </tbody>
@@ -231,7 +210,6 @@
             document.getElementById('cia').style.display = 'none'
 
             document.getElementById('conduta').style.display = 'none'
-            document.getElementById('status').style.display = 'none'
 
             document.getElementById('login').style.display = 'none'
             document.getElementById('nome').style.display = 'none'
@@ -240,8 +218,7 @@
             document.getElementById('categoria-cp').style.display = 'block'
 
             document.getElementById('conduta').style.display = 'block'
-            document.getElementById('status').style.display = 'block'
-            
+
             document.getElementById('categoria-usuario').style.display = 'none'
 
             document.getElementById('aluno').style.display = 'none'
