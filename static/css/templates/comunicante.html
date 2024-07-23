@@ -1,0 +1,25 @@
+{% extends 'base2.html' %}
+
+{% block conteudo %}
+        
+        <form method="post" action="{{ url_for('usuario.ciente_comunicante') }}?protocolo={{ cpi.id }}">
+            
+            <!-- SELEÇÃO DE PROSSEGUIMENTO    -->
+            <table class="prosseguimento">
+                <thead>
+                    <tr style="width: 10%;">
+                        <td scope="col" class="selecao"><input type="radio" name="ciente" value="True">PROSSEGUIR</td>
+                        <td scope="col" class="selecao"><input type="radio" name="ciente" value="False">CANCELAR</td>
+                    </tr>
+                </thead>
+            </table>
+            
+            <!-- FIM SELEÇÃO DE PROSSEGUIMENTO -->
+            
+            {% include 'justificativa.html' %}
+        
+        
+        </form>
+
+    </div>   
+    {% endblock %}
