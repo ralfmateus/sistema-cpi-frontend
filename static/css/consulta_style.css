@@ -1,0 +1,39 @@
+table{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 20px;
+    border: 1 solid black;
+    border-color: black;
+    outline: auto;
+}
+
+table, tr, td{
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+a{
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+a:hover{
+    color: gold;
+}
+
+td:hover{
+    background-color: rgb(29, 31, 128);
+    color: rgb(247, 168, 23);
+}
+
+h1,h2{
+    text-align: center;
+}
+
+.cabecalho{
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
+}
