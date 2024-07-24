@@ -54,30 +54,30 @@ def consultar():
     
     if tipo == 'cp':
         if categoria_cp == 'aluno':
-            response = requests.get(f'http://127.0.0.1:8000/cpi/consulta_aluno?usuario_id={aluno}&conduta={conduta}')
+            response = requests.get(f'http://127.0.0.1:8000/cpi/consulta_aluno?usuario_id={aluno}&conduta={conduta}', headers=headers)
         elif categoria_cp == 'chefe de curso':
-            response = requests.get(f'http://127.0.0.1:8000/cpi/consulta_chefe_de_curso?usuario_id={chefe_de_curso}&conduta={conduta}')
+            response = requests.get(f'http://127.0.0.1:8000/cpi/consulta_chefe_de_curso?usuario_id={chefe_de_curso}&conduta={conduta}', headers=headers)
         elif categoria_cp == 'comunicante':
-            response = requests.get(f'http://127.0.0.1:8000/cpi/consulta_comunicante?usuario_id={comunicante}&conduta={conduta}')
+            response = requests.get(f'http://127.0.0.1:8000/cpi/consulta_comunicante?usuario_id={comunicante}&conduta={conduta}', headers=headers)
         elif categoria_cp == 'pelotao':
-            response = requests.get(f'http://127.0.0.1:8000/cpi/consulta_pelotao?pelotao={pelotao}&conduta={conduta}')
+            response = requests.get(f'http://127.0.0.1:8000/cpi/consulta_pelotao?pelotao={pelotao}&conduta={conduta}', headers=headers)
         elif categoria_cp == 'cia':
-            response = requests.get(f'http://127.0.0.1:8000/cpi/consulta_cia?cia={cia}&conduta={conduta}')
+            response = requests.get(f'http://127.0.0.1:8000/cpi/consulta_cia?cia={cia}&conduta={conduta}', headers=headers)
         else:
-            response = requests.get(f'http://127.0.0.1:8000/cpi/get_all?conduta={conduta}')
+            response = requests.get(f'http://127.0.0.1:8000/cpi/get_all?conduta={conduta}', headers=headers)
     elif tipo == 'usuario':
         if categoria_usuario == 'login':
-            response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_login?login={login}')
+            response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_login?login={login}', headers=headers)
         elif categoria_usuario == 'nome':
-            response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_nome?nome={nome}')
+            response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_nome?nome={nome}', headers=headers)
         elif categoria_usuario == 'pelotao':
             tipo = 'aluno'
-            response = requests.get(f'http://127.0.0.1:8000/info/get_by_curso_ano_pelotao?curso={curso}&ano={ano}&pelotao={pelotao}')
+            response = requests.get(f'http://127.0.0.1:8000/info/get_by_curso_ano_pelotao?curso={curso}&ano={ano}&pelotao={pelotao}', headers=headers)
         elif categoria_usuario == 'cia':
             tipo = 'aluno'
-            response = requests.get(f'http://127.0.0.1:8000/info/get_by_cia?cia={cia}')
+            response = requests.get(f'http://127.0.0.1:8000/info/get_by_cia?cia={cia}', headers=headers)
         else:
-            response = requests.get(f'http://127.0.0.1:8000/usuario/get_all')
+            response = requests.get(f'http://127.0.0.1:8000/usuario/get_all', headers=headers)
         
     dados = response.json()
     
@@ -93,7 +93,10 @@ def consultar():
         cpis = list()
         if status != '-':
             for cpi in dados:
-                if cpi['status'] == int(status):
+                if status != None:
+                    if cpi['status'] == int(status):
+                        cpis.append(cpi)
+                else:
                     cpis.append(cpi)
             dados = cpis
     

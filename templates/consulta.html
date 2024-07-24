@@ -112,22 +112,25 @@
 {% if tipo == 'cp' %}
 <table style="display: table;">
     <thead>
-        <tr>Protocolo</tr>
-        <tr>Aluno</tr>
-        <tr>Conduta</tr>
-        <tr>Artigo</tr>
-        <tr>Data - Hora</tr>
-        <tr>Comunicante</tr>
+        <tr>
+        <td>Protocolo</td>
+        <td>Aluno</td>
+        <td>Conduta</td>
+        <td>Artigo</td>
+        <td>Data - Hora</td>
+        <td>Comunicante</td>
+        </tr>
     </thead>
     <tbody>
         {% for cpi in dados %}
         <tr>
             <td>{{ cpi.id }}</td>
-            <td>{{ cpi.aluno.grau_hierarquico }} {{ cpi.aluno.nome_de_guerra }}</td>
+            <td><a href="{{ url_for('usuario.perfil') }}?id={{ cpi.aluno.id }}">{{ cpi.aluno.grau_hierarquico }} {{ cpi.aluno.nome_de_guerra }}</a></td>
             <td>{{ cpi.conduta }}</td>
             <td>{{ cpi.artigo }}</td>
             <td>{{ cpi.data }} - {{ cpi.hora }}</td>
-            <td>{{ cpi.comunicante.grau_hierarquico }} {{ cpi.comunicante.nome_de_guerra }}</td>
+            <td><a href="{{ url_for('usuario.perfil') }}?id={{ cpi.comunicante.id }}">{{ cpi.comunicante.grau_hierarquico }} {{ cpi.comunicante.nome_de_guerra }}</a></td>
+            <td><a href="">LINK PARA ACESSAR CPI</a></td>
         </tr>
         {% endfor %}
     </tbody>
@@ -136,13 +139,15 @@
 {% if tipo == 'aluno' %}
 <table style="display: table;">
     <thead>
-        <tr>ID</tr>
-        <tr>Nome</tr>
-        <tr>Curso</tr>
-        <tr>Ano</tr>
-        <tr>Cia</tr>
-        <tr>Pelotão</tr>
-        <tr>Nota de Conduta</tr>
+        <tr>
+        <td>ID</td>
+        <td>Nome</td>
+        <td>Curso</td>
+        <td>Ano</td>
+        <td>Cia</td>
+        <td>Pelotão</td>
+        <td>Nota de Conduta</td>
+        </tr>
     </thead>
     <tbody>
         {% for info in dados %}
@@ -154,6 +159,7 @@
             <td>{{ info.cia }} CIA</td>
             <td>{{ info.pelotao }} PEL</td>
             <td>{{ info.nota_conduta }}</td>
+            <td><a href="{{ url_for('usuario.perfil') }}?id={{ info.usuario.id }}">PERFIL</a></td>
         </tr>
         {% endfor %}
     </tbody>
@@ -162,9 +168,11 @@
 {% if tipo == 'usuario' %}
 <table style="display: table;">
     <thead>
-        <tr>ID</tr>
-        <tr>Nome</tr>
-        <tr>Função</tr>
+        <tr>
+        <td>ID</td>
+        <td>Nome</td>
+        <td>Função</td>
+        </tr>
     </thead>
     <tbody>
         {% for usuario in dados %}
@@ -172,6 +180,7 @@
             <td>{{ usuario.id }}</td>
             <td>{{ usuario.grau_hierarquico }} {{ usuario.nome_de_guerra }}</td>
             <td>{{ usuario.funcao }}</td>
+            <td><a href="{{ url_for('usuario.perfil') }}?id={{ usuario.id }}">PERFIL</a></td>
         </tr>
         {% endfor %}
     </tbody>

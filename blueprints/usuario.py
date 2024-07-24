@@ -600,21 +600,50 @@ def perfil():
         del session['token']
         return redirect(url_for('usuario.login', erro=1))
     
-    usuario = response.json()['__data__']
+    current_user = response.json()['__data__']
     
-    id = request.args.get('usuario', type=int)
-    response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={id}', headers=headers)
+    id = request.args.get('id', type=int)
+    
+    if not id:
+        return redirect(url_for('consulta.consultar'))
+    
+    
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_id?id={id}', headers=headers)
     
     if not response:
         return redirect(url_for('consulta.consultar'))
-            
-    info = response.json()
     
-    response = requests.get(f'http://127.0.0.1:8000/cpi/consulta_all_aluno?usuario_id={id}', headers=headers)
-    cpis = response.json()
+    usuario = response.json()
+    
+    if usuario['funcao'] == 'JUSTICA' or usuario['funcao'] == 'ALUNO':
+        response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={id}', headers=headers)
+        
+        if not response:
+            return redirect(url_for('consulta.consultar'))
+                
+        info = response.json()
+        
+        response = requests.get(f'http://127.0.0.1:8000/cpi/consulta_all_aluno?usuario_id={info["usuario"]["id"]}', headers=headers)
+        
+        if not response:
+            return redirect(url_for('consulta.consultar'))
+        
+        cpis = response.json()
 
-    infos = [info, cpis]
+        response = {
+            'info': info,
+            'cpis': cpis,
+            'aluno': True
+        }
+        
+        return response
     
-    return infos
+    else:
+        response = {
+            'usuario': usuario,
+            'aluno': False
+        }
+        
+        return response
 
 

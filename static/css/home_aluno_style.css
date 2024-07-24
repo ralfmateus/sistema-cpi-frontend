@@ -17,6 +17,15 @@ header{
     
 }
 
+.nav-bar, td {
+    background-color: white;
+}
+
+.nav-bar, td:hover{
+    background-color: rgb(29, 31, 128);
+    color: black;
+}
+
 .imagem{
     width: 30%;
     height: 30%;

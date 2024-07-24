@@ -122,6 +122,15 @@ button:hover{
     color: black;
 }
 
+.nav-bar, td {
+    background-color: white;
+}
+
+.nav-bar, td:hover{
+    background-color: rgb(29, 31, 128);
+    color: black;
+}
+
 /* -------------------CELULAR-------- */
 @media (max-width: 850px) {
     .imagem{

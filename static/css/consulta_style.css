@@ -11,20 +11,28 @@ table{
 table, tr, td{
     border: 1px solid black;
     border-collapse: collapse;
+    padding: 6px;
 }
+
 
 a{
     color: black;
     font-weight: bold;
     text-decoration: none;
 }
-a:hover{
+
+a:hover {
     color: gold;
 }
 
-td:hover{
+
+.nav-bar, td {
+    background-color: white;
+}
+
+.nav-bar{
     background-color: rgb(29, 31, 128);
-    color: rgb(247, 168, 23);
+    color: black;
 }
 
 h1,h2{

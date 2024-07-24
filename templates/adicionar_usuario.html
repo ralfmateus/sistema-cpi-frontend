@@ -76,7 +76,17 @@
                         <option value="CAO">CAO</option>
                     </select>
 
-                    <input class="bloco-duplo" type="text" name="ano" placeholder="Ano"/>
+                    <select class="bloco-duplo" name="ano">
+                        <option value="" style="text-align: center;" selected hidden disabled>ANO</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                        <option value="2028">2028</option>
+                        <option value="2029">2029</option>
+                        <option value="2030">2030</option>
+                    </select>
                 </div>
                 <br>
                 <div class="geral" >
@@ -106,8 +116,8 @@
                 <br><br>
                 
                 <div class="btns-action">
-                    <a href="{{ url_for('usuario.home') }}" style="text-decoration: none;"></a><button>VOLTAR</button></a>
-                    <button type="submit" class="btn btn-primary btn-block btn-large">ADICIONAR</button>
+                    <a href="{{ url_for('usuario.home') }}" style="width: 100%;"><button type="button">VOLTAR</button></a>
+                    <button type="submit">ADICIONAR</button>
                 </div>
             
             </form>

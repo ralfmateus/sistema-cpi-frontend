@@ -70,8 +70,8 @@
             
             <!-- local -->
             <div class="geral">
-                <input class="bloco_2" type="text" name="pelotao" placeholder="PELOTÃO"/>
-                <input class="bloco_2" type="text" name="testemunha" placeholder="TESTEMUNHA" required="required" />
+                <input class="bloco_2" type="text" name="pelotao" placeholder="Pelotão"/>
+                <input class="bloco_2" type="text" name="testemunha" placeholder="Testemunha" required="required" />
             </div>
             <!-- fim local e testemunha -->
             <br>
@@ -128,8 +128,9 @@
             <br><br>
              
                 <div class="btn-cpi">
+            <a href="{{ url_for('usuario.home') }}" style="width: 100%;"><button type="button">VOLTAR</button></a>
             <button type="submit" value="salvar" name="submit"> SALVAR </button>
-            <button type="submit" value="salvar" name="submit"> SALVAR E CONTINUAR </button>
+            <!-- <button type="submit" value="continuar" name="submit"> SALVAR E CONTINUAR </button> -->
             </div>
         
         
