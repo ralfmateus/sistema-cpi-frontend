@@ -79,3 +79,55 @@ def adicionar_cpi():
         if request.form.get('submit') == 'novo':
             return redirect(url_for('cpi.adicionar_cpi'))
         return redirect(url_for('usuario.home'))
+
+
+@cpi.route('/perfil_cpi', methods=['GET'])
+def perfil_cpi():
+    if not session.get('token'):
+        return redirect(url_for('usuario.login'))
+    
+    headers = {'Authorization': f'Bearer {session["token"]}'}
+    
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_usuario', headers=headers)
+    
+    if not response:
+        del session['token']
+        return redirect(url_for('usuario.login', erro=1))
+    
+    usuario = response.json()['__data__']
+    
+    
+    protocolo = request.args.get('protocolo', type=int)
+    if not protocolo:
+        return redirect(url_for('consulta.consultar'))
+    
+    response = requests.get(f'http://127.0.0.1:8000/cpi/get_by_cpi_id?id={protocolo}', headers=headers)
+    
+    if not response:
+        return redirect(url_for('consulta.consultar', erro=1))
+    else:
+        response = requests.get(f'http://127.0.0.1:8000/defesa/get_by_cpi', params={'cpi_id': cpi['id']}, headers=headers)
+        if response:
+            defesa = response.json()
+        else:
+            defesa = None
+                        
+        response = requests.get(f'http://127.0.0.1:8000/parecer_cmd_cia/get_by_cpi', params={'cpi_id': cpi['id']}, headers=headers)
+        if response:
+            parecer_cmd_cia = response.json()
+        else:
+            parecer_cmd_cia = None
+                        
+        response = requests.get(f'http://127.0.0.1:8000/parecer/get_by_cpi', params={'cpi_id': cpi['id']})
+        if response:
+            parecer = response.json()
+        else:
+            parecer = None
+                        
+        response = requests.get(f'http://127.0.0.1:8000/decisao/get_by_cpi', params={'cpi_id': cpi['id']})
+        if response:
+            decisao = response.json()
+        else:
+            decisao = None
+                        
+        return render_template('cpi.html', cpi=cpi, artigos=ARTIGOS, defesa=defesa, parecer=parecer, parecer_cmd_cia=parecer_cmd_cia, decisao=decisao)
