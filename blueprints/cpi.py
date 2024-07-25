@@ -106,28 +106,31 @@ def perfil_cpi():
     if not response:
         return redirect(url_for('consulta.consultar', erro=1))
     else:
+        cpi = response.json()
+        
         response = requests.get(f'http://127.0.0.1:8000/defesa/get_by_cpi', params={'cpi_id': cpi['id']}, headers=headers)
         if response:
             defesa = response.json()
         else:
             defesa = None
-                        
+                                
         response = requests.get(f'http://127.0.0.1:8000/parecer_cmd_cia/get_by_cpi', params={'cpi_id': cpi['id']}, headers=headers)
         if response:
             parecer_cmd_cia = response.json()
         else:
             parecer_cmd_cia = None
-                        
-        response = requests.get(f'http://127.0.0.1:8000/parecer/get_by_cpi', params={'cpi_id': cpi['id']})
+                                
+        response = requests.get(f'http://127.0.0.1:8000/parecer/get_by_cpi', params={'cpi_id': cpi['id']}, headers=headers)
         if response:
             parecer = response.json()
         else:
             parecer = None
+        
                         
-        response = requests.get(f'http://127.0.0.1:8000/decisao/get_by_cpi', params={'cpi_id': cpi['id']})
+        response = requests.get(f'http://127.0.0.1:8000/decisao/get_by_cpi', params={'cpi_id': cpi['id']}, headers=headers)
         if response:
             decisao = response.json()
         else:
             decisao = None
                         
-        return render_template('cpi.html', cpi=cpi, artigos=ARTIGOS, defesa=defesa, parecer=parecer, parecer_cmd_cia=parecer_cmd_cia, decisao=decisao)
+        return render_template('cpi.html', cpi=cpi, defesa=defesa, parecer=parecer, parecer_cmd_cia=parecer_cmd_cia, decisao=decisao)

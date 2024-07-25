@@ -130,7 +130,7 @@
             <td>{{ cpi.artigo }}</td>
             <td>{{ cpi.data }} - {{ cpi.hora }}</td>
             <td><a href="{{ url_for('usuario.perfil') }}?id={{ cpi.comunicante.id }}">{{ cpi.comunicante.grau_hierarquico }} {{ cpi.comunicante.nome_de_guerra }}</a></td>
-            <td><a href="">LINK PARA ACESSAR CPI</a></td>
+            <td><a href="{{ url_for('cpi.perfil_cpi') }}?protocolo={{ cpi.id}}">LINK PARA ACESSAR CPI</a></td>
         </tr>
         {% endfor %}
     </tbody>

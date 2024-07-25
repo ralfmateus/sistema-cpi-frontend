@@ -58,7 +58,6 @@ def adicionar_usuario():
                     "curso": request.form.get('curso'),
                     "ano": request.form.get('ano'),
                     "pelotao": request.form.get('pelotao'),
-                    "numero": request.form.get('numero'),
                     "usuario": usuario['id']
                 }
                 
@@ -243,8 +242,6 @@ def cpis_chefe_de_curso():
     
     usuario = response.json()['__data__']
     
-    usuario = response.json()
-
     response = requests.get(f'http://127.0.0.1:8000/cpi/get_all_chefe_de_curso?usuario_id={usuario["id"]}', headers=headers)
     
     protocolo = request.args.get('protocolo')
@@ -489,8 +486,18 @@ def ciente_comunicante():
 
 @usuario.route('/parecer', methods=['POST'])
 def parecer():
-    if not session.get('usuario'):
+    if not session.get('token'):
         return redirect(url_for('usuario.login'))
+    
+    headers = {'Authorization': f'Bearer {session["token"]}'}
+    
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_usuario', headers=headers)
+    
+    if not response:
+        del session['token']
+        return redirect(url_for('usuario.login', erro=1))
+    
+    usuario = response.json()['__data__']
     
     headers = {'Authorization': f'Bearer {session["token"]}'}
     
@@ -505,11 +512,12 @@ def parecer():
         'parecer': sugestao,
         'observacoes': justificativa,
         'data': data,
-        'chefe_de_curso': int(session.get('usuario')),
+        'chefe_de_curso': int(usuario['id']),
         'ass': True,
     }
     
     response = requests.post(f'http://127.0.0.1:8000/parecer/create', json=json, headers=headers)
+    
     return redirect(url_for('usuario.home'))
 
 
@@ -538,7 +546,7 @@ def parecer_cmd_cia():
         'parecer': sugestao,
         'observacoes': justificativa,
         'data': data,
-        'cmd_cia': int(session.get('usuario')),
+        'cmd_cia': int(usuario['id']),
         'ass': True,
         'cpi': int(id),
     }
@@ -578,7 +586,7 @@ def decisao():
         'observacoes': justificativa,
         'enquadramento': enquadramento,
         'data': data,
-        'comandante': int(session.get('usuario')),
+        'comandante': int(usuario['id']),
         'ass': True,
         'cpi': id,
     }
