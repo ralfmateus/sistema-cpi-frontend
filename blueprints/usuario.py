@@ -371,7 +371,7 @@ def cpis_comandante():
                     else:
                         parecer_cmd_cia = None
                         
-                    response = requests.get(f'http://127.0.0.1:8000/parecer/get_by_cpi', params={'cpi_id': cpi['id']})
+                    response = requests.get(f'http://127.0.0.1:8000/parecer/get_by_cpi', params={'cpi_id': cpi['id']}, headers=headers)
                     if response:
                         parecer = response.json()
                     else:
