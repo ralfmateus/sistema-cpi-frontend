@@ -134,3 +134,41 @@ def perfil_cpi():
             decisao = None
                         
         return render_template('cpi.html', cpi=cpi, defesa=defesa, parecer=parecer, parecer_cmd_cia=parecer_cmd_cia, decisao=decisao)
+    
+    
+@cpi.route('/gerar_caderno', methods=['GET', 'POST'])
+def gerar_caderno():
+    if not session.get('token'):
+        return redirect(url_for('usuario.login'))
+    
+    headers = {'Authorization': f'Bearer {session["token"]}'}
+    
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_usuario', headers=headers)
+    
+    if not response:
+        del session['token']
+        return redirect(url_for('usuario.login', erro=1))
+    
+    usuario = response.json()['__data__']
+    
+    if request.method == 'GET':
+        return render_template('gerar_caderno.html', cadernos=None, usuario=usuario)
+    
+    temp = request.form.get('data_inicial')
+    temp = temp.split('-')
+    data_inicial = f'{temp[2]}/{temp[1]}/{temp[0]}'
+    
+    temp = request.form.get('data_final')  
+    temp = temp.split('-')
+    data_final = f'{temp[2]}/{temp[1]}/{temp[0]}'
+      
+    pelotoes = request.form.get('pelotoes', type=int)  
+    
+    response = requests.get(f'http://127.0.0.1:8000/cpi/consulta_data?data_inicial={data_inicial}&data_final={data_final}', headers=headers)
+    
+    if not response:
+        return redirect(url_for('cpi.gerar_caderno', erro=1))
+        
+    cadernos = response.json()
+    
+    return render_template('gerar_caderno.html', cadernos=cadernos, usuario=usuario, pelotoes=pelotoes)

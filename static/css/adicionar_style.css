@@ -88,7 +88,7 @@ button{
 	border: none;
 	padding: 15px;
 	border-radius: 10px;
-	width: 100%;
+	width: 95%;
 	color: white;
 	font-size: 20px;
 }
@@ -110,6 +110,11 @@ h1{
 	text-align: center;
 	justify-content: space-between;
 }
+img{
+	width: 50%;
+	height: 50%;
+}
+
 
 
 @media (min-width : 851px) {
@@ -121,6 +126,11 @@ h1{
 		width: 80%;
 		overflow-y: auto;
 		max-height: 90%;
+	}
+
+	img{
+		width: 30%;
+		height: 30%;
 	}
 
 	

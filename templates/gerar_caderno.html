@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+
+{% block titulo %} GERAR CADERNO {% endblock %}
+
+{% block nome %} usuario.nome {% endblock %}
+
+{% block conteudo %}
+
+        <form action="{{ url_for('cpi.gerar_caderno') }}" method="post">
+            <label for="">DATA INICIAL: </label><input type="date" name="data_inicial" id="">
+            <label for="">DATA FINAL: </label><input type="date" name="data_final" id="">
+            <select name="pelotoes" id="">
+                <option value="1" disabled selected hidden>PELOTÕES</option>
+                {% for i in range(1, 31) %}
+                    <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">ENVIAR</button>
+        </form>
+
+        {% if cadernos %}
+            <table>
+                <thead>
+                    <tr>
+                        <td colspan="5"> CPI I</td>
+                    </tr>
+                    <tr>
+                        <td>N°</td>
+                        <td>AL SD</td>
+                        <td>DATA</td>
+                        <td>ENQUADRAMENTO</td>
+                        <td>PROTOCOLO</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range(1, pelotoes+1) %}
+                    <tr>
+                        <td colspan="5">
+                            {{ i }}° PELOTÃO
+                        </td>
+                    </tr>
+                    {% for caderno in cadernos %}
+                        {% if caderno.conduta == 1 and caderno.info.pelotao|int == i %}
+                        <tr>
+                            <td rowspan="{{ caderno.cpis|length }}">
+                                {{ caderno.info.numero }}
+                            </td>
+                            <td rowspan="{{ caderno.cpis|length }}">
+                                {{ caderno.aluno.nome_de_guerra }}
+                            </td>
+                                <td> {{ caderno.cpis[0].data }} </td>
+                                <td> {{ caderno.cpis[0].artigo }} </td>
+                                <td> {{ caderno.cpis[0].id }} </td>
+                            </tr>
+                            {% if caderno.cpis|length > 1 %}
+                                {% for cpi in caderno.cpis[1:] %}
+                                    <td> {{ cpi.data }} </td>
+                                    <td> {{ cpi.artigo }} </td>
+                                    <td> {{ cpi.id }} </td>
+                                {% endfor %}
+                            {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                        <tr>
+                            <td colspan="5">
+    
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <br>
+            <table>
+                <thead>
+                    <tr>
+                        <td colspan="5"> CPI II</td>
+                    </tr>
+                    <tr>
+                        <td>N°</td>
+                        <td>AL SD</td>
+                        <td>DATA</td>
+                        <td>ENQUADRAMENTO</td>
+                        <td>PROTOCOLO</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range(1, pelotoes+1) %}
+                    <tr>
+                        <td colspan="5">
+                            {{ i }}° PELOTÃO
+                        </td>
+                    </tr>
+                    {% for caderno in cadernos %}
+                        {% if caderno.conduta == 2 and caderno.info.pelotao|int == i %}
+                        <tr>
+                            <td rowspan="{{ caderno.cpis|length }}">
+                                {{ caderno.info.numero }}
+                            </td>
+                            <td rowspan="{{ caderno.cpis|length }}">
+                                {{ caderno.aluno.nome_de_guerra }}
+                            </td>
+                                <td> {{ caderno.cpis[0].data }} </td>
+                                <td> {{ caderno.cpis[0].artigo }} </td>
+                                <td> {{ caderno.cpis[0].id }} </td>
+                            </tr>
+                            {% if caderno.cpis|length > 1 %}
+                                {% for cpi in caderno.cpis[1:] %}
+                                    <td> {{ cpi.data }} </td>
+                                    <td> {{ cpi.artigo }} </td>
+                                    <td> {{ cpi.id }} </td>
+                                {% endfor %}
+                            {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                        <tr>
+                            <td colspan="5">
+    
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <br>
+            <table>
+                <thead>
+                    <tr>
+                        <td colspan="5"> CPI III</td>
+                    </tr>
+                    <tr>
+                        <td>N°</td>
+                        <td>AL SD</td>
+                        <td>DATA</td>
+                        <td>ENQUADRAMENTO</td>
+                        <td>PROTOCOLO</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range(1, pelotoes+1) %}
+                    <tr>
+                        <td colspan="5">
+                            {{ i }}° PELOTÃO
+                        </td>
+                    </tr>
+                    {% for caderno in cadernos %}
+                        {% if caderno.conduta == 3 and caderno.info.pelotao|int == i %}
+                        <tr>
+                            <td rowspan="{{ caderno.cpis|length }}">
+                                {{ caderno.info.numero }}
+                            </td>
+                            <td rowspan="{{ caderno.cpis|length }}">
+                                {{ caderno.aluno.nome_de_guerra }}
+                            </td>
+                                <td> {{ caderno.cpis[0].data }} </td>
+                                <td> {{ caderno.cpis[0].artigo }} </td>
+                                <td> {{ caderno.cpis[0].id }} </td>
+                            </tr>
+                            {% if caderno.cpis|length > 1 %}
+                                {% for cpi in caderno.cpis[1:] %}
+                                <tr>
+                                    <td> {{ cpi.data }} </td>
+                                    <td> {{ cpi.artigo }} </td>
+                                    <td> {{ cpi.id }} </td>
+                                </tr>
+                                {% endfor %}
+                            {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                        <tr>
+                            <td colspan="5">
+    
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+        {% endif %}
+
+{% endblock %}

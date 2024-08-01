@@ -21,14 +21,14 @@ header{
     background-color: white;
 }
 
-.nav-bar, td:hover{
+/* .nav-bar, td:hover{
     background-color: rgb(29, 31, 128);
     color: black;
-}
+} */
 
-.imagem{
-    width: 30%;
-    height: 30%;
+img{
+    width: 25%;
+    height: 25%;
 }
 
 header .logo img{
@@ -51,15 +51,18 @@ header .title{
 /* ----------------------FIM CABEÇALHO ----------------------- */
 
 /* ----------------------TABELA----------------------------------- */
-table{
+.nav-bar{
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    font-size: 20px;
+    font-size: 17px;
     border: 1 solid black;
     border-color: black;
     outline: auto;
+
 }
+
+
 
 table, tr, td{
     border: 1px solid black;
@@ -70,9 +73,7 @@ table, tr, td{
     background-color: rgba(168, 168, 168, 0.384);
  }
 
-td{
-    font-size: 20px;
-}
+
 /* -----------------------FIM TABELA-------------------------- */
 
 
@@ -101,7 +102,7 @@ h2{
 }
 h3{
     text-align: center;
-    font-size: 15px;
+    font-size: 15px;e
 }
 
 a{
@@ -110,13 +111,10 @@ a{
     text-decoration: none;
 }
 a:hover{
-    color: gold;
+    color: rgb(29, 31, 128);
 }
 
-td:hover{
-    background-color: rgb(29, 31, 128);
-    color: rgb(247, 168, 23);
-}
+
 
 
 
@@ -145,23 +143,32 @@ button{
     font-weight: bold;
 }
 
-button:hover{
-	background-color: rgb(177, 177, 177);
-    color: black;
-}
+
 
 /* -------------------CELULAR-------- */
 @media (max-width: 850px) {
-    .imagem{
-        width: 100%;
-        height: 100%;
-        margin-left: auto;
-        margin-right: auto;
+    img{
+		width: 50%;
+		height: 50%;
+	}
+
+    
+    h1{
+        font-size: 15px;
     }
     
-    table{
-        font-size: 7px;
-        align-items: center;
-        max-width: 100%;
+    .letra-titulo{
+        font-size: 1px;
     }
+
+    .nav-bar{
+        font-size: 9px;
+ 
+    }
+
+
+
+    
+
+
 }

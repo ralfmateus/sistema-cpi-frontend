@@ -584,7 +584,7 @@ def decisao():
     json = {
         'decisao': decisao,
         'observacoes': justificativa,
-        'enquadramento': enquadramento,
+        'enquadramento': enquadramento.upper(),
         'data': data,
         'comandante': int(usuario['id']),
         'ass': True,

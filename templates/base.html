@@ -21,7 +21,7 @@
     <nav>
         <table class="nav-bar">
             <thead>
-                    <td><a href="{{ url_for('usuario.home') }}">Principal</a></td>
+                    <td ><a href="{{ url_for('usuario.home') }}">Principal</a></td>
                     <td><a href="{{ url_for('usuario.cpis_comunicante') }}">Comunicações feitas</a></td>
                     {% if usuario.funcao == 'JUSTICA' %}
                     <td><a href="{{ url_for('cpi.adicionar_cpi') }}">Fazer nova CP</a></td>
@@ -30,15 +30,17 @@
                     <td><a href="{{ url_for('usuario.adicionar_usuario') }}">Adicionar usuario</a></td>
                     <td><a href="{{ url_for('cpi.adicionar_cpi') }}">Fazer nova CP</a></td>
                     <td><a href="{{ url_for('consulta.consultar') }}">Consultar</a></td>
+                    <td><a href="{{ url_for('cpi.gerar_caderno') }}">Gerar Caderno</a></td>
                     {% endif %}
                     <td><a href="{{ url_for('usuario.logout') }}">Sair</a></td>
             </thead>
         </table>
     </nav>
     <br>
-    <div>
+
+    <!-- <div>
         <h1>Bem vindo {{ usuario.grau_hierarquico }} {{ usuario.nome_de_guerra }}</h1>
-    </div>
+    </div> -->
 
     {% block conteudo %}
     {% endblock %}
