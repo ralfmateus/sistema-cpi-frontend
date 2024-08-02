@@ -8,7 +8,7 @@
 
         <form action="{{ url_for('cpi.consultar_caderno') }}" method="post">
             <select name="tipo" id="">
-                <option value="consultar" disabled selected hidden>CONUSLTAR</option>
+                <option value="consultar" disabled selected hidden>CONSULTAR</option>
                 <option value="consultar">CONSULTAR</option>
                 <option value="gerar">GERAR CADERNO</option>
             </select>
@@ -28,11 +28,11 @@
             <button type="submit">ENVIAR</button>
         </form>
 
-        {% include 'tabela_cpi.html' %}
-        <br>
-        <hr>
-        <br>
-        {% include 'tabela_cpa.html' %}
+        {% if conduta == 'CPI' %}
+            {% include 'tabela_cpi.html' %}
+        {% elif conduta == 'CPA' %}
+            {% include 'tabela_cpa.html' %}
+        {% endif %}
 
         
 

@@ -136,8 +136,8 @@ def perfil_cpi():
         return render_template('cpi.html', cpi=cpi, defesa=defesa, parecer=parecer, parecer_cmd_cia=parecer_cmd_cia, decisao=decisao)
     
     
-@cpi.route('/gerar_caderno', methods=['GET', 'POST'])
-def gerar_caderno():
+@cpi.route('/consultar_caderno', methods=['GET', 'POST'])
+def consultar_caderno():
     if not session.get('token'):
         return redirect(url_for('usuario.login'))
     
@@ -152,7 +152,9 @@ def gerar_caderno():
     usuario = response.json()['__data__']
     
     if request.method == 'GET':
-        return render_template('gerar_caderno.html', cadernos=None, usuario=usuario)
+        return render_template('consultar_caderno.html', cadernos=None, usuario=usuario)
+    
+    tipo = request.form.get('tipo')
     
     temp = request.form.get('data_inicial')
     temp = temp.split('-')
@@ -163,12 +165,57 @@ def gerar_caderno():
     data_final = f'{temp[2]}/{temp[1]}/{temp[0]}'
       
     pelotoes = request.form.get('pelotoes', type=int)  
+    conduta = request.form.get('conduta')  
     
-    response = requests.get(f'http://127.0.0.1:8000/cpi/consulta_data?data_inicial={data_inicial}&data_final={data_final}', headers=headers)
+    if tipo == 'consultar':
     
-    if not response:
-        return redirect(url_for('cpi.gerar_caderno', erro=1))
+        response = requests.get(f'http://127.0.0.1:8000/cpi/consulta_data?data_inicial={data_inicial}&data_final={data_final}&conduta={conduta}', headers=headers)
         
-    cadernos = response.json()
-    
-    return render_template('gerar_caderno.html', cadernos=cadernos, usuario=usuario, pelotoes=pelotoes)
+        if not response:
+            return redirect(url_for('cpi.consultar_caderno', erro=1))
+            
+        cadernos = response.json()
+        
+        quantidade_aluno_cpi1 = 0
+        quantidade_aluno_cpi2 = 0
+        quantidade_aluno_cpi3 = 0
+        
+        for caderno in cadernos:
+            conduta = caderno['conduta']
+            if conduta == 3:
+                quantidade_aluno_cpi3 += 1
+            elif conduta == 2:
+                quantidade_aluno_cpi2 += 1
+            elif conduta == 1:
+                quantidade_aluno_cpi1 += 1
+        
+        conduta = request.form.get('conduta').upper()
+        
+        return render_template('consultar_caderno.html', cadernos=cadernos, usuario=usuario, pelotoes=pelotoes, quantidade_aluno_cpi1=quantidade_aluno_cpi1, quantidade_aluno_cpi2=quantidade_aluno_cpi2, quantidade_aluno_cpi3=quantidade_aluno_cpi3, conduta=conduta)
+
+    elif tipo == 'gerar':
+        response = requests.get(f'http://127.0.0.1:8000/cpi/gerar_caderno?data_inicial={data_inicial}&data_final={data_final}', headers=headers)
+        
+        if not response:
+            return redirect(url_for('cpi.consultar_caderno', erro=1))
+        
+        cadernos = response.json()
+        
+        quantidade_aluno_cpi1 = 0
+        quantidade_aluno_cpi2 = 0
+        quantidade_aluno_cpi3 = 0
+        
+        for caderno in cadernos['caderno_cpi']:
+            conduta = caderno['conduta']
+            if conduta == 3:
+                quantidade_aluno_cpi3 += 1
+            elif conduta == 2:
+                quantidade_aluno_cpi2 += 1
+            elif conduta == 1:
+                quantidade_aluno_cpi1 += 1
+                
+        total_cpa = cadernos['total_cpa']
+        caderno_cpi = cadernos['caderno_cpi']
+        caderno_cpa = cadernos['caderno_cpa']
+        
+        return render_template('gerar_caderno.html', caderno_cpi=caderno_cpi, caderno_cpa=caderno_cpa, total_cpa=total_cpa, usuario=usuario, pelotoes=pelotoes, quantidade_aluno_cpi1=quantidade_aluno_cpi1, quantidade_aluno_cpi2=quantidade_aluno_cpi2, quantidade_aluno_cpi3=quantidade_aluno_cpi3)
