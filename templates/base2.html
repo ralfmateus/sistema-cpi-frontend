@@ -20,12 +20,12 @@
             <h1>DIVISÃO ACADÊMICA</h1>
         </div>
         <div>
-            <h2>FICHA DE CONDUTA PROFISSIONAL</h2> 
+            <h2>FICHA DE CONDUTA PROFISSIONAL</h2>
         </div>
         <!-- FIM CABEÇALHO -->
         <br>
             <!-- TABELA DADOS DA CPI -->
-            <table  class="nav-bar">
+            <table style="border: 1px solid black;">
                 <thead>
                     <tr  style="border: 1px solid black;">
                         <td scope="col" style="width: 9%; border: 1px solid black;">CONDUTA</td>
@@ -34,7 +34,6 @@
                         <td scope="col" style="width: 30%; border: 1px solid black;">OBSERVAÇÕES</td>
                         <td scope="col" style="width: 10%; border: 1px solid black;"> DATA/HORA</td>
                         <td scope="col" style="width: 10%; border: 1px solid black;">LOCAL</td>
-                        <td scope="col" style="width: 10%; border: 1px solid black;">COMUNICANTE</td>
                     </tr>
                 </thead>
                 <tbody >
@@ -45,7 +44,6 @@
                         <td scope="col" style="width: 30%; border: 1px solid black;">{{ cpi.observacoes }}</td>
                         <td scope="col" style="width: 10%; border: 1px solid black;">{{ cpi.data }} - {{ cpi.hora }}</td>
                         <td scope="col" style="width: 10%; border: 1px solid black;">{{ cpi.local }}</td>
-                        <td scope="col" style="width: 10%; border: 1px solid black;">{{ cpi.comunicante.grau_hierarquico }} {{ cpi.comunicante.nome_de_guerra }}</td>
                     </tr>
                 </tbody>
             </table>

@@ -6,16 +6,12 @@
         <table class="border-full">
             <thead>
                 <tr>
-                    <td scope="col" style="width: 100%;">DEFESA DO ALUNO</td> 
-                    <td scope="col" style="width: 100%;">DATA RECEBIDA</td> 
-                    <td scope="col" style="width: 100%;">DATA JUSTIFICADA</td> 
+                    <td scope="col" style="width: 100%;">DEFESA DO ALUNO</td>    
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td scope="col" style="width: 100%;">{{ defesa.defesa }}</td>  
-                    <td scope="col" style="width: 100%;">{{ defesa.data_recebido }}</td>  
-                    <td scope="col" style="width: 100%;">{{ defesa.data_justificada }}</td>  
+                    <td scope="col" style="width: 100%;">{{ defesa.defesa }}</td>    
                 </tr>
             </tbody>
         </table>
@@ -28,23 +24,18 @@
         <table class="border-full">
             <thead>
                 <tr>
-                    <td scope="col" style="width: 100%;">PARECER</td>  
+                    <td scope="col" style="width: 100%;">PARECER CHEFE DE CURSO</td>    
                 </tr>
                 <tr>
-                </tr>
-                <tr>
-                    <td scope="col" style="width: 100%;">CHEFE DE CURSO</td>  
                     <td scope="col" style="width: 100%;">SUGIRO: 
                         {% if parecer.parecer == 'PUNICAO' %}
-                        PUNIÇÃO
+                            PUNIÇÃO
                         {% elif parecer.parecer == 'HOMOLOGACAO' %}
-                        HOMOLOGAÇÃO
+                            HOMOLOGAÇÃO
                         {% else %}
-                        {{ parecer.parecer }}
+                            {{ parecer.parecer }}
                         {% endif %}
-                    </td>  
-                    <td scope="col" style="width: 100%;">{{ parecer.chefe_de_curso.grau_hierarquico }} {{ parecer.chefe_de_curso.nome_de_guerra }}</td>  
-                      
+                    </td>    
                 </tr>
             </thead>
             <tbody>
@@ -79,8 +70,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td scope="col" style="width: 100%;">{{ parecer_cmd_cia.observacoes }}</td>
-                    <td scope="col" style="width: 100%;">{{ parecer_cmd_cia.cmd_cia.grau_hierarquico }} {{ parecer_cmd_cia.cmd_cia.node_de_guerra }}</td>
+                    <td scope="col" style="width: 100%;">{{ parecer_cmd_cia.observacoes }}</td>    
                 </tr>
             </tbody>
         </table>
@@ -101,20 +91,19 @@
                     </tr>
                     <tr>
                         <td scope="col" style="width: 100%;">DECISÃO:  <!-- VERICAR O CAMPO -->
-                            {% if decisao.decisao == 'PUNICAO' %}
+                            {% if  == 'PUNICAO' %}
                                 PUNIÇÃO
-                            {% elif decisao.decisao == 'HOMOLOGACAO' %}
+                            {% elif  == 'HOMOLOGACAO' %}
                                 HOMOLOGAÇÃO
                             {% else %}
-                                {{ decisao.decisao }}
+                                {{  }}
                             {% endif %}
                         </td>    
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td scope="col" style="width: 100%;">{{ decisao.observacoes }}</td>   
-                        <td scope="col" style="width: 100%;">{{ decisao.comandante.grau_hierarquico }} {{ decisao.comandante.nome_de_guerra }}</td> 
+                        <td scope="col" style="width: 100%;">{{  }}</td>    
                     </tr>
                 </tbody>
             </table>
