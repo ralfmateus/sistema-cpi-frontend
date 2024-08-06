@@ -8,9 +8,11 @@
     
 </head>
 <body>
-    <div class="usuario"> 
+
         
-        <!-- Cabeçalho -->
+        <div class="usuario"> 
+        <div class="div-nav-bar">
+            <!-- Cabeçalho -->
         <div class="cabecalho" >
             <img class="imagem" src="../static/img/brasoes.png" width="100%" height="100%" alt="DEU RUIM">
             <br><br>
@@ -19,39 +21,64 @@
         <div>
             <h1>DIVISÃO ACADÊMICA</h1>
         </div>
+
         <div>
             <h2>FICHA DE CONDUTA PROFISSIONAL</h2> 
         </div>
         <!-- FIM CABEÇALHO -->
         <br>
             <!-- TABELA DADOS DA CPI -->
-            <table  class="nav-bar">
-                <thead>
-                    <tr  style="border: 1px solid black;">
-                        <td scope="col" style="width: 9%; border: 1px solid black;">CONDUTA</td>
-                        <td scope="col" style="width: 10%; border: 1px solid black;">ALUNO/PEL</td>
-                        <td scope="col" style="width: 30%; border: 1px solid black;">ENQUADRAMENTO</td>
-                        <td scope="col" style="width: 30%; border: 1px solid black;">OBSERVAÇÕES</td>
-                        <td scope="col" style="width: 10%; border: 1px solid black;"> DATA/HORA</td>
-                        <td scope="col" style="width: 10%; border: 1px solid black;">LOCAL</td>
-                        <td scope="col" style="width: 10%; border: 1px solid black;">COMUNICANTE</td>
-                    </tr>
-                </thead>
-                <tbody >
-                    <tr>
-                        <td scope="col" style="width: 9%; border: 1px solid black;">{{ cpi.conduta }}</td>
-                        <td scope="col" style="width: 15%; border: 1px solid black;">{{ cpi.aluno.grau_hierarquico }} {{ cpi.aluno.nome_de_guerra }} - {{ cpi.info.pelotao }}º PEL</td>
-                        <td scope="col" style="width: 30%; border: 1px solid black;">{{ cpi.artigo }}</td>
-                        <td scope="col" style="width: 30%; border: 1px solid black;">{{ cpi.observacoes }}</td>
-                        <td scope="col" style="width: 10%; border: 1px solid black;">{{ cpi.data }} - {{ cpi.hora }}</td>
-                        <td scope="col" style="width: 10%; border: 1px solid black;">{{ cpi.local }}</td>
-                        <td scope="col" style="width: 10%; border: 1px solid black;">{{ cpi.comunicante.grau_hierarquico }} {{ cpi.comunicante.nome_de_guerra }}</td>
-                    </tr>
-                </tbody>
-            </table>
+        <table  class="nav-bar">
+                <tr style="border: 1px solid black;">
+                    <td colspan="2" style="width: 10%; border: 1px solid black; font-weight: bold; background-color: rgb(189, 187, 187);" >CONDUTA PROFISSIONAL</td>
+                </tr>
+                <tr  style="border: 1px solid black;">
+                    <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">CONDUTA</td>
+                    <td scope="col" style="width: 10%; border: 1px solid black;">{{ cpi.conduta }}</td>
+                </tr>
+                <tr>
+                    <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">ALUNO/PEL</td>
+                    <td scope="col" style="width: 15%; border: 1px solid black;">{{ cpi.aluno.grau_hierarquico }} {{ cpi.aluno.nome_de_guerra }} - {{ cpi.info.pelotao }}º PEL</td>
+                </tr>
+                <tr>
+                    <td scope="col" style="width: 30%; border: 1px solid black; font-weight: bold;">ENQUADRAMENTO</td>
+                    <td scope="col" style="width: 30%; border: 1px solid black;">{{ cpi.artigo }}</td>
+                </tr>
+                <tr>
+                    <td scope="col" style="width: 30%; border: 1px solid black; font-weight: bold;">OBSERVAÇÕES</td>
+                    <td scope="col" style="width: 30%; border: 1px solid black;">{{ cpi.observacoes }}</td>
+                </tr>
+                <tr>
+                    <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;"> DATA/HORA</td>
+                    <td scope="col" style="width: 10%; border: 1px solid black;">{{ cpi.data }} - {{ cpi.hora }}</td>
+                </tr>
+                <tr>
+                    <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">LOCAL</td>
+                    <td scope="col" style="width: 10%; border: 1px solid black;">{{ cpi.local }}</td>
+                </tr>
+                <tr>
+                    <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">COMUNICANTE</td>
+                    <td scope="col" style="width: 10%; border: 1px solid black;">{{ cpi.comunicante.grau_hierarquico }} {{ cpi.comunicante.nome_de_guerra }}</td>
+                </tr>
+                {% block tabela_cpi %}
+                {% endblock %}
+        </table>
         <!-- FIM TABELA DADOS DA CPI -->
+         <br><br>
+        <div class="btn-ficha">
+           <a href="{{ url_for('usuario.home') }}" style="width: 100%; "><button type="button">VOLTAR</button></a>
+   </div>
+         </div>
+         
+       
+         
+         {% block conteudo %}
+         {% endblock %}
+         
+        </div>
+      
         
-        <br>
-        {% block conteudo %}
-        {% endblock %}
-</div></body></html>
+
+    
+
+    </body></html>

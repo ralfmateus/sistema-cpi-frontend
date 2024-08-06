@@ -1,0 +1,19 @@
+{% if caderno.cpis[0].status == 0 %}
+    <td> COM O COMUNICANTE </td>
+{% elif caderno.cpis[0].status == 1 %}
+    <td> COM O ALUNO </td>
+{% elif caderno.cpis[0].status == 2 %}
+    <td> COM O CHEFE DE CURSO </td>
+{% elif caderno.cpis[0].status == 3 %}
+    <td> COM O COMANDANTE DA ESFAP/ESFO </td>
+{% elif caderno.cpis[0].status == 4 %}
+    <td> FINALIZADO </td>
+{% elif caderno.cpis[0].status == 5 %}
+    <td> CUMPRIDO </td>
+{% elif caderno.cpis[0].status == 10 %}
+    <td> CANCELADO PELO COMUNICANTE </td>
+{% elif caderno.cpis[0].status == 11 %}
+    <td> ARQUIVADO </td>
+{% elif caderno.cpis[0].status == 12 %}
+    <td> COM O COMANDANTE DE COMPANHIA </td>
+{% endif %}

@@ -75,7 +75,8 @@ table, tr, td{
     border: 1;
     border-color: black;
 	outline: auto;
-	min-height: 95%;
+    overflow-y: auto;
+	max-height: 95%;
 	width: 90%;
 }
 
@@ -83,6 +84,14 @@ table, tr, td{
 	display: flex;
 	justify-content: space-between;
 	width: auto;
+}
+
+.btn-ficha{
+    display: flex;
+
+	width: 40%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 h1{
@@ -117,10 +126,12 @@ button{
 	border: none; 
 	padding: 10px;
 	border-radius: 10px;
-	width: 95%;
 	color: white;
 	font-size: 20px;
+    width: 95%;
 }
+
+
 
 button:hover{
 	background-color: rgb(247, 168, 23);
@@ -129,6 +140,12 @@ button:hover{
 
 .nav-bar, td {
     background-color: white;
+}
+
+
+.div-nav-bar {
+    height: 500px;
+    overflow-y: scroll;
 }
 
 
@@ -141,11 +158,17 @@ button:hover{
 		height: 50%;
 	}
     table{
-        font-size: 7px;
+        font-size: 10px;
         align-items: center;
         max-width: 100%;
 
         display: table;
         
     }
+
+    .btn-ficha a button{
+        font-size: 10px;
+        
+    };
+    
 }

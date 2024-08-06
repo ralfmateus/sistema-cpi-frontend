@@ -466,18 +466,18 @@ def ciente_comunicante():
     justificativa = request.form.get('justificativa') if request.form.get('justificativa') else ''
     id = int(request.args.get('protocolo'))
         
-    if ciente:
-        json = {
-            'id': id,
-            'ass_comunicante': True,
-            'status': 1
-        }
-    else:
+    if not ciente:
         json = {
             'id': id,
             'justificativa': justificativa,
             'ass_comunicante': True,
             'status': 10,
+        }
+    else:
+        json = {
+            'id': id,
+            'ass_comunicante': True,
+            'status': 1
         }
             
     response = requests.put(f'http://127.0.0.1:8000/cpi/update_cpi', json=json, headers=headers)

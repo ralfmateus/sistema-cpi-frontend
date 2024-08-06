@@ -38,7 +38,7 @@ def consultar():
     
     tipo = request.form.get('tipo')
     conduta = request.form.get('conduta')
-    aluno = request.form.get('aluno')
+    aluno = request.form.get('aluno', type=int)
     comunicante = request.form.get('comunicante')
     chefe_de_curso = request.form.get('chefe_de_curso')
     pelotao = request.form.get('pelotao')

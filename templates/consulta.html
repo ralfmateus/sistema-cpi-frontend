@@ -1,4 +1,4 @@
-{% extends 'base3.html' %}
+{% extends 'base.html' %}
 
 {% block titulo %} Consulta {% endblock %}
 
@@ -31,6 +31,18 @@
         <option value="chefe de curso">CHEFE DE CURSO</option>
         <option value="pelotao">PELOTÃO</option>
         <option value="cia">CIA</option>
+    </select>
+    <select name="status" id="status">
+        <option value="-" selected>TODAS</option>
+        <option value="0">C/ COMUNICANTE</option>
+        <option value="1">C/ ALUNO</option>
+        <option value="2">C/ CHEFE DE CURSO</option>
+        <option value="12">C/ COMANDANTE DE CIA</option>
+        <option value="3">C/ COMANDANTE ESFAP/ESFO</option>
+        <option value="4">FINALIZADO</option>
+        <option value="5">CUMPRIDO</option>
+        <option value="10">CANCELADO PELO COMUNICANTE</option>
+        <option value="11">ARQUIVADO</option>
     </select>
     <!-- USUARIO FUNÇÃO -->
     <!-- <div class="usuario-funcao">
@@ -106,9 +118,8 @@
     <button type="submit"> ENVIAR </button>
 </form>
 
-<br><br>
-<hr>
-<br><br>
+<br>
+
 {% if tipo == 'cp' %}
 <table style="display: table;">
     <thead>
@@ -118,6 +129,7 @@
         <td>Conduta</td>
         <td>Artigo</td>
         <td>Data - Hora</td>
+        <td>Status</td>
         <td>Comunicante</td>
         </tr>
     </thead>
@@ -129,6 +141,7 @@
             <td>{{ cpi.conduta }}</td>
             <td>{{ cpi.artigo }}</td>
             <td>{{ cpi.data }} - {{ cpi.hora }}</td>
+            {% include 'td_status_consulta.html' %}
             <td><a href="{{ url_for('usuario.perfil') }}?id={{ cpi.comunicante.id }}">{{ cpi.comunicante.grau_hierarquico }} {{ cpi.comunicante.nome_de_guerra }}</a></td>
             <td><a href="{{ url_for('cpi.perfil_cpi') }}?protocolo={{ cpi.id}}">LINK PARA ACESSAR CPI</a></td>
         </tr>
@@ -219,6 +232,7 @@
             document.getElementById('cia').style.display = 'none'
 
             document.getElementById('conduta').style.display = 'none'
+            document.getElementById('status').style.display = 'none'
 
             document.getElementById('login').style.display = 'none'
             document.getElementById('nome').style.display = 'none'
@@ -227,6 +241,7 @@
             document.getElementById('categoria-cp').style.display = 'block'
 
             document.getElementById('conduta').style.display = 'block'
+            document.getElementById('status').style.display = 'block'
 
             document.getElementById('categoria-usuario').style.display = 'none'
 

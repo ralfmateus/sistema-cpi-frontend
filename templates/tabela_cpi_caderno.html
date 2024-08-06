@@ -21,7 +21,7 @@
                             {{ i }}° PELOTÃO
                         </td>
                     </tr>
-                    {% for caderno in cadernos %}
+                    {% for caderno in caderno_cpi %}
                         {% if caderno.conduta == 1 and caderno.info.pelotao|int == i %}
                         <tr>
                             <td rowspan="{{ caderno.cpis|length }}">
@@ -75,7 +75,7 @@
                             {{ i }}° PELOTÃO
                         </td>
                     </tr>
-                    {% for caderno in cadernos %}
+                    {% for caderno in caderno_cpi %}
                         {% if caderno.conduta == 2 and caderno.info.pelotao|int == i %}
                         <tr>
                             <td rowspan="{{ caderno.cpis|length }}">
@@ -129,7 +129,7 @@
                             {{ i }}° PELOTÃO
                         </td>
                     </tr>
-                    {% for caderno in cadernos %}
+                    {% for caderno in caderno_cpi %}
                         {% if caderno.conduta == 3 and caderno.info.pelotao|int == i %}
                         <tr>
                             <td rowspan="{{ caderno.cpis|length }}">

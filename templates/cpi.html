@@ -1,40 +1,36 @@
 {% extends 'base2.html' %}
 
-{% block conteudo %}
+{% block tabela_cpi %}
         {% if defesa.defesa %}
-        <!-- ---------------- DEFESA DO ALUNO ----------------------- -->
-        <table class="border-full">
-            <thead>
+        <!-- ---------------- DEFESA DO ALUNO ----------------------- -->            
                 <tr>
-                    <td scope="col" style="width: 100%;">DEFESA DO ALUNO</td> 
-                    <td scope="col" style="width: 100%;">DATA RECEBIDA</td> 
-                    <td scope="col" style="width: 100%;">DATA JUSTIFICADA</td> 
+                    <td colspan="2" style="width: 10%; border: 1px solid black; font-weight: bold; background-color: rgb(189, 187, 187);">DEFESA DO ALUNO</td> 
                 </tr>
-            </thead>
-            <tbody>
                 <tr>
-                    <td scope="col" style="width: 100%;">{{ defesa.defesa }}</td>  
-                    <td scope="col" style="width: 100%;">{{ defesa.data_recebido }}</td>  
-                    <td scope="col" style="width: 100%;">{{ defesa.data_justificada }}</td>  
+                    <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">DEFESA</td>  
+                    <td scope="col" style="width: 10%; border: 1px solid black;">{{ defesa.defesa }} sakljd lksaj dsajdklsajdlksajd jaldaslk dals dlsak jdlksa jld sal dsal dlks dlksa dlkas dlsaldkjas ldjsal jdsalkj daslkj dlksajd lsjdlsak jdlas </td>  
                 </tr>
-            </tbody>
-        </table>
+                <tr>
+                    <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">DATA RECEBIDA</td> 
+                    <td scope="col" style="width: 10%; border: 1px solid black;">{{ defesa.data_recebido }}</td>  
+            </tr>
+            <tr>
+                    <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">DATA JUSTIFICADA</td> 
+                    <td scope="col" style="width: 10%; border: 1px solid black;">{{ defesa.data_justificada }}</td>  
+                </tr>
+
         <!-- -------------------FIM DEFESA DO ALUNO  -->
          {% endif %}
     
-        <br>
+        
         {% if parecer %}
         <!-- ---------------- PARECER CHEFE DE CURSO ----------------------- -->
-        <table class="border-full">
-            <thead>
                 <tr>
-                    <td scope="col" style="width: 100%;">PARECER</td>  
+                    <td colspan="2" scope="col" style="width: 10%; border: 1px solid black; font-weight: bold; background-color: rgb(189, 187, 187);">PARECER CHEFE DE CURSO</td>  
                 </tr>
                 <tr>
-                </tr>
-                <tr>
-                    <td scope="col" style="width: 100%;">CHEFE DE CURSO</td>  
-                    <td scope="col" style="width: 100%;">SUGIRO: 
+                    <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">PARECER</td>
+                    <td scope="col" style="width: 10%; border: 1px solid black;">SUGIRO: 
                         {% if parecer.parecer == 'PUNICAO' %}
                         PUNIÇÃO
                         {% elif parecer.parecer == 'HOMOLOGACAO' %}
@@ -43,30 +39,26 @@
                         {{ parecer.parecer }}
                         {% endif %}
                     </td>  
-                    <td scope="col" style="width: 100%;">{{ parecer.chefe_de_curso.grau_hierarquico }} {{ parecer.chefe_de_curso.nome_de_guerra }}</td>  
-                      
                 </tr>
-            </thead>
-            <tbody>
                 <tr>
-                    <td scope="col" style="width: 100%;">{{ parecer.observacoes }}</td>    
+                    <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">CHEFE DE CURSO</td>  
+                    <td scope="col" style="width: 10%; border: 1px solid black;">{{ parecer.chefe_de_curso.grau_hierarquico }} {{ parecer.chefe_de_curso.nome_de_guerra }}</td>  
                 </tr>
-            </tbody>
-        </table>
+                <tr>
+                    <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">OBSERVAÇÕES</td>    
+                    <td scope="col" style="width: 10%; border: 1px solid black;">{{ parecer.observacoes }}  </td>    
+                </tr>
 
-        <br>
         <!-- -------------------FIM PARECER DO COMANDO ------------------------  -->
          {% endif %}
-         <br>
         {% if parecer_cmd_cia %}
         <!-- ---------------- PARECER COMANDANTE DE CIA ----------------------- -->
-        <table class="border-full">
-            <thead>
                 <tr>
-                    <td scope="col" style="width: 100%;">PARECER COMANDANTE DE CIA</td>    
+                    <td colspan="2" scope="col" style="width: 10%; border: 1px solid black; font-weight: bold; background-color: rgb(189, 187, 187);">PARECER COMANDANTE DE CIA</td>    
                 </tr>
                 <tr>
-                    <td scope="col" style="width: 100%;">SUGIRO: 
+                    <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">PARECER</td>
+                    <td scope="col" style="width: 10%; border: 1px solid black;">SUGIRO: 
                         {% if parecer.parecer == 'PUNICAO' %}
                             PUNIÇÃO
                         {% elif parecer.parecer == 'HOMOLOGACAO' %}
@@ -76,31 +68,26 @@
                         {% endif %}
                     </td>    
                 </tr>
-            </thead>
-            <tbody>
                 <tr>
-                    <td scope="col" style="width: 100%;">{{ parecer_cmd_cia.observacoes }}</td>
-                    <td scope="col" style="width: 100%;">{{ parecer_cmd_cia.cmd_cia.grau_hierarquico }} {{ parecer_cmd_cia.cmd_cia.node_de_guerra }}</td>
+                    <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">COMANDANTE DE CIA</td>
+                    <td scope="col" style="width: 10%; border: 1px solid black;">{{ parecer_cmd_cia.cmd_cia.grau_hierarquico }} {{ parecer_cmd_cia.cmd_cia.node_de_guerra }}</td>
                 </tr>
-            </tbody>
-        </table>
+                <tr>
+                    <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">OBSERVAÇÕES</td>
+                    <td scope="col" style="width: 10%; border: 1px solid black;">{{ parecer_cmd_cia.observacoes }}</td>
+                </tr>
 
-        <br>
         <!-- -------------------FIM PARECER COMANDANTE DE CIA ------------------------  -->
          {% endif %}
 
         
          {% if decisao %}
-
-            Decisão do CMD:
-            <!-- SELEÇÃO DE DECISÃO DO COMANDO   -->
-            <table class="border-full">
-                <thead>
                     <tr>
-                        <td scope="col" style="width: 100%;">DECISÃO COMANDANTE DA ESFO/ESFAP</td>    
+                        <td colspan="2" scope="col" style="width: 10%; border: 1px solid black; font-weight: bold; background-color: rgb(189, 187, 187);">DECISÃO COMANDANTE DA ESFO/ESFAP</td>    
                     </tr>
                     <tr>
-                        <td scope="col" style="width: 100%;">DECISÃO:  <!-- VERICAR O CAMPO -->
+                        <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">DECISÃO</td>
+                        <td scope="col" style="width: 10%; border: 1px solid black;"><!-- VERICAR O CAMPO -->
                             {% if decisao.decisao == 'PUNICAO' %}
                                 PUNIÇÃO
                             {% elif decisao.decisao == 'HOMOLOGACAO' %}
@@ -110,20 +97,19 @@
                             {% endif %}
                         </td>    
                     </tr>
-                </thead>
-                <tbody>
                     <tr>
-                        <td scope="col" style="width: 100%;">{{ decisao.observacoes }}</td>   
-                        <td scope="col" style="width: 100%;">{{ decisao.comandante.grau_hierarquico }} {{ decisao.comandante.nome_de_guerra }}</td> 
+                        <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">COMANDANTE</td>
+                        <td scope="col" style="width: 10%; border: 1px solid black;">{{ decisao.comandante.grau_hierarquico }} {{ decisao.comandante.nome_de_guerra }}</td> 
                     </tr>
-                </tbody>
-            </table>
-            <!-- FIM SELEÇÃO DE DECISÃO DO COMANDO -->
-            <br>
+                    <tr>
+                        <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">OBSERVAÇÕES</td>
+                        <td scope="col" style="width: 10%; border: 1px solid black;">{{ decisao.observacoes }}  kljsad jsa lksaj djsalk jlsak lsak jlkaslas a sa sal ksa dsajdlksajd lsakj dlasjd lsakjd lasjd asjdl sajld jasldjsal djsalj daskljlaksjdlksaj dlasj dlsakj dlasj lsaj ldksajldjsa ld jasljd lkja ldjslakdj  kljsad jsa lksaj djsalk jlsak lsak jlkaslas a sa sal ksa dsajdlksajd lsakj dlasjd lsakjd lasjd asjdl sajld jasldjsal djsalj daskljlaksjdlksaj dlasj dlsakj dlasj lsaj ldksajldjsa ld jasljd lkja ldjslakdj  kljsad jsa lksaj djsalk jlsak lsak jlkaslas a sa sal ksa dsajdlksajd lsakj dlasjd lsakjd lasjd asjdl sajld jasldjsal djsalj daskljlaksjdlksaj dlasj dlsakj dlasj lsaj ldksajldjsa ld jasljd lkja ldjslakdj  kljsad jsa lksaj djsalk jlsak lsak jlkaslas a sa sal ksa dsajdlksajd lsakj dlasjd lsakjd lasjd asjdl sajld jasldjsal djsalj daskljlaksjdlksaj dlasj dlsakj dlasj lsaj ldksajldjsa ld jasljd lkja ldjslakdj  kljsad jsa lksaj djsalk jlsak lsak jlkaslas a sa sal ksa dsajdlksajd lsakj dlasjd lsakjd lasjd asjdl sajld jasldjsal djsalj daskljlaksjdlksaj dlasj dlsakj dlasj lsaj ldksajldjsa ld jasljd lkja ldjslakdj kljsad jsa lksaj djsalk jlsak lsak jlkaslas a sa sal ksa dsajdlksajd lsakj dlasjd lsakjd lasjd asjdl sajld jasldjsal djsalj daskljlaksjdlksaj dlasj dlsakj dlasj lsaj ldksajldjsa ld jasljd lkja ldjslakdj kljsad jsa lksaj djsalk jlsak lsak jlkaslas a sa sal ksa dsajdlksajd lsakj dlasjd lsakjd lasjd asjdl sajld jasldjsal djsalj daskljlaksjdlksaj dlasj dlsakj dlasj lsaj ldksajldjsa ld jasljd lkja ldjslakdj kljsad jsa lksaj djsalk jlsak lsak jlkaslas a sa sal ksa dsajdlksajd lsakj dlasjd lsakjd lasjd asjdl sajld jasldjsal djsalj daskljlaksjdlksaj dlasj dlsakj dlasj lsaj ldksajldjsa ld jasljd lkja ldjslakdj </td>   
+                    </tr>
 
             
         {% endif %}
-        
+        </table>
+    
 
     </div>
     <script>
