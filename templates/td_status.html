@@ -1,19 +1,19 @@
 {% if caderno.cpis[0].status == 0 %}
-    <td> COM O COMUNICANTE </td>
+    <td scope="col" style="width: 10%; border: 1px solid black;"> COM O COMUNICANTE </td>
 {% elif caderno.cpis[0].status == 1 %}
-    <td> COM O ALUNO </td>
+    <td scope="col" style="width: 10%; border: 1px solid black;"> COM O ALUNO </td>
 {% elif caderno.cpis[0].status == 2 %}
-    <td> COM O CHEFE DE CURSO </td>
+    <td scope="col" style="width: 10%; border: 1px solid black;"> COM O CHEFE DE CURSO </td>
 {% elif caderno.cpis[0].status == 3 %}
-    <td> COM O COMANDANTE DA ESFAP/ESFO </td>
+    <td scope="col" style="width: 10%; border: 1px solid black;"> COM O COMANDANTE DA ESFAP/ESFO </td>
 {% elif caderno.cpis[0].status == 4 %}
-    <td> FINALIZADO </td>
+    <td scope="col" style="width: 10%; border: 1px solid black;"> FINALIZADO </td>
 {% elif caderno.cpis[0].status == 5 %}
-    <td> CUMPRIDO </td>
+    <td scope="col" style="width: 10%; border: 1px solid black;"> CUMPRIDO </td>
 {% elif caderno.cpis[0].status == 10 %}
-    <td> CANCELADO PELO COMUNICANTE </td>
+    <td scope="col" style="width: 10%; border: 1px solid black;"> CANCELADO PELO COMUNICANTE </td>
 {% elif caderno.cpis[0].status == 11 %}
-    <td> ARQUIVADO </td>
+    <td scope="col" style="width: 10%; border: 1px solid black;"> ARQUIVADO </td>
 {% elif caderno.cpis[0].status == 12 %}
-    <td> COM O COMANDANTE DE COMPANHIA </td>
+    <td scope="col" style="width: 10%; border: 1px solid black;"> COM O COMANDANTE DE COMPANHIA </td>
 {% endif %}

@@ -643,8 +643,6 @@ def perfil():
             'cpis': cpis,
             'aluno': True
         }
-        
-        return response
     
     else:
         response = {
@@ -652,6 +650,27 @@ def perfil():
             'aluno': False
         }
         
-        return response
+    return render_template('perfil_consulta.html', dados=response)
 
 
+@usuario.route('/editar_perfil')
+def editar_perfil():
+    if not session.get('token'):
+        return redirect(url_for('usuario.login'))
+    
+    headers = {'Authorization': f'Bearer {session["token"]}'}
+    
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_usuario', headers=headers)
+    
+    if not response:
+        del session['token']
+        return redirect(url_for('usuario.login', erro=1))
+    
+    current_user = response.json()['__data__']
+
+    id = request.args.get('id', type=int)
+    
+    if not id:
+        return redirect(url_for('usuario.home'))
+    
+    # EDITAR PERFIL COMPLETO EXCETO DADOS SENCIVEIS COMO SENHA, LOGIN E NOTA DE CONDUTA
