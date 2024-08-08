@@ -37,10 +37,17 @@
          <br><br>
         </div>  
         <br><br>
+        {% if dados['aluno'] %}
         <div class="btn-ficha">
-           <a href="{{ url_for('usuario.home') }}" style="width: 100%; "><button type="button">VOLTAR</button></a>
-           <a href="{{ url_for('usuario.editar_perfil') }}?id={{ dados.info.usuario.id }}" style="width: 100%; "><button type="button">EDITAR</button></a>
-   </div>
+           <a href="{{ url_for('consulta.consultar') }}" style="width: 100%; "><button type="button">VOLTAR</button></a>
+           <a href="{{ url_for('usuario.editar_perfil_aluno') }}?id={{ dados.info.usuario.id }}" style="width: 100%; "><button type="button">EDITAR</button></a>
+        </div>
+        {% else %}
+        <div class="btn-ficha">
+           <a href="{{ url_for('consulta.consultar') }}" style="width: 100%; "><button type="button">VOLTAR</button></a>
+           <a href="{{ url_for('usuario.editar_perfil_usuario') }}?id={{ dados.usuario.id }}" style="width: 100%; "><button type="button">EDITAR</button></a>
+        </div>
+        {% endif %}
          
        
          

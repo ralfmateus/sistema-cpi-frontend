@@ -1,0 +1,33 @@
+<table class="nav-bar">
+    <tr style="border: 1px solid black;">
+        <td colspan="2"
+            style="width: 10%; border: 1px solid black; font-weight: bold; background-color: rgb(189, 187, 187);">ALUNO
+        </td>
+    </tr>
+    <tr style="border: 1px solid black;">
+        <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">NOME</td>
+        <td scope="col" style="width: 10%; border: 1px solid black;">{{ dados.usuario.nome }}</td>
+    </tr>
+    <tr>
+        <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">NOME DE GUERRA</td>
+        <td scope="col" style="width: 15%; border: 1px solid black;">{{ dados.usuario.grau_hierarquico }} {{ dados.usuario.nome_de_guerra }}</td>
+    </tr>
+    <tr>
+        <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">FUNÇÃO</td>
+        <td scope="col" style="width: 15%; border: 1px solid black;">{{ dados.usuario.funcao }}</td>
+    </tr>
+    {% if dados.info %}
+        <tr>
+            <td scope="col" style="width: 30%; border: 1px solid black; font-weight: bold;">PELOTÃO</td>
+            <td scope="col" style="width: 30%; border: 1px solid black;">{{ dados.info.pelotao }}</td>
+        </tr>
+        <tr>
+            <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">CURSO</td>
+            <td scope="col" style="width: 10%; border: 1px solid black;">{{ dados.info.curso }} {{ dados.info.ano }}</td>
+        </tr>
+        <tr>
+            <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">CIA</td>
+            <td scope="col" style="width: 10%; border: 1px solid black;">{{ dados.info.cia }} {{ dados.info.cia }}</td>
+        </tr>
+    {% endif %}
+</table>

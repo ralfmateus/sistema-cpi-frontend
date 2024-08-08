@@ -645,8 +645,20 @@ def perfil():
         }
     
     else:
+        if usuario['funcao'] == 'CHEFE DE CURSO' or usuario['funcao'] == 'COMANDANTE DE CIA':
+            response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={id}', headers=headers)
+        
+            if not response:
+                return redirect(url_for('consulta.consultar'))
+                    
+            info = response.json()
+            
+        else:
+            info = False
+        
         response = {
             'usuario': usuario,
+            'info': info,
             'aluno': False
         }
         
@@ -674,3 +686,35 @@ def editar_perfil():
         return redirect(url_for('usuario.home'))
     
     # EDITAR PERFIL COMPLETO EXCETO DADOS SENCIVEIS COMO SENHA, LOGIN E NOTA DE CONDUTA
+    if request.method == 'GET':
+        if info['usuario']['funcao'] == 'ALUNO' or info['usuario']['funcao'] == 'JUSTICA':
+            response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={id}', headers=headers)
+            
+            if not response:
+                redirect(url_for('consulta.consultar'))
+            
+            info = response.json()
+        
+            return render_template('editar_perfil_aluno.html', info=info)
+        else:
+            if info['usuario']['funcao'] == 'CHEFE DE CURSO' or info['usuario']['funcao'] == 'COMANDANTE DE CIA':
+                response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={id}', headers=headers)
+                
+                if not response:
+                    redirect(url_for('consulta.consultar'))
+                
+                info = response.json()
+                
+                return render_template('editar_perfil_usuario.html', info=info)
+            else:
+                response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_id?id={id}', headers=headers)
+                
+                if not response:
+                    redirect(url_for('consulta.consultar'))
+                
+                usuario = response.json()
+                
+                return render_template('editar_perfil_usuario.html', info=usuario)
+
+    else:
+        ...
