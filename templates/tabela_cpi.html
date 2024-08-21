@@ -1,28 +1,29 @@
 <h2>
     ALUNOS DE CPI: {{ quantidade_aluno_cpi1 + quantidade_aluno_cpi2 + quantidade_aluno_cpi3 }}
 </h2>
-            <table>
+            <table class="table-consulta-caderno">
                 <thead>
                     <tr>
-                        <td colspan="5"> CPI I</td>
+                        <td colspan="5" style="background-color: rgb(155, 155, 155); font-weight: bold;"> CPI I</td>
                     </tr>
-                    <tr>
+                    <tr style="font-weight: bold;">
                         <td>N°</td>
                         <td>AL SD</td>
                         <td>DATA</td>
-                        <td>ENQUADRAMENTO</td>
-                        <td>PROTOCOLO</td>
+                        <td>ENQUAD.</td>
+                        <td>PROT.</td>
                     </tr>
                 </thead>
                 <tbody>
                     {% for i in range(1, pelotoes+1) %}
                     <tr>
-                        <td colspan="5">
+                        <td colspan="5" style="background-color: rgb(155, 155, 155); font-weight: bold;">
                             {{ i }}° PELOTÃO
                         </td>
                     </tr>
                     {% for caderno in cadernos %}
                         {% if caderno.conduta == 1 and caderno.info.pelotao|int == i %}
+                        
                         <tr>
                             <td rowspan="{{ caderno.cpis|length }}">
                                 {{ caderno.info.numero }}
@@ -50,28 +51,28 @@
                         </tr>
                     {% endfor %}
                     <tr>
-                        <td colspan="5">TOTAL DE ALUNO DE CPI - I: {{ quantidade_aluno_cpi1 }}</td>
+                        <td colspan="5"  style="background-color: rgb(155, 155, 155); font-weight: bold;">TOTAL DE ALUNO DE CPI - I: {{ quantidade_aluno_cpi1 }}</td>
                     </tr>
                 </tbody>
             </table>
-            <br>
-            <table>
+            <br><br>
+            <table class="table-consulta-caderno">
                 <thead>
                     <tr>
-                        <td colspan="5"> CPI II</td>
+                        <td colspan="5"  style="background-color: rgb(155, 155, 155); font-weight: bold;"> CPI II</td>
                     </tr>
-                    <tr>
+                    <tr style="font-weight: bold;">
                         <td>N°</td>
                         <td>AL SD</td>
                         <td>DATA</td>
-                        <td>ENQUADRAMENTO</td>
-                        <td>PROTOCOLO</td>
+                        <td>ENQUAD.</td>
+                        <td>PROT.</td>
                     </tr>
                 </thead>
                 <tbody>
                     {% for i in range(1, pelotoes+1) %}
                     <tr>
-                        <td colspan="5">
+                        <td colspan="5"  style="background-color: rgb(155, 155, 155); font-weight: bold;">
                             {{ i }}° PELOTÃO
                         </td>
                     </tr>
@@ -104,28 +105,28 @@
                         </tr>
                     {% endfor %}
                     <tr>
-                        <td colspan="5">TOTAL DE ALUNO DE CPI - II: {{ quantidade_aluno_cpi2 }}</td>
+                        <td colspan="5" style="background-color: rgb(155, 155, 155); font-weight: bold;">TOTAL DE ALUNO DE CPI - II: {{ quantidade_aluno_cpi2 }}</td>
                     </tr>
                 </tbody>
             </table>
-            <br>
-            <table>
+            <br><br>
+            <table class="table-consulta-caderno">
                 <thead>
                     <tr>
-                        <td colspan="5"> CPI III</td>
+                        <td colspan="5" style="background-color: rgb(155, 155, 155); font-weight: bold;"> CPI III</td>
                     </tr>
-                    <tr>
+                    <tr style="font-weight: bold;">
                         <td>N°</td>
                         <td>AL SD</td>
                         <td>DATA</td>
-                        <td>ENQUADRAMENTO</td>
-                        <td>PROTOCOLO</td>
+                        <td>ENQUAD.</td>
+                        <td>PROT.</td>
                     </tr>
                 </thead>
                 <tbody>
                     {% for i in range(1, pelotoes+1) %}
                     <tr>
-                        <td colspan="5">
+                        <td colspan="5" style="background-color: rgb(155, 155, 155); font-weight: bold;">
                             {{ i }}° PELOTÃO
                         </td>
                     </tr>
@@ -160,7 +161,7 @@
                         </tr>
                     {% endfor %}
                     <tr>
-                        <td colspan="5">TOTAL DE ALUNO DE CPI - III: {{ quantidade_aluno_cpi3 }}</td>
+                        <td colspan="5" style="background-color: rgb(155, 155, 155); font-weight: bold;">TOTAL DE ALUNO DE CPI - III: {{ quantidade_aluno_cpi3 }}</td>
                     </tr>
                 </tbody>
             </table>

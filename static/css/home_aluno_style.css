@@ -114,10 +114,6 @@ a:hover{
     color: rgb(29, 31, 128);
 }
 
-
-
-
-
 button{
 	background-color: rgb(255, 255, 255);
 	width: 100%;
@@ -143,6 +139,32 @@ button{
     font-weight: bold;
 }
 
+.btn-enviar{
+    background-color:rgb(29, 31, 128);
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    width: 10%;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    margin-right: auto;
+    margin-left: auto;
+   
+}
+.btn-enviar:hover{
+    color: black;
+    background-color: rgb(247, 168, 23);
+
+}
+
+.nav-bar-mobile-limited {
+    display: none;
+}
+
+.nav-bar-mobile {
+    display: none;
+}
 
 
 /* -------------------CELULAR-------- */
@@ -152,6 +174,10 @@ button{
 		height: 50%;
 	}
 
+    .btn-enviar{
+        width: 40%;
+
+    }
     
     h1{
         font-size: 15px;
@@ -162,11 +188,92 @@ button{
     }
 
     .nav-bar{
-        font-size: 7px;
+        display: none;
     }
 
+    .nav-bar-mobile-limited {
+        display: none;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 12px;
+        border: 1 solid black;
+        border-color: black;
+        outline: auto;
+    }
 
+    .nav-bar-mobile {
+        display: flex;
+    }
 
+    /* The sidebar menu */
+    .sidebar {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0;
+    left: -20px;
+    background-color: rgb(29, 31, 128); /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+  }
+  
+  /* The sidebar links */
+  .sidebar a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: white;
+    display: block;
+    transition: 0.3s;
+    width: 270px;
+  }
+  
+  /* When you mouse over the navigation links, change their color */
+  .sidebar a:hover {
+    color: #f1f1f1;
+  }
+  
+  /* Position and style the close button (top right corner) */
+  .sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+  
+  /* The button used to open the sidebar */
+  .openbtn {
+    position: fixed;
+    translate: -10%;
+    top: 10px;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    cursor: pointer;
+    background-color: rgb(29, 31, 128);
+    color: white;
+    padding: 10px 15px;
+    border: none;
+  }
+  
+  .openbtn:hover {
+    background-color: rgb(29, 31, 128);
+  }
+  
+  /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+  #main {
+    transition: margin-left .5s;
+  }
+  
+  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+  @media screen and (max-height: 450px) {
+    .sidebar {padding-top: 15px;}
+    .sidebar a {font-size: 18px;}
+  }
     
 
 

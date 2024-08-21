@@ -82,7 +82,7 @@ def adicionar_usuario():
 @usuario.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
-        if session.get('usuario'):
+        if session.get('token'):
             return redirect(url_for('usuario.home'))
         return render_template('login.html')
     else:
@@ -623,6 +623,7 @@ def perfil():
     
     usuario = response.json()
     
+    
     if usuario['funcao'] == 'JUSTICA' or usuario['funcao'] == 'ALUNO':
         response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={id}', headers=headers)
         
@@ -637,7 +638,7 @@ def perfil():
             return redirect(url_for('consulta.consultar'))
         
         cpis = response.json()
-
+        
         response = {
             'info': info,
             'cpis': cpis,
@@ -665,8 +666,127 @@ def perfil():
     return render_template('perfil_consulta.html', dados=response)
 
 
-@usuario.route('/editar_perfil')
-def editar_perfil():
+@usuario.route('/perfil_atual')
+def perfil_atual():
+    if not session.get('token'):
+        return redirect(url_for('usuario.login'))
+    
+    headers = {'Authorization': f'Bearer {session["token"]}'}
+    
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_usuario', headers=headers)
+    
+    if not response:
+        del session['token']
+        return redirect(url_for('usuario.login', erro=1))
+    
+    current_user = response.json()['__data__']
+    
+    id = current_user['id']
+    
+    if not id:
+        return redirect(request.referrer)
+    
+    
+    if current_user['funcao'] == 'JUSTICA' or current_user['funcao'] == 'ALUNO':
+        response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={id}', headers=headers)
+        
+        if not response:
+            return redirect(request.referrer)
+                
+        info = response.json()
+        
+        response = requests.get(f'http://127.0.0.1:8000/cpi/consulta_all_aluno?usuario_id={info["usuario"]["id"]}', headers=headers)
+        
+        if not response:
+            return redirect(url_for('consulta.consultar'))
+        
+        cpis = response.json()
+        
+        cpis = False
+
+        response = {
+            'info': info,
+            'cpis': cpis,
+            'aluno': True
+        }
+    
+    else:
+        if current_user['funcao'] == 'CHEFE DE CURSO' or current_user['funcao'] == 'COMANDANTE DE CIA':
+            response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={id}', headers=headers)
+        
+            if not response:
+                return redirect(url_for('consulta.consultar'))
+                    
+            info = response.json()
+            
+        else:
+            info = False
+        
+        response = {
+            'usuario': current_user,
+            'info': info,
+            'aluno': False
+        }
+        
+    return render_template('perfil_atual.html', dados=response)
+
+
+@usuario.route('/trocar_senha', methods=['GET', 'POST'])
+def trocar_senha():
+    if not session.get('token'):
+        return redirect(url_for('usuario.login'))
+    
+    headers = {'Authorization': f'Bearer {session["token"]}'}
+    
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_usuario', headers=headers)
+    
+    if not response:
+        del session['token']
+        return redirect(url_for('usuario.login', erro=1))
+    
+    current_user = response.json()['__data__']
+    
+    if request.method == 'GET':
+        return render_template('trocar_senha.html')
+    
+    login = request.form.get('login')
+    senha_atual = request.form.get('senha_atual')
+    nova_senha1 = request.form.get('nova_senha1')
+    nova_senha2 = request.form.get('nova_senha2')
+    
+    
+    data = {
+            "username": login,
+            "password": senha_atual,
+        }
+        
+    response = requests.post('http://127.0.0.1:8000/usuario/token', data=data, headers=headers)
+    
+    
+    if response.status_code == 200:        
+        if not nova_senha1 == nova_senha2:
+            return redirect(url_for('usuario.trocar_senha', erro=1))
+                
+        # **************************    EFETIVAMENTE TROCAR A SENHA     *********************************
+        
+        data = {
+            'login': login,
+            'senha': nova_senha1,
+        }
+        
+        response = requests.put('http://127.0.0.1:8000/usuario/trocar_senha', json=data, headers=headers)
+                
+        if response.status_code == 200:
+            return redirect(url_for('usuario.home'))
+        else:
+            return redirect(url_for('usuario.trocar_senha', id=current_user['id'], erro=2))
+        
+    else:
+        return redirect(url_for('usuario.trocar_senha', id=current_user['id'], erro=3))    
+        
+        
+@usuario.route('/editar_perfil_aluno', methods=['GET', 'POST'])
+def editar_perfil_aluno():
     if not session.get('token'):
         return redirect(url_for('usuario.login'))
     
@@ -680,41 +800,141 @@ def editar_perfil():
     
     current_user = response.json()['__data__']
 
-    id = request.args.get('id', type=int)
-    
-    if not id:
-        return redirect(url_for('usuario.home'))
-    
-    # EDITAR PERFIL COMPLETO EXCETO DADOS SENCIVEIS COMO SENHA, LOGIN E NOTA DE CONDUTA
     if request.method == 'GET':
-        if info['usuario']['funcao'] == 'ALUNO' or info['usuario']['funcao'] == 'JUSTICA':
+        id = request.args.get('id', type=int)
+        
+        if not id:
+            return redirect(url_for('consulta.consultar'))
+        
+        # EDITAR PERFIL COMPLETO EXCETO DADOS SENCIVEIS COMO SENHA, LOGIN E NOTA DE CONDUTA
+        response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={id}', headers=headers)
+        
+        if not response:
+            return redirect(url_for('consulta.consultar'))
+        
+        info = response.json()
+    
+        return render_template('editar_perfil_aluno.html', info=info)
+    
+    # **********************************    EFETIVAMENTE EDITAR PERFIL    *********************************
+    
+    usuario = {
+            "id": request.form.get('id'),
+            "funcao": request.form.get('funcao'),
+            "nome": request.form.get('nome'),
+            "nome_de_guerra": request.form.get('nome_de_guerra'),
+            "grau_hierarquico": request.form.get('grau_hierarquico')
+        }
+    
+    info = {
+            "curso": request.form.get('curso'),
+            "ano": request.form.get('ano'),
+            "cia": request.form.get('cia'),
+            "pelotao": request.form.get('pelotao'),
+            "numero": request.form.get('numero'),
+            "usuario": usuario['id']
+        }
+    
+    response = requests.put('http://127.0.0.1:8000/usuario/update_usuario', json=usuario, headers=headers) 
+    if response.status_code == 200:
+        response = requests.put('http://127.0.0.1:8000/info/update_info', json=info, headers=headers)
+        if response.status_code == 200:
+            return redirect(url_for('usuario.perfil', id=usuario['id']))
+        else:
+            return redirect(url_for('usuario.editar_perfil_aluno', id=usuario['id'], erro=1))
+    else:
+        return redirect(url_for('usuario.editar_perfil_aluno', id=usuario['id'], erro=2))
+    
+        
+@usuario.route('/editar_perfil_usuario', methods=['GET', 'POST'])
+def editar_perfil_usuario():
+    if not session.get('token'):
+        return redirect(url_for('usuario.login'))
+    
+    headers = {'Authorization': f'Bearer {session["token"]}'}
+    
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_usuario', headers=headers)
+    
+    if not response:
+        del session['token']
+        return redirect(url_for('usuario.login', erro=1))
+    
+    current_user = response.json()['__data__']
+
+    if request.method == 'GET':
+        id = request.args.get('id', type=int)
+        
+        if not id:
+            return redirect(url_for('consulta.consultar'))
+        
+        # EDITAR PERFIL COMPLETO EXCETO DADOS SENCIVEIS COMO SENHA, LOGIN E NOTA DE CONDUTA
+        response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_id?id={id}', headers=headers)
+        
+        if not response:
+            redirect(url_for('consulta.consultar'))
+        
+        usuario = response.json()
+    
+        if usuario['funcao'] == 'CHEFE DE CURSO' or usuario['funcao'] == 'COMANDANTE DE CIA':
             response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={id}', headers=headers)
-            
+        
             if not response:
                 redirect(url_for('consulta.consultar'))
             
             info = response.json()
-        
-            return render_template('editar_perfil_aluno.html', info=info)
+            
         else:
-            if info['usuario']['funcao'] == 'CHEFE DE CURSO' or info['usuario']['funcao'] == 'COMANDANTE DE CIA':
-                response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={id}', headers=headers)
-                
-                if not response:
-                    redirect(url_for('consulta.consultar'))
-                
-                info = response.json()
-                
-                return render_template('editar_perfil_usuario.html', info=info)
-            else:
-                response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_id?id={id}', headers=headers)
-                
-                if not response:
-                    redirect(url_for('consulta.consultar'))
-                
-                usuario = response.json()
-                
-                return render_template('editar_perfil_usuario.html', info=usuario)
-
+            info = False
+        
+        return render_template('editar_perfil_usuario.html', usuario=usuario, info=info)
+        
+    # **********************************    EFETIVAMENTE EDITAR PERFIL    *********************************
+    
+    response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_id?id={request.form.get("id")}', headers=headers)
+        
+    if not response:
+        redirect(url_for('consulta.consultar'))
+    
+    user = response.json()
+    
+    usuario = {
+            "id": request.form.get('id'),
+            "funcao": request.form.get('funcao'),
+            "nome": request.form.get('nome'),
+            "nome_de_guerra": request.form.get('nome_de_guerra'),
+            "grau_hierarquico": request.form.get('grau_hierarquico')
+        }
+    
+    if user['funcao'] == 'CHEFE DE CURSO' or user['funcao'] == 'COMANDANTE DE CIA':
+        if request.form.get('cia'):
+            info = {
+                    "curso": request.form.get('curso'),
+                    "ano": request.form.get('ano'),
+                    "cia": request.form.get('cia'),
+                    "pelotao": request.form.get('pelotao'),
+                    "usuario": usuario['id']
+                }
+        else:
+            info = {
+                    "curso": request.form.get('curso'),
+                    "ano": request.form.get('ano'),
+                    "cia": '',
+                    "pelotao": request.form.get('pelotao'),
+                    "usuario": usuario['id']
+                }
     else:
-        ...
+        info = False
+            
+    response = requests.put('http://127.0.0.1:8000/usuario/update_usuario', json=usuario, headers=headers) 
+    if response.status_code == 200:
+        if info:
+            response = requests.put('http://127.0.0.1:8000/info/update_info', json=info, headers=headers)
+            print(response.json())
+            if response.status_code == 200:
+                return redirect(url_for('usuario.perfil', id=usuario['id']))
+            else:
+                return redirect(url_for('usuario.editar_perfil_usuario', id=usuario['id'], erro=1))
+        else:
+            return redirect(url_for('usuario.perfil', id=usuario['id']))
+    else:
+        return redirect(url_for('usuario.editar_perfil_usuario', id=usuario['id'], erro=2))

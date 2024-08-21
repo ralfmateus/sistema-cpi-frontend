@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FICHA DE COMUNICAÇÃO</title>
     <link rel="stylesheet" href="../static/css/ficha_style.css">
-    
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 <body>
 
@@ -64,14 +66,13 @@
                 {% endblock %}
         </table>
         <!-- FIM TABELA DADOS DA CPI -->
-         <br><br>
-        <div class="btn-ficha">
-           <a href="{{ url_for('usuario.home') }}" style="width: 100%; "><button type="button">VOLTAR</button></a>
-   </div>
+        <!-- <div class="btn-ficha">
+           <a href="{{ request.referrer }}" style="width: 100%; "><button type="button">VOLTAR</button></a>
+   </div> -->
          </div>
          
        
-         
+         <br>
          {% block conteudo %}
          {% endblock %}
          

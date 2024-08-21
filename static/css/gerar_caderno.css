@@ -1,0 +1,52 @@
+select {
+    width: 19.7%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1%;
+}
+
+input {
+    width: 19.7%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1%;
+}
+
+.table-consulta-caderno {
+    display: table;
+    width: 80%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+label {
+    display: none;
+}
+
+@media (max-width: 850px) {
+    select {
+        width: 100%;
+        display: inline-flex;
+    }
+
+    input {
+        width: 67%;
+        display: inline-flex;
+    }
+
+    label {
+        display: inline-flex;
+        font-size: 14px;
+        width: 30%;
+        margin-left: 5px;
+        padding: 0;
+    }
+
+    .table-consulta-caderno {
+        font-size: 11px;
+        width: 100%;
+        margin: auto;
+        padding: auto;
+    }
+}

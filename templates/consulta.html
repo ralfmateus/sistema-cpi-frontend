@@ -2,35 +2,41 @@
 
 {% block titulo %} Consulta {% endblock %}
 
+{% block style %}
+<link rel="stylesheet" href="../static/css/consulta_spec_style.css">
+{% endblock %}
+
 {% block conteudo %}
 
 <form action="{{ url_for('consulta.consultar') }}" method="post">
-    <div class="tipo">
+    <div class="consulta">
         <select name="tipo" onchange="Tipo_selecionado(this);">
-            <option value="cp">CP</option>
-            <option value="usuario">USUARIO</option>
+            <option value="cp" selected hidden>TIPO DE BUSCA</option>
+            <option value="cp">CONDUTA PROFISSIONAL</option>
+            <option value="usuario">USUÁRIO</option>
         </select>
-    </div>
-    <br>
     <select name="categoria-usuario" id="categoria-usuario" onchange="Categoria_usuario_selecionada(this)" hidden>
        <option value="-">TODOS OS USUÁRIOS</option>
-       <option value="login">LOGIN</option>
+       <!-- <option value="login">LOGIN</option> -->
        <option value="nome">NOME</option>
        <option value="pelotao">PELOTÃO</option>
        <option value="cia">CIA</option>
     </select>
     <select name="conduta" id="conduta">
-        <option value="-">TODAS</option>
+        <option value="-" selected hidden>TIPO DE CONDUTA</option>
+        <option value="-">TODOS</option>
         <option value="cpi">CPI</option>
         <option value="cpa">CPA</option>
     </select>
     <select name="categoria-cp" id="categoria-cp" onchange="Categoria_cp_selecionada(this)">
-        <option value="-" selected>TODAS AS CP</option>
+        <option value="-" selected hidden>FILTROS</option>
+        <option value="-" >SEM FILTRO</option>
         <option value="pelotao">PELOTÃO</option>
         <option value="cia">CIA</option>
     </select>
     <select name="status" id="status">
-        <option value="-" selected>TODAS</option>
+        <option value="-" selected hidden>STATUS</option>
+        <option value="-">TODOS</option>
         <option value="0">C/ COMUNICANTE</option>
         <option value="1">C/ ALUNO</option>
         <option value="2">C/ CHEFE DE CURSO</option>
@@ -54,7 +60,6 @@
     <input type="radio" name="funcao" id="" value="COMUNICANTE"><label for="">COMUNICANTE</label>
     </div> -->
     <!-- FIM USUARIO FUNÇÃO -->
-    <br>
     <!-- USUARIO NOME -->
     <input type="text" name="nome" id="nome" placeholder="NOME" hidden>
     <input type="text" name="login" id="login" placeholder="LOGIN" hidden>
@@ -79,8 +84,7 @@
         <option value="{{ chefe.id }}">{{ chefe.grau_hierarquico }} {{ chefe.nome_de_guerra }}</option>
         {% endfor %}
     </select>
-    <div id="pelotao" hidden>
-        <select name="curso">
+        <select hidden id="pelotao-curso" class="elemento" name="curso">
             <option value="CFSD">CFSD</option>
             <option value="CFO">CFO</option>
             <option value="CHS">CHS</option>
@@ -88,11 +92,9 @@
             <option value="EAO">EAO</option>
             <option value="CAO">CAO</option>
         </select>
-        <input type="text" name="ano" placeholder="ANO" id="ano">
-        <input type="text" name="pelotao" placeholder="PELOTÃO">
-    </div>
-    <div id="cia" hidden>
-        <select name="curso">
+        <input hidden class="elemento" type="text" name="ano" placeholder="ANO" id="pelotao-ano">
+        <input hidden class="elemento" type="text" name="pelotao" placeholder="PELOTÃO" id="pelotao-pelotao">
+        <select hidden id="cia-curso" name="curso" class="elemento">
             <option value="CFSD">CFSD</option>
             <option value="CFO">CFO</option>
             <option value="CHS">CHS</option>
@@ -100,9 +102,8 @@
             <option value="EAO">EAO</option>
             <option value="CAO">CAO</option>
         </select>
-        <input type="text" name="ano" placeholder="ANO">
-        <input type="text" name="cia" placeholder="CIA">
-    </div>
+        <input hidden id="cia-ano" class="elemento" type="text" name="ano" placeholder="ANO">
+        <input hidden id="cia-cia" class="elemento" type="text" name="cia" placeholder="CIA">
 
     <!-- ORDENAR POR -->
     <select name="ordenar" id="ordenar" hidden>
@@ -110,53 +111,82 @@
         <option value="nota menor">Menor Nota de Conduta</option>
         <option value="nota maior">Maior Nota de Conduta</option>
     </select>
+    </div>
 
-
-    <button type="submit"> ENVIAR </button>
+    <br><br>
+    <button class="btn-enviar" type="submit"> ENVIAR </button>
 </form>
 
 <br>
 
 {% if tipo == 'cp' %}
-<table style="display: table;">
+<table class="table-cp-pc">
     <thead>
-        <tr>
-        <td>Protocolo</td>
-        <td>Aluno</td>
-        <td>Conduta</td>
-        <td>Artigo</td>
-        <td>Data - Hora</td>
-        <td>Status</td>
-        <td>Comunicante</td>
+        <tr style="font-weight: bold;">
+        <td>PROTOCOLO</td>
+        <td>ALUNO</td>
+        <td>CONDUTA</td>
+        <td>ARTIGO</td>
+        <td>DATA - HORA</td>
+        <td>STATUS</td>
+        <td>COMUNICANTE</td>
+        <td>CPI</td>
         </tr>
     </thead>
     <tbody>
         {% for cpi in dados %}
         <tr>
             <td>{{ cpi.id }}</td>
-            <td><a href="{{ url_for('usuario.perfil') }}?id={{ cpi.aluno.id }}">{{ cpi.aluno.grau_hierarquico }} {{ cpi.aluno.nome_de_guerra }}</a></td>
+            <td><a href="{{ url_for('usuario.perfil') }}?id={{ cpi.aluno.id }}" target="_blank">{{ cpi.aluno.grau_hierarquico }} {{ cpi.aluno.nome_de_guerra }}</a></td>
             <td>{{ cpi.conduta }}</td>
             <td>{{ cpi.artigo }}</td>
             <td>{{ cpi.data }} - {{ cpi.hora }}</td>
             {% include 'td_status_consulta.html' %}
-            <td><a href="{{ url_for('usuario.perfil') }}?id={{ cpi.comunicante.id }}">{{ cpi.comunicante.grau_hierarquico }} {{ cpi.comunicante.nome_de_guerra }}</a></td>
-            <td><a href="{{ url_for('cpi.perfil_cpi') }}?protocolo={{ cpi.id}}">LINK PARA ACESSAR CPI</a></td>
+            <td><a href="{{ url_for('usuario.perfil') }}?id={{ cpi.comunicante.id }}"  target="_blank">{{ cpi.comunicante.grau_hierarquico }} {{ cpi.comunicante.nome_de_guerra }}</a></td>
+            <td><a href="{{ url_for('cpi.perfil_cpi') }}?protocolo={{ cpi.id}}"  target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-file-text" viewBox="0 0 16 16">
+                <path d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5M5 8a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1z"/>
+                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1"/>
+              </svg></a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<table class="table-cp-mobile">
+    <thead>
+        <tr style="font-weight: bold;">
+        <td>CONDUTA</td>
+        <td>ALUNO</td>
+        <td>ARTIGO</td>
+        <td>CPI</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cpi in dados %}
+        <tr>
+            <td>{{ cpi.conduta }}</td>
+            <td><a href="{{ url_for('usuario.perfil') }}?id={{ cpi.aluno.id }}" target="_blank">{{ cpi.aluno.grau_hierarquico }} {{ cpi.aluno.nome_de_guerra }}</a></td>
+            <td>{{ cpi.artigo }}</td>
+            <td><a href="{{ url_for('cpi.perfil_cpi') }}?protocolo={{ cpi.id}}"  target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-file-text" viewBox="0 0 16 16">
+                <path d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5M5 8a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1z"/>
+                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1"/>
+              </svg></a></td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 {% endif %}
 {% if tipo == 'aluno' %}
-<table style="display: table;">
+<table class="table-aluno-pc">
     <thead>
         <tr>
         <td>ID</td>
-        <td>Nome</td>
-        <td>Curso</td>
-        <td>Ano</td>
-        <td>Cia</td>
-        <td>Pelotão</td>
-        <td>Nota de Conduta</td>
+        <td>NOME</td>
+        <td>CURSO</td>
+        <td>CIA</td>
+        <td>PELOTÃO</td>
+        <td>NOTA DE CONDUTA</td>
+        <td>PERFIL</td>
         </tr>
     </thead>
     <tbody>
@@ -164,24 +194,52 @@
         <tr>
             <td>{{ info.usuario.id }}</td>
             <td>{{ info.usuario.grau_hierarquico }} {{ info.usuario.nome_de_guerra }}</td>
-            <td>{{ info.curso }}</td>
-            <td>{{ info.ano }}</td>
+            <td>{{ info.curso }} {{ info.ano }}</td>
             <td>{{ info.cia }} CIA</td>
             <td>{{ info.pelotao }} PEL</td>
             <td>{{ info.nota_conduta }}</td>
-            <td><a href="{{ url_for('usuario.perfil') }}?id={{ info.usuario.id }}">PERFIL</a></td>
+            <td><a href="{{ url_for('usuario.perfil') }}?id={{ info.usuario.id }}"  target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+              </svg></a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<table class="table-aluno-mobile">
+    <thead>
+        <tr>
+        <td>NOME</td>
+        <td>CURSO</td>
+        <td>PELOTÃO</td>
+        <td>NOTA DE CONDUTA</td>
+        <td>PERFIL</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for info in dados %}
+        <tr>
+            <td>{{ info.usuario.grau_hierarquico }} {{ info.usuario.nome_de_guerra }}</td>
+            <td>{{ info.curso }} {{ info.ano }}</td>
+            <td>{{ info.pelotao }} PEL</td>
+            <td>{{ info.nota_conduta }}</td>
+            <td><a href="{{ url_for('usuario.perfil') }}?id={{ info.usuario.id }}"  target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-file-text" viewBox="0 0 16 16">
+                <path d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5M5 8a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1z"/>
+                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1"/>
+              </svg></a></td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 {% endif %}
 {% if tipo == 'usuario' %}
-<table style="display: table;">
+<table class="table-usuario-pc">
     <thead>
         <tr>
         <td>ID</td>
-        <td>Nome</td>
-        <td>Função</td>
+        <td>NOME</td>
+        <td>FUNÇÃO</td>
+        <td>PERFIL</td>
         </tr>
     </thead>
     <tbody>
@@ -190,7 +248,32 @@
             <td>{{ usuario.id }}</td>
             <td>{{ usuario.grau_hierarquico }} {{ usuario.nome_de_guerra }}</td>
             <td>{{ usuario.funcao }}</td>
-            <td><a href="{{ url_for('usuario.perfil') }}?id={{ usuario.id }}">PERFIL</a></td>
+            <td><a href="{{ url_for('usuario.perfil') }}?id={{ usuario.id }}"  target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+              </svg></a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<table class="table-usuario-mobile">
+    <thead>
+        <tr>
+        <td>ID</td>
+        <td>NOME</td>
+        <td>FUNÇÃO</td>
+        <td>PERFIL</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for usuario in dados %}
+        <tr>
+            <td>{{ usuario.id }}</td>
+            <td>{{ usuario.grau_hierarquico }} {{ usuario.nome_de_guerra }}</td>
+            <td>{{ usuario.funcao }}</td>
+            <td><a href="{{ url_for('usuario.perfil') }}?id={{ usuario.id }}"  target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+              </svg></a></td>
         </tr>
         {% endfor %}
     </tbody>
@@ -202,21 +285,92 @@
         document.getElementById('aluno').style.display = 'none'
         document.getElementById('comunicante').style.display = 'none'
         document.getElementById('chefe de curso').style.display = 'none'
-        document.getElementById('pelotao').style.display = 'none'
-        document.getElementById('cia').style.display = 'none'
-        document.getElementById(event.value).style.display = 'block'
+
+        document.getElementById('pelotao-curso').style.display = 'none'
+        document.getElementById('pelotao-ano').style.display = 'none'
+        document.getElementById('pelotao-pelotao').style.display = 'none'
+
+        document.getElementById('cia-curso').style.display = 'none'
+        document.getElementById('cia-ano').style.display = 'none'
+        document.getElementById('cia-cia').style.display = 'none'
+
+        document.getElementById('pelotao-curso').required = false
+        document.getElementById('pelotao-ano').required = false
+        document.getElementById('pelotao-pelotao').required = false
+
+        document.getElementById('cia-curso').required = false
+        document.getElementById('cia-ano').required = false
+        document.getElementById('cia-cia').required = false
+
+        // document.getElementById(event.value).style.display = 'inline-flex'
+        if (event.value == 'pelotao') {
+                document.getElementById('pelotao-curso').style.display = 'inline-flex'
+                document.getElementById('pelotao-ano').style.display = 'inline-flex'
+                document.getElementById('pelotao-pelotao').style.display = 'inline-flex'
+                
+                document.getElementById('pelotao-curso').required = true
+                document.getElementById('pelotao-ano').required = true
+                document.getElementById('pelotao-pelotao').required = true
+            } else if (event.value == 'cia') {
+                document.getElementById('cia-curso').style.display = 'inline-flex'
+                document.getElementById('cia-ano').style.display = 'inline-flex'
+                document.getElementById('cia-cia').style.display = 'inline-flex'
+
+                document.getElementById('cia-curso').required = true
+                document.getElementById('cia-ano').required = true
+                document.getElementById('cia-cia').required = true
+            }
     }
 
     function Categoria_usuario_selecionada(event) {
         document.getElementById('login').style.display = 'none'
         document.getElementById('nome').style.display = 'none'
-        document.getElementById('pelotao').style.display = 'none'
-        document.getElementById('cia').style.display = 'none'
+
+        document.getElementById('pelotao-curso').style.display = 'none'
+        document.getElementById('pelotao-ano').style.display = 'none'
+        document.getElementById('pelotao-pelotao').style.display = 'none'
+
+        document.getElementById('cia-curso').style.display = 'none'
+        document.getElementById('cia-ano').style.display = 'none'
+        document.getElementById('cia-cia').style.display = 'none'
+
+        document.getElementById('pelotao-curso').required = false
+        document.getElementById('pelotao-ano').required = false
+        document.getElementById('pelotao-pelotao').required = false
+
+        document.getElementById('cia-curso').required = false
+        document.getElementById('cia-ano').required = false
+        document.getElementById('cia-cia').required = false
+
         document.getElementById('ordenar').style.display = 'none'
         if (event.value == 'pelotao' || event.value == 'cia') {
-            document.getElementById('ordenar').style.display = 'block'
+            document.getElementById('ordenar').style.display = 'inline-flex'
+            
+            if (event.value == 'pelotao') {
+                document.getElementById('pelotao-curso').style.display = 'inline-flex'
+                document.getElementById('pelotao-ano').style.display = 'inline-flex'
+                document.getElementById('pelotao-pelotao').style.display = 'inline-flex'
+
+                document.getElementById('pelotao-curso').required = true
+                document.getElementById('pelotao-ano').required = true
+                document.getElementById('pelotao-pelotao').required = true
+            } else if (event.value == 'cia') {
+                document.getElementById('cia-curso').style.display = 'inline-flex'
+                document.getElementById('cia-ano').style.display = 'inline-flex'
+                document.getElementById('cia-cia').style.display = 'inline-flex'
+
+                document.getElementById('cia-curso').required = true
+                document.getElementById('cia-ano').required = true
+                document.getElementById('cia-cia').required = true
+            }
         }
-        document.getElementById(event.value).style.display = 'block'
+
+        if (event.value == 'nome') {
+            document.getElementById('nome').style.display = 'inline-flex'
+        }
+        if (event.value == 'login') {
+            document.getElementById('login').style.display = 'inline-flex'
+        }
     }
     
     function Tipo_selecionado(event) {
@@ -225,32 +379,46 @@
             document.getElementById('aluno').style.display = 'none'
             document.getElementById('comunicante').style.display = 'none'
             document.getElementById('chefe de curso').style.display = 'none'
-            document.getElementById('pelotao').style.display = 'none'
-            document.getElementById('cia').style.display = 'none'
+
+            document.getElementById('pelotao-curso').style.display = 'none'
+            document.getElementById('pelotao-ano').style.display = 'none'
+            document.getElementById('pelotao-pelotao').style.display = 'none'
+
+            document.getElementById('cia-curso').style.display = 'none'
+            document.getElementById('cia-ano').style.display = 'none'
+            document.getElementById('cia-cia').style.display = 'none'
 
             document.getElementById('conduta').style.display = 'none'
             document.getElementById('status').style.display = 'none'
 
             document.getElementById('login').style.display = 'none'
             document.getElementById('nome').style.display = 'none'
-            document.getElementById('categoria-usuario').style.display = 'block'
+            document.getElementById('categoria-usuario').style.display = 'inline-flex'
         } else if (event.value == 'cp') {
-            document.getElementById('categoria-cp').style.display = 'block'
-
-            document.getElementById('conduta').style.display = 'block'
-            document.getElementById('status').style.display = 'block'
-
             document.getElementById('categoria-usuario').style.display = 'none'
-
             document.getElementById('aluno').style.display = 'none'
             document.getElementById('comunicante').style.display = 'none'
             document.getElementById('chefe de curso').style.display = 'none'
-            document.getElementById('pelotao').style.display = 'none'
-            document.getElementById('cia').style.display = 'none'
+
+            document.getElementById('pelotao-curso').style.display = 'none'
+            document.getElementById('pelotao-ano').style.display = 'none'
+            document.getElementById('pelotao-pelotao').style.display = 'none'
+
+            document.getElementById('cia-curso').style.display = 'none'
+            document.getElementById('cia-ano').style.display = 'none'
+            document.getElementById('cia-cia').style.display = 'none'
+
             document.getElementById('ordenar').style.display = 'none'
 
             document.getElementById('login').style.display = 'none'
             document.getElementById('nome').style.display = 'none'
+
+            document.getElementById('categoria-cp').style.display = 'inline-flex'
+
+            document.getElementById('conduta').style.display = 'inline-flex'
+            document.getElementById('status').style.display = 'inline-flex'
+
+
 
         }
     }

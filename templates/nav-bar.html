@@ -1,0 +1,81 @@
+<!-- NAV BAR DE PC -->
+
+<nav>
+    <table class="nav-bar">
+        <thead>
+                <td ><a href="{{ url_for('usuario.home') }}">Principal</a></td>
+                <td><a href="{{ url_for('usuario.cpis_comunicante') }}">Comunicações</a></td>
+                <td><a href="{{ url_for('usuario.perfil_atual') }}">Perfil</a></td>
+                {% if usuario.funcao == 'JUSTICA' %}
+                <td><a href="{{ url_for('cpi.adicionar_cpi') }}">Nova CP</a></td>
+                {% endif %}
+                {% if usuario.funcao == 'COMANDANTE DA ESFAP' or usuario.funcao == 'COMANDANTE DA ESFO' %}
+                <td><a href="{{ url_for('usuario.adicionar_usuario') }}">Novo usuario</a></td>
+                <td><a href="{{ url_for('cpi.adicionar_cpi') }}">Nova CP</a></td>
+                <td><a href="{{ url_for('consulta.consultar') }}">Consultar</a></td>
+                <td><a href="{{ url_for('cpi.consultar_caderno') }}">Gerar Caderno</a></td>
+                {% endif %}
+                <td><a href="{{ url_for('usuario.logout') }}">Sair</a></td>
+        </thead>
+    </table>
+</nav>
+
+<!-- NAV BAR MOBILE LIMITED -->
+
+<nav>
+    <table class="nav-bar-mobile-limited">
+        <thead>
+                <td ><a href="{{ url_for('usuario.home') }}">Principal</a></td>
+                <td><a href="{{ url_for('usuario.cpis_comunicante') }}">Comunicações feitas</a></td>
+                {% if usuario.funcao == 'JUSTICA' %}
+                <td><a href="{{ url_for('cpi.adicionar_cpi') }}">Fazer nova CP</a></td>
+                {% endif %}
+                {% if usuario.funcao == 'COMANDANTE DA ESFAP' or usuario.funcao == 'COMANDANTE DA ESFO' %}
+                <!-- <td><a href="{{ url_for('usuario.adicionar_usuario') }}">Adicionar usuario</a></td> -->
+                <td><a href="{{ url_for('cpi.adicionar_cpi') }}">Fazer nova CP</a></td>
+                <td><a href="{{ url_for('consulta.consultar') }}">Consultar</a></td>
+                <!-- <td><a href="{{ url_for('cpi.consultar_caderno') }}">Gerar Caderno</a></td> -->
+                {% endif %}
+                <td><a href="{{ url_for('usuario.logout') }}">Sair</a></td>
+        </thead>
+    </table>
+</nav>
+
+<!-- NAV BAR MOBILE -->
+<div class="nav-bar-mobile">
+<div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="{{ url_for('usuario.home') }}">- Principal</a>
+    <a href="{{ url_for('usuario.cpis_comunicante') }}">- Comunicações</a>
+    <a href="{{ url_for('usuario.perfil_atual') }}">- Perfil</a>
+    {% if usuario.funcao == 'JUSTICA' %}
+    <a href="{{ url_for('cpi.adicionar_cpi') }}">- Nova CP</a>
+    {% endif %}
+    {% if usuario.funcao == 'COMANDANTE DA ESFAP' or usuario.funcao == 'COMANDANTE DA ESFO' %}
+    <a href="{{ url_for('usuario.adicionar_usuario') }}">- Novo usuario</a>
+    <a href="{{ url_for('cpi.adicionar_cpi') }}">- Nova CP</a>
+    <a href="{{ url_for('consulta.consultar') }}">- Consultar</a>
+    <a href="{{ url_for('cpi.consultar_caderno') }}">- Gerar Caderno</a>
+    {% endif %}
+    <a href="{{ url_for('usuario.logout') }}">- Sair</a>
+  </div>
+  
+  <div id="main">
+    <button class="openbtn" onclick="openNav()">&#9776;</button>
+  </div>
+</div>
+
+
+  <script>
+    /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
+function openNav() {
+  document.getElementById("mySidebar").style.width = "300px";
+//   document.getElementById("main").style.marginLeft = "250px";
+}
+
+/* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+function closeNav() {
+  document.getElementById("mySidebar").style.width = "0";
+  document.getElementById("main").style.marginLeft = "0";
+}
+  </script>

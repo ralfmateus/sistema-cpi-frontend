@@ -1,24 +1,25 @@
 <h2>
     REFERÊNCIAS ELOGIOSAS: {{ total_cpa }}
 </h2>
-            <table>
+            <table class="table-consulta-caderno">
                 <thead>
-                    <tr>
-                        <td colspan="5">REFERÊNCIAS ELOGIOSAS</td>
+                    <tr style="font-weight: bold;">
+                        <td colspan="5" style="background-color:  rgb(155, 155, 155);">REFERÊNCIAS ELOGIOSAS</td>
                     </tr>
-                    <tr>
+                    <br>
+                    <tr style="font-weight: bold;">
                         <!-- <td>PEL</td> -->
                         <td>N°</td>
                         <td>AL SD</td>
                         <td>DATA</td>
-                        <td>ENQUADRAMENTO</td>
-                        <td>PROTOCOLO</td>
+                        <td>ENQUAD.</td>
+                        <td>PROT.</td>
                     </tr>
                 </thead>
                 <tbody>
                     {% for i in range(1, pelotoes+1) %}
-                    <tr>
-                        <td colspan="6">
+                    <tr style="font-weight: bold;">
+                        <td colspan="6" style="background-color: rgb(155, 155, 155);">
                             {{ i }}° PELOTÃO
                         </td>
                     </tr>

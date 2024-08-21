@@ -7,12 +7,18 @@
         <table class="border-full">
             <thead>
                 <tr>
-                    <td scope="col" style="width: 100%;">DEFESA DO ALUNO</td>    
+                    <td scope="col" style="width: 100%; border: 1px solid black; font-weight: bold; background-color: rgb(189, 187, 187);">DEFESA DO ALUNO</td>    
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td scope="col" style="width: 100%;">{{ defesa.defesa }}</td>    
+                    <td scope="col" style="width: 100%;">
+                        {% if defesa.defesa == None %}
+                        Sem Justificativa
+                    {% else %}
+                        {{ defesa.defesa }}
+                    {% endif %}
+                    </td>    
                 </tr>
             </tbody>
         </table>
@@ -27,7 +33,7 @@
             <table style="background-color: white;" class="border-full">
                 <thead>
                     <tr style="width: 10%;">
-                        <td scope="col" class="selecao"><input type="radio" name="sugestao" value="PUNICAO">PUNIÇÃO</td>
+                        <td scope="col" class="selecao"><input type="radio" name="sugestao" value="PUNICAO" required>PUNIÇÃO</td>
                         <td scope="col" class="selecao"><input type="radio" name="sugestao" value="ARQUIVAMENTO">ARQUIVAMENTO</td>
                     </tr>
                     <tr>

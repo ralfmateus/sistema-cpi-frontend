@@ -143,12 +143,16 @@ button:hover{
 }
 
 
-.div-nav-bar {
+/* .div-nav-bar {
     height: 500px;
     overflow-y: scroll;
+} */
+
+
+#enquadramento {
+    width: 98.3%;
+    display: none;
 }
-
-
 
 
 /* -------------------CELULAR-------- */
@@ -164,6 +168,11 @@ button:hover{
 
         display: table;
         
+    }
+
+    #enquadramento {
+        width: 95%;
+        display: none;
     }
 
     .btn-ficha a button{

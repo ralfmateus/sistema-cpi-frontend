@@ -66,10 +66,10 @@ def consultar():
         else:
             response = requests.get(f'http://127.0.0.1:8000/cpi/get_all?conduta={conduta}', headers=headers)
     elif tipo == 'usuario':
-        if categoria_usuario == 'login':
-            response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_login?login={login}', headers=headers)
-        elif categoria_usuario == 'nome':
+        if categoria_usuario == 'nome':                   
             response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_nome?nome={nome}', headers=headers)
+        # elif categoria_usuario == 'login':
+        #     response = requests.get(f'http://127.0.0.1:8000/usuario/get_by_login?login={login}', headers=headers)
         elif categoria_usuario == 'pelotao':
             tipo = 'aluno'
             response = requests.get(f'http://127.0.0.1:8000/info/get_by_curso_ano_pelotao?curso={curso}&ano={ano}&pelotao={pelotao}', headers=headers)
@@ -97,7 +97,7 @@ def consultar():
                     if cpi['status'] == int(status):
                         cpis.append(cpi)
                 else:
-                    cpis.append(cpi)
+                    cpis.append(cpi)    
             dados = cpis
     
     

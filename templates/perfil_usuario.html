@@ -1,7 +1,7 @@
 <table class="nav-bar">
     <tr style="border: 1px solid black;">
         <td colspan="2"
-            style="width: 10%; border: 1px solid black; font-weight: bold; background-color: rgb(189, 187, 187);">ALUNO
+            style="width: 10%; border: 1px solid black; font-weight: bold; background-color: rgb(189, 187, 187);">USUARIO
         </td>
     </tr>
     <tr style="border: 1px solid black;">
@@ -25,9 +25,11 @@
             <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">CURSO</td>
             <td scope="col" style="width: 10%; border: 1px solid black;">{{ dados.info.curso }} {{ dados.info.ano }}</td>
         </tr>
+        {% if dados.info.cia %}
         <tr>
             <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">CIA</td>
-            <td scope="col" style="width: 10%; border: 1px solid black;">{{ dados.info.cia }} {{ dados.info.cia }}</td>
+            <td scope="col" style="width: 10%; border: 1px solid black;">{{ dados.info.cia }}</td>
         </tr>
+        {% endif %}
     {% endif %}
 </table>

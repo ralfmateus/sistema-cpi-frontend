@@ -32,7 +32,9 @@
             
 
             
-            <form method="post" action="{{ url_for('usuario.adicionar_usuario') }}">
+            <form method="post" action="{{ url_for('usuario.editar_perfil_aluno') }}">
+                <input type="number" readonly value="{{ info.usuario.id }}" name="id" style="height: 0; width: 100px; text-align: center; margin-left: auto; margin-right: auto;">
+                <br>
                 <select class="select" name="grau_hierarquico" required="required">
                     <option value="{{ info.usuario.grau_hierarquico }}" style="text-align: center;" selected>{{ info.usuario.grau_hierarquico }}</option>
                     <option value="CEL">CORONEL</option>
@@ -89,16 +91,19 @@
                     </select>
                 </div>
                 <br>
+                <label for="">Nome Completo</label>
                 <div class="geral" >
                     <input value="{{ info.usuario.nome }}"  class="bloco_maior" type="text" name="nome" placeholder="Nome Completo" required="required"/>    
                 </div>
                 <br>
+                <label for="">Nome de Guerra / Número</label>
                 <div class="geral">
                     <input value="{{ info.usuario.nome_de_guerra }}" class="bloco-duplo" type="text" name="nome_de_guerra" placeholder="Nome de Guerra" required="required"/>
                     <input value="{{ info.numero }}" class="bloco-duplo" type="text" name="numero" placeholder="Número"/>
                 </div>
                 <br>
             
+                <label for="">Pelotão / Cia</label>
                 <div class="geral" >
                     <input value="{{ info.pelotao }}" class="bloco-duplo"type="text" name="pelotao" placeholder="Pelotão"/>
                     <input value="{{ info.cia }}" class="bloco-duplo" type="text" name="cia" placeholder="Cia"/>
@@ -107,7 +112,7 @@
                 <br><br>
                 
                 <div class="btns-action">
-                    <a href="{{ url_for('usuario.perfil') }}?id={{ info.usuario.id }}" style="width: 100%;"><button type="button">VOLTAR</button></a>
+                    <a href="{{ request.referrer }}" style="width: 100%;"><button type="button">VOLTAR</button></a>
                     <button type="submit">EDITAR</button>
                 </div>
             

@@ -1,0 +1,67 @@
+<table class="nav-bar">
+    <tr style="border: 1px solid black;">
+        <td colspan="2"
+            style="width: 10%; border: 1px solid black; font-weight: bold; background-color: rgb(189, 187, 187);">ALUNO
+        </td>
+    </tr>
+    <tr style="border: 1px solid black;">
+        <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">NOME</td>
+        <td scope="col" style="width: 10%; border: 1px solid black;">{{ dados.info.usuario.nome }}</td>
+    </tr>
+    <tr>
+        <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">NOME DE GUERRA</td>
+        <td scope="col" style="width: 15%; border: 1px solid black;">{{ dados.info.usuario.grau_hierarquico }} {{ dados.info.usuario.nome_de_guerra }}</td>
+    </tr>
+    <tr>
+        <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">FUNÇÃO</td>
+        <td scope="col" style="width: 15%; border: 1px solid black;">{{ dados.info.usuario.funcao }}</td>
+    </tr>
+    {% if dados.info %}
+        <tr>
+            <td scope="col" style="width: 30%; border: 1px solid black; font-weight: bold;">PELOTÃO</td>
+            <td scope="col" style="width: 30%; border: 1px solid black;">{{ dados.info.pelotao }}</td>
+        </tr>
+        <tr>
+            <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">CURSO</td>
+            <td scope="col" style="width: 10%; border: 1px solid black;">{{ dados.info.curso }} {{ dados.info.ano }}</td>
+        </tr>
+        <tr>
+            <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">CIA</td>
+            <td scope="col" style="width: 10%; border: 1px solid black;">{{ dados.info.cia }}</td>
+        </tr>
+        <tr>
+            <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">NOTA DE CONDUTA</td>
+            <td scope="col" style="width: 10%; border: 1px solid black;">{{ dados.info.nota_conduta }}</td>
+        </tr>
+    {% endif %}
+</table>
+
+<br>
+
+{% if dados['aluno'] %}
+{% if dados['cpis'] %}
+<table class="table" style="display: table; border: 1px solid black;">
+    <thead>
+        <th style="border: 1px solid black;">PROTOCOLO</th>
+        <th style="border: 1px solid black;">DATA</th>
+        <th style="border: 1px solid black;">STATUS</th>
+        <th style="border: 1px solid black;">ARTIGO</th>
+        <th style="border: 1px solid black;">CONDUTA</th>
+    </thead>
+    <tbody>
+        {% for cpi in dados['cpis'] %}
+        <tr>
+            <td style="width: 15%; border: 1px solid black;">cpi.id</td>
+            <td style="width: 15%; border: 1px solid black;">cpi.data</td>
+        {% include 'td_status_consulta.html' %}
+            <td style="width: 15%; border: 1px solid black;">cpi.artigo</td>
+            <td style="width: 15%; border: 1px solid black;"><a href="{{ url_for('cpi.perfil_cpi') }}?protocolo={{ cpi.id}}"><svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-file-text" viewBox="0 0 16 16">
+                <path d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5M5 8a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1z"/>
+                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1"/>
+              </svg></a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endif %}

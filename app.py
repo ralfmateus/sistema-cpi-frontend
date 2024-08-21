@@ -20,4 +20,8 @@ app.register_blueprint(consulta.consulta)
 
 @app.route('/')
 def index():
-    return redirect(url_for('usuario.home'))
+    return redirect(url_for('usuario.login'))
+
+@app.errorhandler(404)
+def erro_not_found(error):
+    return redirect(url_for('usuario.login'))

@@ -32,9 +32,11 @@
             
 
             
-            <form method="post" action="{{ url_for('usuario.adicionar_usuario') }}">
+            <form method="post" action="{{ url_for('usuario.editar_perfil_usuario') }}">
+                <input type="number" readonly value="{{ usuario.id }}" name="id" style="width: 100px; height: 0; text-align: center;">
+                <br>
                 <select class="select" name="grau_hierarquico" required="required">
-                    <option value="{{ info.usuario.grau_hierarquico }}" style="text-align: center;" selected>{{ info.usuario.grau_hierarquico }}</option>
+                    <option value="{{ usuario.grau_hierarquico }}" style="text-align: center;" selected>{{ usuario.grau_hierarquico }}</option>
                     <option value="CEL">CORONEL</option>
                         <option value="TEN CEL">TENENTE CORONEL</option>
                         <option value="MAJOR">MAJOR</option>
@@ -55,7 +57,7 @@
                 </select>
                 <br><br>
                 <select class="select" name="funcao" required="required">
-                    <option value="{{ info.usuario.funcao }}" style="text-align: center;" selected>{{ info.usuario.funcao }}</option>
+                    <option value="{{ usuario.funcao }}" style="text-align: center;" selected>{{ usuario.funcao }}</option>
                     <option value="CHEFE DE CURSO">Chefe de Curso</option>
                     <option value="COMANDANTE DA ESFAP">Comandante da EsFAP</option>
                     <option value="COMANDANTE DA ESFO">Comandante da EsFO</option>
@@ -65,6 +67,7 @@
                     <option value="JUSTICA">Justiça e Disciplina</option>   
                 </select>
                 <br><br>
+                {% if info %}
                 <div class="geral">
                     <select class="bloco" name="curso">
                         <option value="{{ info.curso }}" style="text-align: center;" selected>{{ info.curso }}</option>
@@ -88,26 +91,35 @@
                         <option value="2030">2030</option>
                     </select>
                 </div>
-                <br>
+                {% endif %}
+                <label for="">Nome Completo</label>
                 <div class="geral" >
-                    <input value="{{ info.usuario.nome }}"  class="bloco_maior" type="text" name="nome" placeholder="Nome Completo" required="required"/>    
+                    <input value="{{ usuario.nome }}"  class="bloco_maior" type="text" name="nome" placeholder="Nome Completo" required="required"/>    
                 </div>
                 <br>
+                <label for="">Nome de Guerra</label>
                 <div class="geral">
-                    <input value="{{ info.usuario.nome_de_guerra }}" class="bloco-duplo" type="text" name="nome_de_guerra" placeholder="Nome de Guerra" required="required"/>
-                    <input value="{{ info.numero }}" class="bloco-duplo" type="text" name="numero" placeholder="Número"/>
+                    <input value="{{ usuario.nome_de_guerra }}" class="bloco_maior" type="text" name="nome_de_guerra" placeholder="Nome de Guerra" required="required"/>
                 </div>
                 <br>
             
+                {% if info %}
+                <label for="">Pelotões</label>
                 <div class="geral" >
-                    <input value="{{ info.pelotao }}" class="bloco-duplo"type="text" name="pelotao" placeholder="Pelotão"/>
-                    <input value="{{ info.cia }}" class="bloco-duplo" type="text" name="cia" placeholder="Cia"/>
+                    <input value="{{ info.pelotao }}" class="bloco_maior"type="text" name="pelotao" placeholder="Pelotão"/>
                 </div>
+                {% if usuario.funcao == 'COMANDANTE DE CIA' %}
+                <label for="">Cia</label>
+                <div class="geral">
+                    <input value="{{ info.cia }}" class="bloco_maior" type="text" name="cia" placeholder="Cia"/>
+                </div>
+                {% endif %}
+                {% endif %}
 
                 <br><br>
                 
                 <div class="btns-action">
-                    <a href="{{ url_for('usuario.perfil') }}?id={{ info.usuario.id }}" style="width: 100%;"><button type="button">VOLTAR</button></a>
+                    <a href="{{ request.referrer }}" style="width: 100%;"><button type="button">VOLTAR</button></a>
                     <button type="submit">EDITAR</button>
                 </div>
             

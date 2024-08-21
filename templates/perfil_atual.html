@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PERFIL</title>
+    <link rel="stylesheet" href="../static/css/perfil_consulta.css">
+    
+</head>
+<body>
+
+        
+        <div class="usuario"> 
+        <div class="div-nav-bar">
+            <!-- Cabeçalho -->
+        <div class="cabecalho" >
+            <img class="imagem" src="../static/img/brasoes.png" width="100%" height="100%" alt="DEU RUIM">
+            <br><br>
+        </div>
+        
+        <div>
+            <h1>DIVISÃO ACADÊMICA</h1>
+        </div>
+
+        <div>
+            <h2>PERFIL</h2> 
+        </div>
+        <!-- FIM CABEÇALHO -->
+        <br>
+            <!-- TABELA DADOS DA CPI -->
+        {% if dados['aluno'] %}
+        {% include 'perfil_aluno.html' %}
+        {% else %}
+        {% include 'perfil_usuario.html' %}
+        {% endif %}
+        <!-- FIM TABELA DADOS DA CPI -->
+         <br><br>
+        </div>  
+        <br><br>
+        {% if dados['aluno'] %}
+        <div class="btn-ficha">
+           <a href="{{ request.referrer }}" style="width: 100%; "><button type="button">VOLTAR</button></a>
+           <a href="{{ url_for('usuario.trocar_senha') }}?id={{ dados.info.usuario.id }}" style="width: 100%; "><button type="button">TROCAR SENHA</button></a>
+        </div>
+        {% else %}
+        <div class="btn-ficha">
+           <a href="{{ request.referrer }}" style="width: 100%; "><button type="button">VOLTAR</button></a>
+           <a href="{{ url_for('usuario.trocar_senha') }}?id={{ dados.usuario.id }}" style="width: 100%; "><button type="button">TROCAR SENHA</button></a>
+        </div>
+        {% endif %}
+         
+        
+         
+         {% block conteudo %}
+         {% endblock %}
+         
+        </div>
+      
+        
+
+    
+
+    </body></html>

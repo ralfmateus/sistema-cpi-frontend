@@ -1,0 +1,109 @@
+select {
+    width: 24.7%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1%;
+}
+
+input {
+    width: 24.7%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1%;
+}
+
+.table-cp-pc {
+    display: table;
+    width: 80%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.table-usuario-pc {
+    display: table;
+    width: 80%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.table-aluno-pc {
+    display: table;
+    width: 80%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.consulta {
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+    justify-items: center;
+}
+
+.table-cp-mobile {
+    display: none;
+}
+
+.table-aluno-mobile {
+    display: none;
+}
+
+.table-usuario-mobile {
+    display: none;
+}
+
+@media (max-width: 850px) {
+    select {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 1%;
+    }
+    
+    input {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 1%;
+    }
+
+    .table-cp-pc {
+        display: none;
+    }
+
+    .table-aluno-pc {
+        display: none;
+    }
+
+    .table-usuario-pc {
+        display: none;
+    }
+
+    .table-cp-mobile {
+        display: table;
+        width: 80%;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .table-usuario-mobile {
+        display: table;
+        width: 80%;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .table-aluno-mobile {
+        display: table;
+        width: 80%;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 15px;
+    }
+}

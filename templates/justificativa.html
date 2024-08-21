@@ -11,6 +11,6 @@
 
 <!-- Botão enviar -->
  <div class="btn-cpi">
-    <a href="{{ url_for('usuario.home') }}" style="text-decoration: none; width: 100%;"><button type="button">VOLTAR</button></a>
+    <a href="{{ request.referrer }}" style="text-decoration: none; width: 100%;"><button type="button">VOLTAR</button></a>
     <button type="submit"> ENVIAR </button>
  </div>

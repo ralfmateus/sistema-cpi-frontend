@@ -89,9 +89,10 @@ table, tr, td{
 .btn-ficha{
     display: flex;
 
-	width: 40%;
+	width: 50%;
     margin-left: auto;
     margin-right: auto;
+
 }
 
 h1{
@@ -144,11 +145,13 @@ button:hover{
 
 
 .div-nav-bar {
-    height: 500px;
+    height: 550px;
     overflow-y: scroll;
 }
 
-
+a {
+    color: black;
+}
 
 
 /* -------------------CELULAR-------- */
@@ -168,7 +171,7 @@ button:hover{
 
     .btn-ficha a button{
         font-size: 10px;
-        
+
     };
     
 }

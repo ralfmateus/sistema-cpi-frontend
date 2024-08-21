@@ -1,0 +1,19 @@
+{% if cpi.status == 0 %}
+    <td scope="col" style="width: 10%;"> COM O COMUNICANTE </td>
+{% elif cpi.status == 1 %}
+    <td scope="col" style="width: 10%;"> COM O ALUNO </td>
+{% elif cpi.status == 2 %}
+    <td scope="col" style="width: 10%;"> COM O CHEFE DE CURSO </td>
+{% elif cpi.status == 3 %}
+    <td scope="col" style="width: 10%;"> COM O COMANDANTE DA ESFAP/ESFO </td>
+{% elif cpi.status == 4 %}
+    <td scope="col" style="width: 10%;"> FINALIZADO </td>
+{% elif cpi.status == 5 %}
+    <td scope="col" style="width: 10%;"> CUMPRIDO </td>
+{% elif cpi.status == 10 %}
+    <td scope="col" style="width: 10%;"> CANCELADO PELO COMUNICANTE </td>
+{% elif cpi.status == 11 %}
+    <td scope="col" style="width: 10%;"> ARQUIVADO </td>
+{% elif cpi.status == 12 %}
+    <td scope="col" style="width: 10%;"> COM O COMANDANTE DE COMPANHIA </td>
+{% endif %}

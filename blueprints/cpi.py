@@ -1,6 +1,8 @@
 from datetime import date
-from flask import Blueprint, redirect, render_template, abort, request, url_for, session
+from flask import Blueprint, redirect, render_template, abort, request, send_file, url_for, session
 import requests
+from openpyxl import Workbook
+from openpyxl.styles import Border, Color, PatternFill, Font, Alignment, Side   
 from jinja2 import TemplateNotFound
 
 from blueprints.artigo import ARTIGOS
@@ -167,9 +169,12 @@ def consultar_caderno():
     pelotoes = request.form.get('pelotoes', type=int)  
     conduta = request.form.get('conduta')  
     
+    curso = request.form.get('curso')
+    ano = request.form.get('ano')
+    
     if tipo == 'consultar':
     
-        response = requests.get(f'http://127.0.0.1:8000/cpi/consulta_data?data_inicial={data_inicial}&data_final={data_final}&conduta={conduta}', headers=headers)
+        response = requests.get(f'http://127.0.0.1:8000/cpi/consulta_data?data_inicial={data_inicial}&data_final={data_final}&conduta={conduta}&curso={curso}&ano={ano}', headers=headers)
         
         if not response:
             return redirect(url_for('cpi.consultar_caderno', erro=1))
@@ -193,8 +198,8 @@ def consultar_caderno():
         
         return render_template('consultar_caderno.html', cadernos=cadernos, usuario=usuario, pelotoes=pelotoes, quantidade_aluno_cpi1=quantidade_aluno_cpi1, quantidade_aluno_cpi2=quantidade_aluno_cpi2, quantidade_aluno_cpi3=quantidade_aluno_cpi3, conduta=conduta)
 
-    elif tipo == 'gerar':
-        response = requests.get(f'http://127.0.0.1:8000/cpi/gerar_caderno?data_inicial={data_inicial}&data_final={data_final}', headers=headers)
+    elif tipo == 'gerar':        
+        response = requests.get(f'http://127.0.0.1:8000/cpi/gerar_caderno?data_inicial={data_inicial}&data_final={data_final}&curso={curso}&ano={ano}', headers=headers)
         
         if not response:
             return redirect(url_for('cpi.consultar_caderno', erro=1))
@@ -218,4 +223,554 @@ def consultar_caderno():
         caderno_cpi = cadernos['caderno_cpi']
         caderno_cpa = cadernos['caderno_cpa']
         
-        return render_template('gerar_caderno.html', caderno_cpi=caderno_cpi, caderno_cpa=caderno_cpa, total_cpa=total_cpa, usuario=usuario, pelotoes=pelotoes, quantidade_aluno_cpi1=quantidade_aluno_cpi1, quantidade_aluno_cpi2=quantidade_aluno_cpi2, quantidade_aluno_cpi3=quantidade_aluno_cpi3)
+        #####  GERANDO PLANILHA  #####
+        
+        FILE_NAME = f'{date.today()}_{usuario["nome_de_guerra"]}.xlsx'
+        y = 1
+        
+        A, B, C, D, E = 1, 2, 3, 4, 5
+        
+        workbook = Workbook()
+        sheet_cpi = workbook.active
+        sheet_cpi.title = 'CADERNO CPI'
+        
+                
+        sheet_cpi.merge_cells(f'A{y}:E{y}')
+        
+        font_titulo = Font(bold=True, size=12)
+        alignment = Alignment('center', 'center')
+        side = Side('thin', color='000000')
+        border = Border(side, side, side, side)
+        fill_cpi1 = PatternFill('solid', 'ffff00')
+        fill_cpi2 = PatternFill('solid', 'ff9b1f')
+        fill_cpi3 = PatternFill('solid', 'ff0000')
+        
+        sheet_cpi['G1'] = 'TOTAL CPI I'
+        sheet_cpi['G2'] = 'TOTAL CPI II'
+        sheet_cpi['G3'] = 'TOTAL CPI III'
+        sheet_cpi['G5'] = 'TOTAL CPI'
+        
+        sheet_cpi['H1'] = quantidade_aluno_cpi1
+        sheet_cpi['H2'] = quantidade_aluno_cpi2
+        sheet_cpi['H3'] = quantidade_aluno_cpi3
+        sheet_cpi['H5'] = quantidade_aluno_cpi1 + quantidade_aluno_cpi2 + quantidade_aluno_cpi3        
+        
+        
+        sheet_cpi.column_dimensions['A'].width = 10
+        sheet_cpi.column_dimensions['B'].width = 20
+        sheet_cpi.column_dimensions['C'].width = 15
+        sheet_cpi.column_dimensions['D'].width = 25
+        sheet_cpi.column_dimensions['E'].width = 20
+        sheet_cpi.column_dimensions['G'].width = 20
+        sheet_cpi.column_dimensions['H'].width = 10
+        
+        
+        sheet_cpi[f'A{y}'] = 'CPI I'
+        sheet_cpi.cell(y, A).font = font_titulo
+        sheet_cpi.cell(y, A).alignment = alignment
+        sheet_cpi.cell(y, A).fill = fill_cpi1
+        sheet_cpi.cell(y, A).border = border
+        sheet_cpi.cell(y, B).border = border
+        sheet_cpi.cell(y, C).border = border
+        sheet_cpi.cell(y, D).border = border
+        sheet_cpi.cell(y, E).border = border
+        
+        y += 1
+        
+        sheet_cpi[f'A{y}'] = 'Nº'
+        if curso.upper() == 'CFSD':
+            sheet_cpi[f'B{y}'] = 'AL SD'
+        elif curso.upper() == 'CFO':
+            sheet_cpi[f'B{y}'] = 'AL OF'
+        elif curso.upper() == 'CHS':
+            sheet_cpi[f'B{y}'] = 'AL SGT'
+        sheet_cpi[f'C{y}'] = 'DATA'
+        sheet_cpi[f'D{y}'] = 'ENQUADRAMENTO'
+        sheet_cpi[f'E{y}'] = 'PROTOCOLO'
+        
+        sheet_cpi.cell(y, A).font = font_titulo
+        sheet_cpi.cell(y, A).alignment = alignment
+        sheet_cpi.cell(y, A).border = border
+        
+        sheet_cpi.cell(y, B).font = font_titulo
+        sheet_cpi.cell(y, B).alignment = alignment
+        sheet_cpi.cell(y, B).border = border
+        
+        sheet_cpi.cell(y, C).font = font_titulo
+        sheet_cpi.cell(y, C).alignment = alignment
+        sheet_cpi.cell(y, C).border = border
+        
+        sheet_cpi.cell(y, D).font = font_titulo
+        sheet_cpi.cell(y, D).alignment = alignment
+        sheet_cpi.cell(y, D).border = border
+        
+        sheet_cpi.cell(y, E).font = font_titulo
+        sheet_cpi.cell(y, E).alignment = alignment
+        sheet_cpi.cell(y, E).border = border
+        
+        y += 1
+        
+        for i in range(1, pelotoes+1):
+            sheet_cpi.merge_cells(f'A{y}:E{y}')
+            sheet_cpi[f'A{y}'] = f'{i}º PELOTÃO'
+            
+            sheet_cpi.cell(y, A).font = font_titulo
+            sheet_cpi.cell(y, A).alignment = alignment
+            sheet_cpi.cell(y, A).fill = fill_cpi1
+            sheet_cpi.cell(y, A).border = border
+            sheet_cpi.cell(y, B).border = border
+            sheet_cpi.cell(y, C).border = border
+            sheet_cpi.cell(y, D).border = border
+            sheet_cpi.cell(y, E).border = border
+            
+            y += 1
+            
+            sheet_cpi.cell(y, A).alignment = alignment
+            sheet_cpi.cell(y, B).alignment = alignment
+            sheet_cpi.cell(y, C).alignment = alignment
+            sheet_cpi.cell(y, D).alignment = alignment
+            sheet_cpi.cell(y, E).alignment = alignment
+            
+            sheet_cpi.cell(y, A).border = border
+            sheet_cpi.cell(y, B).border = border
+            sheet_cpi.cell(y, C).border = border
+            sheet_cpi.cell(y, D).border = border
+            sheet_cpi.cell(y, E).border = border
+            
+            count = False
+            
+            for caderno in caderno_cpi:
+                if caderno['conduta'] == 1 and int(caderno['info']['pelotao']) == i:
+                    count = True
+                    sheet_cpi.merge_cells(f'A{y}:A{y+len(caderno["cpis"])-1}')
+                    sheet_cpi.merge_cells(f'B{y}:B{y+len(caderno["cpis"])-1}')
+                    
+                    sheet_cpi[f'A{y}'] = caderno['info']['numero']
+                    sheet_cpi[f'B{y}'] = caderno['aluno']['nome_de_guerra']
+                    
+                    for cpi in caderno["cpis"]:
+                        sheet_cpi[f'C{y}'] = cpi['data']
+                        sheet_cpi[f'D{y}'] = cpi['artigo']
+                        sheet_cpi[f'E{y}'] = cpi['id']
+                        
+                        y += 1
+                        
+                        sheet_cpi.cell(y, A).alignment = alignment
+                        sheet_cpi.cell(y, B).alignment = alignment
+                        sheet_cpi.cell(y, C).alignment = alignment
+                        sheet_cpi.cell(y, D).alignment = alignment
+                        sheet_cpi.cell(y, E).alignment = alignment
+                        
+                        sheet_cpi.cell(y, A).border = border
+                        sheet_cpi.cell(y, B).border = border
+                        sheet_cpi.cell(y, C).border = border
+                        sheet_cpi.cell(y, D).border = border
+                        sheet_cpi.cell(y, E).border = border
+            
+            
+            if not count:
+                sheet_cpi.merge_cells(f'A{y}:E{y}')
+                sheet_cpi[f'A{y}'] = '...'
+                sheet_cpi.cell(y, A).border = border
+                sheet_cpi.cell(y, B).border = border
+                sheet_cpi.cell(y, C).border = border
+                sheet_cpi.cell(y, D).border = border
+                sheet_cpi.cell(y, E).border = border
+                                
+                y += 1
+                
+        # CPI II
+        
+        y += 1
+        
+        
+        sheet_cpi.merge_cells(f'A{y}:E{y}')
+        sheet_cpi[f'A{y}'] = 'CPI II'
+        sheet_cpi.cell(y, A).font = font_titulo
+        sheet_cpi.cell(y, A).alignment = alignment
+        sheet_cpi.cell(y, A).fill = fill_cpi2
+        sheet_cpi.cell(y, A).border = border
+        sheet_cpi.cell(y, B).border = border
+        sheet_cpi.cell(y, C).border = border
+        sheet_cpi.cell(y, D).border = border
+        sheet_cpi.cell(y, E).border = border
+        
+        y += 1
+        
+        sheet_cpi[f'A{y}'] = 'Nº'
+        if curso.upper() == 'CFSD':
+            sheet_cpi[f'B{y}'] = 'AL SD'
+        elif curso.upper() == 'CFO':
+            sheet_cpi[f'B{y}'] = 'AL OF'
+        elif curso.upper() == 'CHS':
+            sheet_cpi[f'B{y}'] = 'AL SGT'
+        sheet_cpi[f'C{y}'] = 'DATA'
+        sheet_cpi[f'D{y}'] = 'ENQUADRAMENTO'
+        sheet_cpi[f'E{y}'] = 'PROTOCOLO'
+        
+        sheet_cpi.cell(y, A).font = font_titulo
+        sheet_cpi.cell(y, A).alignment = alignment
+        sheet_cpi.cell(y, A).border = border
+        
+        sheet_cpi.cell(y, B).font = font_titulo
+        sheet_cpi.cell(y, B).alignment = alignment
+        sheet_cpi.cell(y, B).border = border
+
+        sheet_cpi.cell(y, C).font = font_titulo
+        sheet_cpi.cell(y, C).alignment = alignment
+        sheet_cpi.cell(y, C).border = border
+        
+        sheet_cpi.cell(y, D).font = font_titulo
+        sheet_cpi.cell(y, D).alignment = alignment
+        sheet_cpi.cell(y, D).border = border
+        
+        sheet_cpi.cell(y, E).font = font_titulo
+        sheet_cpi.cell(y, E).alignment = alignment
+        sheet_cpi.cell(y, E).border = border
+        
+        y += 1
+        
+        for i in range(1, pelotoes+1):
+            sheet_cpi.merge_cells(f'A{y}:E{y}')
+            sheet_cpi[f'A{y}'] = f'{i}º PELOTÃO'
+            
+            sheet_cpi.cell(y, A).font = font_titulo
+            sheet_cpi.cell(y, A).alignment = alignment
+            sheet_cpi.cell(y, A).fill = fill_cpi2
+            sheet_cpi.cell(y, A).border = border
+            sheet_cpi.cell(y, B).border = border
+            sheet_cpi.cell(y, C).border = border
+            sheet_cpi.cell(y, D).border = border
+            sheet_cpi.cell(y, E).border = border
+            
+            y += 1
+            
+            count = False
+            
+            sheet_cpi.cell(y, A).alignment = alignment
+            sheet_cpi.cell(y, B).alignment = alignment
+            sheet_cpi.cell(y, C).alignment = alignment
+            sheet_cpi.cell(y, D).alignment = alignment
+            sheet_cpi.cell(y, E).alignment = alignment
+            
+            sheet_cpi.cell(y, A).border = border
+            sheet_cpi.cell(y, B).border = border
+            sheet_cpi.cell(y, C).border = border
+            sheet_cpi.cell(y, D).border = border
+            sheet_cpi.cell(y, E).border = border
+            
+            for caderno in caderno_cpi:
+                if caderno['conduta'] == 2 and int(caderno['info']['pelotao']) == i:
+                    count = True
+                    sheet_cpi.merge_cells(f'A{y}:A{y+len(caderno["cpis"])-1}')
+                    sheet_cpi.merge_cells(f'B{y}:B{y+len(caderno["cpis"])-1}')
+                    
+                    sheet_cpi[f'A{y}'] = caderno['info']['numero']
+                    sheet_cpi[f'B{y}'] = caderno['aluno']['nome_de_guerra']
+                    
+                    for cpi in caderno["cpis"]:
+                        sheet_cpi[f'C{y}'] = cpi['data']
+                        sheet_cpi[f'D{y}'] = cpi['artigo']
+                        sheet_cpi[f'E{y}'] = cpi['id']
+                        
+                        y += 1
+                        
+                        sheet_cpi.cell(y, A).alignment = alignment
+                        sheet_cpi.cell(y, B).alignment = alignment
+                        sheet_cpi.cell(y, C).alignment = alignment
+                        sheet_cpi.cell(y, D).alignment = alignment
+                        sheet_cpi.cell(y, E).alignment = alignment
+                        
+                        sheet_cpi.cell(y, A).border = border
+                        sheet_cpi.cell(y, B).border = border
+                        sheet_cpi.cell(y, C).border = border
+                        sheet_cpi.cell(y, D).border = border
+                        sheet_cpi.cell(y, E).border = border
+            
+            if not count:
+                sheet_cpi.merge_cells(f'A{y}:E{y}')
+                sheet_cpi[f'A{y}'] = '...'
+                sheet_cpi.cell(y, A).alignment = alignment
+                sheet_cpi.cell(y, A).border = border
+                sheet_cpi.cell(y, B).border = border
+                sheet_cpi.cell(y, C).border = border
+                sheet_cpi.cell(y, D).border = border
+                sheet_cpi.cell(y, E).border = border
+                
+                y += 1
+                
+                        
+        # CPI III
+        y += 1
+        
+        sheet_cpi.merge_cells(f'A{y}:E{y}')
+        sheet_cpi[f'A{y}'] = 'CPI III'
+        sheet_cpi.cell(y, A).font = font_titulo
+        sheet_cpi.cell(y, A).alignment = alignment
+        sheet_cpi.cell(y, A).fill = fill_cpi3
+        sheet_cpi.cell(y, A).border = border
+        sheet_cpi.cell(y, B).border = border
+        sheet_cpi.cell(y, C).border = border
+        sheet_cpi.cell(y, D).border = border
+        sheet_cpi.cell(y, E).border = border
+        
+        y += 1
+        
+        sheet_cpi[f'A{y}'] = 'Nº'
+        if curso.upper() == 'CFSD':
+            sheet_cpi[f'B{y}'] = 'AL SD'
+        elif curso.upper() == 'CFO':
+            sheet_cpi[f'B{y}'] = 'AL OF'
+        elif curso.upper() == 'CHS':
+            sheet_cpi[f'B{y}'] = 'AL SGT'
+        sheet_cpi[f'C{y}'] = 'DATA'
+        sheet_cpi[f'D{y}'] = 'ENQUADRAMENTO'
+        sheet_cpi[f'E{y}'] = 'PROTOCOLO'
+        
+        sheet_cpi.cell(y, A).font = font_titulo
+        sheet_cpi.cell(y, A).alignment = alignment
+        sheet_cpi.cell(y, A).border = border
+        
+        sheet_cpi.cell(y, B).font = font_titulo
+        sheet_cpi.cell(y, B).alignment = alignment
+        sheet_cpi.cell(y, B).border = border
+        
+        sheet_cpi.cell(y, C).font = font_titulo
+        sheet_cpi.cell(y, C).alignment = alignment
+        sheet_cpi.cell(y, C).border = border
+        
+        sheet_cpi.cell(y, D).font = font_titulo
+        sheet_cpi.cell(y, D).alignment = alignment
+        sheet_cpi.cell(y, D).border = border
+        
+        sheet_cpi.cell(y, E).font = font_titulo
+        sheet_cpi.cell(y, E).alignment = alignment
+        sheet_cpi.cell(y, E).border = border
+        
+        y += 1
+        
+        sheet_cpi.cell(y, A).alignment = alignment
+        sheet_cpi.cell(y, B).alignment = alignment
+        sheet_cpi.cell(y, C).alignment = alignment
+        sheet_cpi.cell(y, D).alignment = alignment
+        sheet_cpi.cell(y, E).alignment = alignment
+        
+        sheet_cpi.cell(y, A).border = border
+        sheet_cpi.cell(y, B).border = border
+        sheet_cpi.cell(y, C).border = border
+        sheet_cpi.cell(y, D).border = border
+        sheet_cpi.cell(y, E).border = border
+        
+        for i in range(1, pelotoes+1):
+            sheet_cpi.merge_cells(f'A{y}:E{y}')
+            sheet_cpi[f'A{y}'] = f'{i}º PELOTÃO'
+            
+            sheet_cpi.cell(y, A).font = font_titulo
+            sheet_cpi.cell(y, A).alignment = alignment
+            sheet_cpi.cell(y, A).fill = fill_cpi3
+            sheet_cpi.cell(y, A).border = border
+            
+            y += 1
+            
+            count = False
+            
+            sheet_cpi.cell(y, A).alignment = alignment
+            sheet_cpi.cell(y, B).alignment = alignment
+            sheet_cpi.cell(y, C).alignment = alignment
+            sheet_cpi.cell(y, D).alignment = alignment
+            sheet_cpi.cell(y, E).alignment = alignment
+            
+            sheet_cpi.cell(y, A).border = border
+            sheet_cpi.cell(y, B).border = border
+            sheet_cpi.cell(y, C).border = border
+            sheet_cpi.cell(y, D).border = border
+            sheet_cpi.cell(y, E).border = border
+            
+            for caderno in caderno_cpi:
+                if caderno['conduta'] == 3 and int(caderno['info']['pelotao']) == i:
+                    count = True
+                    sheet_cpi.merge_cells(f'A{y}:A{y+len(caderno["cpis"])-1}')
+                    sheet_cpi.merge_cells(f'B{y}:B{y+len(caderno["cpis"])-1}')
+                    
+                    sheet_cpi[f'A{y}'] = caderno['info']['numero']
+                    sheet_cpi[f'B{y}'] = caderno['aluno']['nome_de_guerra']
+                    
+                    for cpi in caderno["cpis"]:
+                        sheet_cpi[f'C{y}'] = cpi['data']
+                        sheet_cpi[f'D{y}'] = cpi['artigo']
+                        sheet_cpi[f'E{y}'] = cpi['id']
+                        
+                        y += 1
+                        
+                        sheet_cpi.cell(y, A).alignment = alignment
+                        sheet_cpi.cell(y, B).alignment = alignment
+                        sheet_cpi.cell(y, C).alignment = alignment
+                        sheet_cpi.cell(y, D).alignment = alignment
+                        sheet_cpi.cell(y, E).alignment = alignment
+                        
+                        sheet_cpi.cell(y, A).border = border
+                        sheet_cpi.cell(y, B).border = border
+                        sheet_cpi.cell(y, C).border = border
+                        sheet_cpi.cell(y, D).border = border
+                        sheet_cpi.cell(y, E).border = border
+            
+            
+            if not count:
+                sheet_cpi.merge_cells(f'A{y}:E{y}')
+                sheet_cpi[f'A{y}'] = '...'
+                sheet_cpi.cell(y, A).alignment = alignment
+                sheet_cpi.cell(y, A).border = border
+                sheet_cpi.cell(y, B).border = border
+                sheet_cpi.cell(y, C).border = border
+                sheet_cpi.cell(y, D).border = border
+                sheet_cpi.cell(y, E).border = border
+                
+                y += 1
+                
+        #### SHEET CADERNO CPA ####
+        
+        sheet_cpa = workbook.create_sheet('CADERNO CPA')
+        y = 1
+        
+        sheet_cpa.merge_cells(f'A{y}:E{y}')
+        
+        font_titulo = Font(bold=True, size=12)
+        alignment = Alignment('center', 'center')
+        side = Side('thin', color='000000')
+        border = Border(side, side, side, side)
+        fill_cpi1 = PatternFill('solid', 'ffffff')
+        fill_cpi2 = PatternFill('solid', 'ffffff')
+        fill_cpi3 = PatternFill('solid', 'ffffff')
+        
+        sheet_cpa['G2'] = 'TOTAL CPA'
+        
+        sheet_cpa['H2'] = total_cpa
+        
+        sheet_cpa.column_dimensions['A'].width = 10
+        sheet_cpa.column_dimensions['B'].width = 20
+        sheet_cpa.column_dimensions['C'].width = 15
+        sheet_cpa.column_dimensions['D'].width = 25
+        sheet_cpa.column_dimensions['E'].width = 20
+        sheet_cpa.column_dimensions['G'].width = 20
+        sheet_cpa.column_dimensions['H'].width = 10
+        
+        sheet_cpa[f'A{y}'] = 'REFERÊNCIAS ELOGIOSAS'
+        sheet_cpa.cell(y, A).font = font_titulo
+        sheet_cpa.cell(y, A).alignment = alignment
+        sheet_cpa.cell(y, A).fill = fill_cpi1
+        sheet_cpa.cell(y, A).border = border
+        sheet_cpa.cell(y, B).border = border
+        sheet_cpa.cell(y, C).border = border
+        sheet_cpa.cell(y, D).border = border
+        sheet_cpa.cell(y, E).border = border
+        
+        y += 1
+        
+        sheet_cpa[f'A{y}'] = 'Nº'
+        if curso.upper() == 'CFSD':
+            sheet_cpa[f'B{y}'] = 'AL SD'
+        elif curso.upper() == 'CFO':
+            sheet_cpa[f'B{y}'] = 'AL OF'
+        elif curso.upper() == 'CHS':
+            sheet_cpa[f'B{y}'] = 'AL SGT'
+        sheet_cpa[f'C{y}'] = 'DATA'
+        sheet_cpa[f'D{y}'] = 'ENQUADRAMENTO'
+        sheet_cpa[f'E{y}'] = 'PROTOCOLO'
+        
+        sheet_cpa.cell(y, A).font = font_titulo
+        sheet_cpa.cell(y, A).alignment = alignment
+        sheet_cpa.cell(y, A).border = border
+        
+        sheet_cpa.cell(y, B).font = font_titulo
+        sheet_cpa.cell(y, B).alignment = alignment
+        sheet_cpa.cell(y, B).border = border
+        
+        sheet_cpa.cell(y, C).font = font_titulo
+        sheet_cpa.cell(y, C).alignment = alignment
+        sheet_cpa.cell(y, C).border = border
+        
+        sheet_cpa.cell(y, D).font = font_titulo
+        sheet_cpa.cell(y, D).alignment = alignment
+        sheet_cpa.cell(y, D).border = border
+        
+        sheet_cpa.cell(y, E).font = font_titulo
+        sheet_cpa.cell(y, E).alignment = alignment
+        sheet_cpa.cell(y, E).border = border
+        
+        y += 1
+        
+        for i in range(1, pelotoes+1):
+            sheet_cpa.merge_cells(f'A{y}:E{y}')
+            sheet_cpa[f'A{y}'] = f'{i}º PELOTÃO'
+            
+            sheet_cpa.cell(y, A).font = font_titulo
+            sheet_cpa.cell(y, A).alignment = alignment
+            sheet_cpa.cell(y, A).fill = fill_cpi1
+            sheet_cpa.cell(y, A).border = border
+            sheet_cpa.cell(y, B).border = border
+            sheet_cpa.cell(y, C).border = border
+            sheet_cpa.cell(y, D).border = border
+            sheet_cpa.cell(y, E).border = border
+            
+            y += 1
+            
+            sheet_cpa.cell(y, A).alignment = alignment
+            sheet_cpa.cell(y, B).alignment = alignment
+            sheet_cpa.cell(y, C).alignment = alignment
+            sheet_cpa.cell(y, D).alignment = alignment
+            sheet_cpa.cell(y, E).alignment = alignment
+            
+            sheet_cpa.cell(y, A).border = border
+            sheet_cpa.cell(y, B).border = border
+            sheet_cpa.cell(y, C).border = border
+            sheet_cpa.cell(y, D).border = border
+            sheet_cpa.cell(y, E).border = border
+            
+            count = False
+            
+            for caderno in caderno_cpa:
+                if caderno['conduta'] == 1 and int(caderno['info']['pelotao']) == i:
+                    count = True
+                    sheet_cpa.merge_cells(f'A{y}:A{y+len(caderno["cpis"])-1}')
+                    sheet_cpa.merge_cells(f'B{y}:B{y+len(caderno["cpis"])-1}')
+                    
+                    sheet_cpa[f'A{y}'] = caderno['info']['numero']
+                    sheet_cpa[f'B{y}'] = caderno['aluno']['nome_de_guerra']
+                    
+                    for cpi in caderno["cpis"]:
+                        sheet_cpa[f'C{y}'] = cpi['data']
+                        sheet_cpa[f'D{y}'] = cpi['artigo']
+                        sheet_cpa[f'E{y}'] = cpi['id']
+                        
+                        y += 1
+                        
+                        sheet_cpa.cell(y, A).alignment = alignment
+                        sheet_cpa.cell(y, B).alignment = alignment
+                        sheet_cpa.cell(y, C).alignment = alignment
+                        sheet_cpa.cell(y, D).alignment = alignment
+                        sheet_cpa.cell(y, E).alignment = alignment
+                        
+                        sheet_cpa.cell(y, A).border = border
+                        sheet_cpa.cell(y, B).border = border
+                        sheet_cpa.cell(y, C).border = border
+                        sheet_cpa.cell(y, D).border = border
+                        sheet_cpa.cell(y, E).border = border
+            
+            
+            if not count:
+                sheet_cpa.merge_cells(f'A{y}:E{y}')
+                sheet_cpa[f'A{y}'] = '...'
+                sheet_cpa.cell(y, A).border = border
+                sheet_cpa.cell(y, B).border = border
+                sheet_cpa.cell(y, C).border = border
+                sheet_cpa.cell(y, D).border = border
+                sheet_cpa.cell(y, E).border = border
+                                
+                y += 1
+        
+        
+        workbook.save(f'{FILE_NAME}')
+                
+        
+        return send_file(f'{FILE_NAME}')
+        # return render_template('gerar_caderno.html', caderno_cpi=caderno_cpi, caderno_cpa=caderno_cpa, total_cpa=total_cpa, usuario=usuario, pelotoes=pelotoes, quantidade_aluno_cpi1=quantidade_aluno_cpi1, quantidade_aluno_cpi2=quantidade_aluno_cpi2, quantidade_aluno_cpi3=quantidade_aluno_cpi3)
