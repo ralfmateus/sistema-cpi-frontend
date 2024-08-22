@@ -51,6 +51,7 @@ def consultar():
     curso = request.form.get('curso')
     ano = request.form.get('ano')
     status = request.form.get('status')
+    ativo = request.form.get('ativo')
     
     if tipo == 'cp':
         if categoria_cp == 'aluno':
@@ -79,6 +80,9 @@ def consultar():
         else:
             response = requests.get(f'http://127.0.0.1:8000/usuario/get_all', headers=headers)
         
+    if response.status_code == 500:
+        return redirect(url_for('consulta.consultar'))
+    
     dados = response.json()
     
     if (categoria_usuario == 'pelotao' or categoria_usuario == 'cia') and tipo == 'usuario':
@@ -88,6 +92,38 @@ def consultar():
             dados = sorted(dados, key=itemgetter('nota_conduta'), reverse=True)
         else:
             ...
+    
+    if tipo == 'usuario':
+        if ativo == '-':
+            ...
+        elif ativo == 'True':
+            usuarios = list()
+            for usuario in dados:
+                if usuario['ativo'] == True:
+                    usuarios.append(usuario)
+            dados = usuarios
+        elif ativo == 'False':
+            usuarios = list()
+            for usuario in dados:
+                if usuario['ativo'] == False:
+                    usuarios.append(usuario)
+            dados = usuarios
+    
+    if tipo == 'aluno':
+        if ativo == '-':
+            ...
+        elif ativo == 'True':
+            usuarios = list()
+            for usuario in dados:
+                if usuario['aluno']['ativo'] == True:
+                    usuarios.append(usuario)
+            dados = usuarios
+        elif ativo == 'False':
+            usuarios = list()
+            for usuario in dados:
+                if usuario['aluno']['ativo'] == False:
+                    usuarios.append(usuario)
+            dados = usuarios
     
     if tipo == 'cp':
         cpis = list()
@@ -99,7 +135,21 @@ def consultar():
                 else:
                     cpis.append(cpi)    
             dados = cpis
-    
-    
+        
+        if ativo == '-':
+            ...
+        elif ativo == 'True':
+            cpis = list()
+            for cpi in dados:
+                if cpi['aluno']['ativo'] == True:
+                    cpis.append(cpi)
+            dados = cpis
+        elif ativo == 'False':
+            cpis = list()
+            for cpi in dados:
+                if cpi['aluno']['ativo'] == False:
+                    cpis.append(cpi)
+            dados = cpis
+                
     
     return render_template('consulta.html', alunos=alunos, comunicantes=comunicantes, chefes=chefes, usuario=usuario, dados=dados, tipo=tipo, itens=30)

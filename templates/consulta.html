@@ -47,6 +47,12 @@
         <option value="10">CANCELADO PELO COMUNICANTE</option>
         <option value="11">ARQUIVADO</option>
     </select>
+    <select name="ativo" id="ativo">
+        <option value="-" selected hidden>ESTADO</option>
+        <option value="-">TODOS</option>
+        <option value="True">ATIVO</option>
+        <option value="False">INATIVO</option>
+    </select>
     <!-- USUARIO FUNÇÃO -->
     <!-- <div class="usuario-funcao">
     <label for="">Função</label>
@@ -120,6 +126,7 @@
 <br>
 
 {% if tipo == 'cp' %}
+{% if dados|length >= 1 %}
 <table class="table-cp-pc">
     <thead>
         <tr style="font-weight: bold;">
@@ -176,7 +183,9 @@
     </tbody>
 </table>
 {% endif %}
+{% endif %}
 {% if tipo == 'aluno' %}
+{% if dados|length >= 1 %}
 <table class="table-aluno-pc">
     <thead>
         <tr>
@@ -232,7 +241,9 @@
     </tbody>
 </table>
 {% endif %}
+{% endif %}
 {% if tipo == 'usuario' %}
+{% if dados|length >= 1 %}
 <table class="table-usuario-pc">
     <thead>
         <tr>
@@ -278,6 +289,7 @@
         {% endfor %}
     </tbody>
 </table>
+{% endif %}
 {% endif %}
 
 <script>

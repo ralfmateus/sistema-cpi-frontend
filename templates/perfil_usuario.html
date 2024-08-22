@@ -16,10 +16,20 @@
         <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">FUNÇÃO</td>
         <td scope="col" style="width: 15%; border: 1px solid black;">{{ dados.usuario.funcao }}</td>
     </tr>
+    <tr>
+        <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">ESTADO</td>
+        <td scope="col" style="width: 15%; border: 1px solid black;">
+            {% if dados.usuario.ativo == True %}
+            ATIVO
+            {% else %}
+            INATIVO
+            {% endif %}
+        </td>
+    </tr>
     {% if dados.info %}
         <tr>
             <td scope="col" style="width: 30%; border: 1px solid black; font-weight: bold;">PELOTÃO</td>
-            <td scope="col" style="width: 30%; border: 1px solid black;">{{ dados.info.pelotao }}</td>
+            <td scope="col" style="width: 30%; border: 1px solid black;">{{ dados.info.pelotao.replace(' ', ' e ') }}</td>
         </tr>
         <tr>
             <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">CURSO</td>

@@ -34,6 +34,7 @@
             
             <form method="post" action="{{ url_for('usuario.editar_perfil_aluno') }}">
                 <input type="number" readonly value="{{ info.usuario.id }}" name="id" style="height: 0; width: 100px; text-align: center; margin-left: auto; margin-right: auto;">
+                <label for="">ATIVO: </label><input type="checkbox" {% if info.usuario.ativo %} checked {% endif %} name="ativo" value="True">
                 <br>
                 <select class="select" name="grau_hierarquico" required="required">
                     <option value="{{ info.usuario.grau_hierarquico }}" style="text-align: center;" selected>{{ info.usuario.grau_hierarquico }}</option>

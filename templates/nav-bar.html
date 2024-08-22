@@ -20,27 +20,6 @@
     </table>
 </nav>
 
-<!-- NAV BAR MOBILE LIMITED -->
-
-<nav>
-    <table class="nav-bar-mobile-limited">
-        <thead>
-                <td ><a href="{{ url_for('usuario.home') }}">Principal</a></td>
-                <td><a href="{{ url_for('usuario.cpis_comunicante') }}">Comunicações feitas</a></td>
-                {% if usuario.funcao == 'JUSTICA' %}
-                <td><a href="{{ url_for('cpi.adicionar_cpi') }}">Fazer nova CP</a></td>
-                {% endif %}
-                {% if usuario.funcao == 'COMANDANTE DA ESFAP' or usuario.funcao == 'COMANDANTE DA ESFO' %}
-                <!-- <td><a href="{{ url_for('usuario.adicionar_usuario') }}">Adicionar usuario</a></td> -->
-                <td><a href="{{ url_for('cpi.adicionar_cpi') }}">Fazer nova CP</a></td>
-                <td><a href="{{ url_for('consulta.consultar') }}">Consultar</a></td>
-                <!-- <td><a href="{{ url_for('cpi.consultar_caderno') }}">Gerar Caderno</a></td> -->
-                {% endif %}
-                <td><a href="{{ url_for('usuario.logout') }}">Sair</a></td>
-        </thead>
-    </table>
-</nav>
-
 <!-- NAV BAR MOBILE -->
 <div class="nav-bar-mobile">
 <div id="mySidebar" class="sidebar">

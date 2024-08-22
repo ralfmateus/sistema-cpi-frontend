@@ -1,6 +1,24 @@
 {% extends 'base2.html' %}
 
 {% block tabela_cpi %}
+        {% if cpi.status == 10 %}
+        <tr>
+            <td colspan="2" style="width: 10%; border: 1px solid black; font-weight: bold; background-color: rgb(189, 187, 187);">CONDUTA CANCELADA</td> 
+        </tr>
+        <tr>
+            <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">CANCELADO POR</td>  
+            <td scope="col" style="width: 10%; border: 1px solid black;">{{ cpi.comunicante.grau_hierarquico }} {{ cpi.comunicante.nome_de_guerra }}</td>  
+        </tr>
+        <tr>
+            <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">JUSTIFICATIVA</td> 
+            <td scope="col" style="width: 10%; border: 1px solid black;">
+                {% if  not cpi.justificativa == None %}
+                    
+                {{ cpi.justificativa }}  
+                {% endif %}
+                </td>
+    </tr>
+    {% endif %}
         {% if defesa.defesa %}
         <!-- ---------------- DEFESA DO ALUNO ----------------------- -->            
                 <tr>
@@ -8,7 +26,7 @@
                 </tr>
                 <tr>
                     <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">DEFESA</td>  
-                    <td scope="col" style="width: 10%; border: 1px solid black;">{{ defesa.defesa }} sakljd lksaj dsajdklsajdlksajd jaldaslk dals dlsak jdlksa jld sal dsal dlks dlksa dlkas dlsaldkjas ldjsal jdsalkj daslkj dlksajd lsjdlsak jdlas </td>  
+                    <td scope="col" style="width: 10%; border: 1px solid black;">{{ defesa.defesa }}</td>  
                 </tr>
                 <tr>
                     <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">DATA RECEBIDA</td> 
@@ -103,7 +121,7 @@
                     </tr>
                     <tr>
                         <td scope="col" style="width: 10%; border: 1px solid black; font-weight: bold;">OBSERVAÇÕES</td>
-                        <td scope="col" style="width: 10%; border: 1px solid black;">{{ decisao.observacoes }}  kljsad jsa lksaj djsalk jlsak lsak jlkaslas a sa sal ksa dsajdlksajd lsakj dlasjd lsakjd lasjd asjdl sajld jasldjsal djsalj daskljlaksjdlksaj dlasj dlsakj dlasj lsaj ldksajldjsa ld jasljd lkja ldjslakdj  kljsad jsa lksaj djsalk jlsak lsak jlkaslas a sa sal ksa dsajdlksajd lsakj dlasjd lsakjd lasjd asjdl sajld jasldjsal djsalj daskljlaksjdlksaj dlasj dlsakj dlasj lsaj ldksajldjsa ld jasljd lkja ldjslakdj  kljsad jsa lksaj djsalk jlsak lsak jlkaslas a sa sal ksa dsajdlksajd lsakj dlasjd lsakjd lasjd asjdl sajld jasldjsal djsalj daskljlaksjdlksaj dlasj dlsakj dlasj lsaj ldksajldjsa ld jasljd lkja ldjslakdj  kljsad jsa lksaj djsalk jlsak lsak jlkaslas a sa sal ksa dsajdlksajd lsakj dlasjd lsakjd lasjd asjdl sajld jasldjsal djsalj daskljlaksjdlksaj dlasj dlsakj dlasj lsaj ldksajldjsa ld jasljd lkja ldjslakdj  kljsad jsa lksaj djsalk jlsak lsak jlkaslas a sa sal ksa dsajdlksajd lsakj dlasjd lsakjd lasjd asjdl sajld jasldjsal djsalj daskljlaksjdlksaj dlasj dlsakj dlasj lsaj ldksajldjsa ld jasljd lkja ldjslakdj kljsad jsa lksaj djsalk jlsak lsak jlkaslas a sa sal ksa dsajdlksajd lsakj dlasjd lsakjd lasjd asjdl sajld jasldjsal djsalj daskljlaksjdlksaj dlasj dlsakj dlasj lsaj ldksajldjsa ld jasljd lkja ldjslakdj kljsad jsa lksaj djsalk jlsak lsak jlkaslas a sa sal ksa dsajdlksajd lsakj dlasjd lsakjd lasjd asjdl sajld jasldjsal djsalj daskljlaksjdlksaj dlasj dlsakj dlasj lsaj ldksajldjsa ld jasljd lkja ldjslakdj kljsad jsa lksaj djsalk jlsak lsak jlkaslas a sa sal ksa dsajdlksajd lsakj dlasjd lsakjd lasjd asjdl sajld jasldjsal djsalj daskljlaksjdlksaj dlasj dlsakj dlasj lsaj ldksajldjsa ld jasljd lkja ldjslakdj </td>   
+                        <td scope="col" style="width: 10%; border: 1px solid black;">{{ decisao.observacoes }}</td>   
                     </tr>
 
             

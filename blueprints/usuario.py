@@ -10,18 +10,18 @@ usuario = Blueprint('usuario', __name__, url_prefix='/usuario')
 
 @usuario.route('/adicionar', methods=['GET', 'POST'])
 def adicionar_usuario():
-    if not session.get('token'):
-        return redirect(url_for('usuario.login'))
+    # if not session.get('token'):
+    #     return redirect(url_for('usuario.login'))
     
-    headers = {'Authorization': f'Bearer {session["token"]}'}
+    # headers = {'Authorization': f'Bearer {session["token"]}'}
     
-    response = requests.get(f'http://127.0.0.1:8000/usuario/get_usuario', headers=headers)
+    # response = requests.get(f'http://127.0.0.1:8000/usuario/get_usuario', headers=headers)
     
-    if not response:
-        del session['token']
-        return redirect(url_for('usuario.login', erro=1))
+    # if not response:
+    #     del session['token']
+    #     return redirect(url_for('usuario.login', erro=1))
     
-    usuario = response.json()['__data__']
+    # usuario = response.json()['__data__']
     
     if request.method == 'GET':
         return render_template('adicionar_usuario.html')
@@ -35,8 +35,8 @@ def adicionar_usuario():
             "grau_hierarquico": request.form.get('grau_hierarquico')
         }
         
-        response = requests.post('http://127.0.0.1:8000/usuario/create', json=usuario, headers=headers)
-        
+        # response = requests.post('http://127.0.0.1:8000/usuario/create', json=usuario, headers=headers)
+        response = requests.post('http://127.0.0.1:8000/usuario/create', json=usuario)
         
         if response.status_code == 200:
             usuario = response.json()
@@ -51,7 +51,8 @@ def adicionar_usuario():
                     "nota_conduta": 10,
                     "usuario": usuario['id']
                 }
-                response = requests.post('http://127.0.0.1:8000/info/create', json=info, headers=headers)
+                # response = requests.post('http://127.0.0.1:8000/info/create', json=info, headers=headers)
+                response = requests.post('http://127.0.0.1:8000/info/create', json=info)
                 
             elif usuario['funcao'] ==  'CHEFE DE CURSO':
                 info = {
@@ -61,7 +62,8 @@ def adicionar_usuario():
                     "usuario": usuario['id']
                 }
                 
-                response = requests.post('http://127.0.0.1:8000/info/create', json=info, headers=headers)
+                # response = requests.post('http://127.0.0.1:8000/info/create', json=info, headers=headers)
+                response = requests.post('http://127.0.0.1:8000/info/create', json=info)
                 
             elif usuario['funcao'] == 'COMANDANTE DE CIA':
                 info = {
@@ -72,7 +74,8 @@ def adicionar_usuario():
                     "usuario": usuario['id']
                 }
             
-                response = requests.post('http://127.0.0.1:8000/info/create', json=info, headers=headers)
+                # response = requests.post('http://127.0.0.1:8000/info/create', json=info, headers=headers)
+                response = requests.post('http://127.0.0.1:8000/info/create', json=info)
             
             return redirect(url_for('usuario.adicionar_usuario'))
         
@@ -715,7 +718,7 @@ def perfil_atual():
             response = requests.get(f'http://127.0.0.1:8000/info/get_by_usuario?id={id}', headers=headers)
         
             if not response:
-                return redirect(url_for('consulta.consultar'))
+                return redirect(url_for('usuario.home'))
                     
             info = response.json()
             
@@ -727,7 +730,7 @@ def perfil_atual():
             'info': info,
             'aluno': False
         }
-        
+
     return render_template('perfil_atual.html', dados=response)
 
 
@@ -818,12 +821,15 @@ def editar_perfil_aluno():
     
     # **********************************    EFETIVAMENTE EDITAR PERFIL    *********************************
     
+    ativo = True if request.form.get('ativo') == 'True' else False
+    
     usuario = {
             "id": request.form.get('id'),
             "funcao": request.form.get('funcao'),
             "nome": request.form.get('nome'),
             "nome_de_guerra": request.form.get('nome_de_guerra'),
-            "grau_hierarquico": request.form.get('grau_hierarquico')
+            "grau_hierarquico": request.form.get('grau_hierarquico'),
+            "ativo": ativo
         }
     
     info = {
@@ -835,7 +841,7 @@ def editar_perfil_aluno():
             "usuario": usuario['id']
         }
     
-    response = requests.put('http://127.0.0.1:8000/usuario/update_usuario', json=usuario, headers=headers) 
+    response = requests.put('http://127.0.0.1:8000/usuario/update_usuario', json=usuario, headers=headers)
     if response.status_code == 200:
         response = requests.put('http://127.0.0.1:8000/info/update_info', json=info, headers=headers)
         if response.status_code == 200:
@@ -897,12 +903,14 @@ def editar_perfil_usuario():
     
     user = response.json()
     
+    ativo = True if request.form.get('ativo') == 'True' else False
     usuario = {
             "id": request.form.get('id'),
             "funcao": request.form.get('funcao'),
             "nome": request.form.get('nome'),
             "nome_de_guerra": request.form.get('nome_de_guerra'),
-            "grau_hierarquico": request.form.get('grau_hierarquico')
+            "grau_hierarquico": request.form.get('grau_hierarquico'),
+            "ativo": ativo
         }
     
     if user['funcao'] == 'CHEFE DE CURSO' or user['funcao'] == 'COMANDANTE DE CIA':
