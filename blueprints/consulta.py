@@ -84,11 +84,11 @@ def consultar():
         return redirect(url_for('consulta.consultar'))
     
     dados = response.json()
-    
-    if (categoria_usuario == 'pelotao' or categoria_usuario == 'cia') and tipo == 'usuario':
-        if ordenar == 'nota maior':
+
+    if (categoria_usuario == 'pelotao' or categoria_usuario == 'cia') and tipo == 'aluno':
+        if ordenar == 'nota menor':
             dados = sorted(dados, key=itemgetter('nota_conduta'))
-        elif ordenar == 'nota menor':
+        elif ordenar == 'nota maior':
             dados = sorted(dados, key=itemgetter('nota_conduta'), reverse=True)
         else:
             ...
@@ -150,6 +150,8 @@ def consultar():
                 if cpi['aluno']['ativo'] == False:
                     cpis.append(cpi)
             dados = cpis
+            
+    
                 
     
     return render_template('consulta.html', alunos=alunos, comunicantes=comunicantes, chefes=chefes, usuario=usuario, dados=dados, tipo=tipo, itens=30)
